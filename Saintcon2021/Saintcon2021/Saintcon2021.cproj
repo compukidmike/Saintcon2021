@@ -26,19 +26,19 @@
     <OverrideVtorValue>exception_table</OverrideVtorValue>
     <BootSegment>2</BootSegment>
     <ResetRule>0</ResetRule>
-    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <eraseonlaunchrule>1</eraseonlaunchrule>
     <EraseKey />
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
     <Compiler>gcc</Compiler>
     <atStartFilePath>.atmelstart\atmel_start_config.atstart</atStartFilePath>
@@ -231,21 +231,21 @@
       </AcmeProjectConfig>
     </AcmeProjectConfig>
     <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
-    <avrtoolserialnumber>260111452</avrtoolserialnumber>
+    <avrtoolserialnumber>801009411</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x61830306</avrdeviceexpectedsignature>
     <avrtoolinterface>SWD</avrtoolinterface>
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
         <InterfaceProperties>
-          <SwdClock>411977</SwdClock>
+          <SwdClock>4000000</SwdClock>
         </InterfaceProperties>
         <InterfaceName>SWD</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
-      <ToolNumber>260111452</ToolNumber>
+      <ToolNumber>801009411</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterfaceclock>411977</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -1120,6 +1120,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hri\hri_wdt_e53.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ILI9331.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ILI9331.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

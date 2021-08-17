@@ -1,5 +1,5 @@
 #include <atmel_start.h>
-
+#include "ILI9331.h"
 
 int main(void)
 {
@@ -12,6 +12,14 @@ int main(void)
 	gpio_set_pin_direction(PIN_PA27,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(PIN_PA27,GPIO_PULL_UP);
 	pwm_set_parameters(&PWM_0, 10000, 5000);
+	
+	
+	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
+	gpio_set_pin_level(PIN_PB17,true);
+	LCD_Init();
+	
+	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
+	
 	while (1) {
 		if(gpio_get_pin_level(PIN_PA27)){
 			//gpio_set_pin_level(PIN_PA21,true);
