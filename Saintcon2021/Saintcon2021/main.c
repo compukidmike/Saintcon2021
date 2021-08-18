@@ -1,5 +1,6 @@
 #include <atmel_start.h>
 #include "ILI9331.h"
+#include "FrameBuffer.h"
 
 int main(void)
 {
@@ -18,7 +19,9 @@ int main(void)
 	gpio_set_pin_level(PIN_PB17,true);
 	LCD_Init();
 	
-	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
+	canvas_clearScreen(RGB(10,10,200));
+	canvas_drawText(80,100, "Magic", RGB(255,255,255));
+	canvas_blt();
 	
 	while (1) {
 		if(gpio_get_pin_level(PIN_PA27)){
@@ -30,3 +33,4 @@ int main(void)
 		}
 	}
 }
+

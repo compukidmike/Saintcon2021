@@ -36,7 +36,7 @@ void LCD_WriteData(uint16_t data){
 	REG_PORT_OUTSET1 = (data>>8) & 0xFF;
 
 	gpio_setlow(LCD_WR);
-	delay_us(10);
+	//delay_us(1);
 	gpio_sethigh(LCD_WR);
 }
 
@@ -55,7 +55,7 @@ void LCD_WriteCommand(uint16_t command){
 	/*REG_PORT_OUTSET1 = (command>>8) & 0xFF;*/
 
 	gpio_setlow(LCD_WR);
-	delay_us(10);
+	delay_us(1);
 	gpio_sethigh(LCD_WR);
 	
 	gpio_sethigh(LCD_RS);

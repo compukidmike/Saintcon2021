@@ -439,7 +439,7 @@
   </armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
   <armgcc.linker.memorysettings.ExternalRAM />
-  <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld -Wl,--defsym,STACK_SIZE=0x2000</armgcc.linker.miscellaneous.LinkerFlags>
   <armgcc.assembler.general.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
@@ -709,6 +709,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="examples\touch_example.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="font8x16.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\include\hal_atomic.h">
@@ -1170,6 +1173,12 @@
       <SubType>compile</SubType>
     </None>
     <None Include="documentation\qtouch_lib_standard.rst">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="FrameBuffer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="FrameBuffer.h">
       <SubType>compile</SubType>
     </None>
     <None Include="hal\documentation\i2c_master_sync.rst">
