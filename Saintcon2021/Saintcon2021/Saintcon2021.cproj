@@ -708,6 +708,12 @@
     <Compile Include="examples\touch_example.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="flash.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="flash.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="font8x16.h">
       <SubType>compile</SubType>
     </Compile>
@@ -1159,6 +1165,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="qtouch\touch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="small.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

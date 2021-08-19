@@ -32,9 +32,9 @@ void LCD_WriteData(uint16_t data){
 	gpio_set_port_level(GPIO_PORTB, 0xFF, false);
 	gpio_set_port_level(GPIO_PORTB, (data>>8) & 0xFF, true);*/
 	REG_PORT_OUTCLR0 = 0xFF;
-	REG_PORT_OUTSET0 = data & 0xFF;
 	REG_PORT_OUTCLR1 = 0xFF;
-	REG_PORT_OUTSET1 = (data>>8) & 0xFF;
+	REG_PORT_OUTSET0 = data & 0xFF;
+	REG_PORT_OUTSET1 = data>>8;
 
 	gpio_setlow(LCD_WR);
 	//delay_us(1);
@@ -87,18 +87,18 @@ void LCD_DrawPixel(uint8_t x, uint8_t y, uint16_t color){
 }
 
 void LCD_DrawImage(int x, int y, int w, int h, uint16_t *data) {
-	uint16_t AD0_7, AD8_16;
+	/*uint16_t AD0_7, AD8_16;
 	uint32_t address;
 	address = y << 8;
 	address |= x;
 	AD0_7 = address & 0x00FF;
-	AD8_16 = (address >> 8) & 0x01FF;
+	AD8_16 = (address >> 8) & 0x01FF;*/
 
 	LCD_Select();
 	LCD_WriteCommand(0x0020);
-	LCD_WriteData(AD0_7);
-	LCD_WriteCommand(0x0021);
-	LCD_WriteData(AD8_16);
+	LCD_WriteData(x);
+	//LCD_WriteCommand(0x0021);
+	LCD_WriteData(y);
 
 	LCD_WriteCommand(0x0022);
 	for (int i=0; i<w*h; ++i)
@@ -170,7 +170,7 @@ void LCD_Init(){
 	LCD_Select();LCD_WriteCommand(0x00E7);LCD_WriteData(0x1014);LCD_Deselect();
 	LCD_Select();LCD_WriteCommand(0x0001);LCD_WriteData(0x0100);LCD_Deselect();         // set SS bit
 	LCD_Select();LCD_WriteCommand(0x0002);LCD_WriteData(0x0200);LCD_Deselect();         // set 1 line inversion
-	//LCD_Select();LCD_WriteCommand(0x0003);LCD_WriteData(0x1030);LCD_Deselect();         // set GRAM write direction and BGR=1
+	LCD_Select();LCD_WriteCommand(0x0003);LCD_WriteData(0x1030);LCD_Deselect();         // set GRAM write direction and BGR=1
 	LCD_Select();LCD_WriteCommand(0x0008);LCD_WriteData(0x0207);LCD_Deselect();         // set the back porch and front porch
 	LCD_Select();LCD_WriteCommand(0x0009);LCD_WriteData(0x0000);LCD_Deselect();         // set non-display area refresh cycle ISC[3:0]
 	LCD_Select();LCD_WriteCommand(0x000A);LCD_WriteData(0x0000);LCD_Deselect();                // FMARK function
