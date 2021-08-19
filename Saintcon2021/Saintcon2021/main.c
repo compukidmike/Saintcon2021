@@ -10,6 +10,8 @@ uint8_t key_status = 0;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
 
+#include "FrameBuffer.h"
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
@@ -27,8 +29,14 @@ int main(void)
 	gpio_set_pin_level(PIN_PB17,true);
 	LCD_Init();
 	
+
 	//LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
 	LCD_FillRect(0, 0, 240, 240, 0x8800);
+
+	canvas_clearScreen(RGB(10,10,200));
+	canvas_drawText(80,100, "Magic", RGB(255,255,255));
+	canvas_blt();
+
 	
 	while (1) {
 		touch_process();
@@ -58,6 +66,7 @@ int main(void)
 		LCD_DrawLine(x1,y1,x2,y2,0xFFFF);
 	}
 }
+
 
 void touch_status_display(void)
 {
