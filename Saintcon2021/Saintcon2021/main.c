@@ -2,7 +2,6 @@
 #include <atmel_start.h>
 #include "ILI9331.h"
 #include "math.h"
-//#include "touch_example.h"
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;

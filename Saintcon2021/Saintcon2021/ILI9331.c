@@ -6,6 +6,7 @@
  */
 #include <atmel_start.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "ILI9331.h"
 
 #define gpio_sethigh(pin)	(REG_PORT_OUTSET1 = 1 << (pin))
