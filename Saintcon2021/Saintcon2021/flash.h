@@ -28,7 +28,6 @@
 #define FLASH_WAKE			0xAB
 #define FLASH_WRITE_REG		0x01
 
-
 void flash_init();
 void flash_read_id(uint8_t *id);
 void flash_enable_write(bool enable);
@@ -37,5 +36,19 @@ void flash_erase_sector(uint32_t addr);
 void flash_erase_halfblock(uint32_t addr);
 void flash_read(uint32_t addr, void *out, size_t len);
 void flash_write(uint32_t addr, void *buf, size_t len);
+
+// Sample vcard
+/*
+BEGIN:VCARD
+VERSION:2.1
+N:Wiley;Bob;;;
+FN:Bob Wiley
+EMAIL;WORK:bob@home.com
+TITLE:Your Title
+END:VCARD
+*/
+
+void flash_save_vcard(const char* vcard);
+void flash_read_vcard(char* vcard);
 
 #endif /* FLASH_H_ */

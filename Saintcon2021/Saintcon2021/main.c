@@ -7,9 +7,11 @@
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
+badgestate g_state;
 
 #include "FrameBuffer.h"
 #include "flash.h"
+#include "eeprom.h"
 
 extern uint16_t bird_raw[];
 
@@ -29,6 +31,15 @@ int main(void)
 	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(PIN_PB17,true);
 	LCD_Init();
+	
+	eeprom_init();
+	
+	//test eeprom
+	eeprom_load_state();
+	if (g_state.badge_bitmask != 0xaabbccdd) {
+		g_state.badge_bitmask = 0xaabbccdd;
+		eeprom_save_state();
+	}
 	
 	//Testing Flash 
 	flash_init();

@@ -9,6 +9,8 @@
 #include "flash.h"
 #include <driver_init.h>
 
+const uint32_t FLASH_VCARD = 0x7ff000;
+
 void flash_init() {
 	qspi_sync_enable(&QUAD_SPI_0);
 	
@@ -156,4 +158,14 @@ void flash_write(uint32_t addr, void *buf, size_t len) {
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
 	while(flash_is_busy());
+}
+
+void flash_save_vcard(const char* vcard) {
+	flash_erase_sector(FLASH_VCARD);
+	flash_write(FLASH_VCARD, vcard, 256);
+	flash_write(FLASH_VCARD, vcard+256, 256);
+}
+
+void flash_read_vcard(char* vcard) {
+	flash_read(FLASH_VCARD, vcard, 512);
 }
