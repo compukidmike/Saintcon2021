@@ -3,6 +3,7 @@
 #include "ILI9331.h"
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
@@ -15,11 +16,21 @@ badgestate g_state;
 
 extern uint16_t bird_raw[];
 
+volatile uint32_t MS_Timer = 0;
+void SysTick_Handler(void) {
+	MS_Timer++;                // Increment global millisecond timer
+}
+
+uint32_t millis() {
+	return MS_Timer++;
+}
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
 	//touch init is disabled in this function because it's causing problems. Needs work.
 	atmel_start_init();
+	SysTick_Config(48000000/1000);
 
 	/* Replace with your application code */
 	//Super basic init and button/LED test
@@ -60,7 +71,9 @@ int main(void)
 	
 	int x=25,y=0,dx=1,dy=1;
 	uint16_t c;
+	uint32_t draw_ms=0, blt_ms=0, sys_ms=0, now, tsstep=millis();
 	while (1) {
+		char lines[4][20];
 		touch_process();
 		/*if (measurement_done_touch == 1) {
 			measurement_done_touch = 0;
@@ -79,12 +92,30 @@ int main(void)
 		//LCD_DrawLine(x1,y1,x2,y2,0xFFFF);
 		
 		c = dy>0?RGB(20,20,200):RGB(200,20,20);
+		snprintf(lines[0], 20, "draw:%3lums", draw_ms);
+		snprintf(lines[1], 20, "blt: %3lums", blt_ms);
+		snprintf(lines[2], 20, "sys: %3lums", sys_ms);
+		snprintf(lines[3], 20, "%3lufps", 1000/(sys_ms+blt_ms+draw_ms));
+		
+		
+		now = millis();
+		sys_ms = now - tsstep;
+		tsstep = now;
 		canvas_clearScreen(c);
 		canvas_drawImage_FromFlash(x, y, 160, 80, addr);
-		canvas_drawText(80, 125, "Bird", RGB(255,255,255));
+		canvas_drawText(80, 85, lines[0], RGB(255,255,255));
+		canvas_drawText(80, 105, lines[1], RGB(255,255,255));
+		canvas_drawText(80, 125, lines[2], RGB(255,255,255));
+		canvas_drawText(90, 145, lines[3], RGB(255,255,255));
 		//canvas_fillRect(80,80,40,40,c);
 		canvas_drawLine(x1, y1, x2, y2, scroller_status?0xFFFF:0);
+		now = millis();
+		draw_ms = now - tsstep;
+		tsstep = now;
 		canvas_blt();
+		now = millis();
+		blt_ms = now - tsstep;
+		tsstep = now;
 		
 		if(gpio_get_pin_level(PIN_PA27)){
 			//gpio_set_pin_level(PIN_PA21,true);

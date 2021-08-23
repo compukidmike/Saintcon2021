@@ -13,7 +13,7 @@
 //(gpio_set_pin_level(pin, true) )
 #define gpio_setlow(pin)	(REG_PORT_OUTCLR1 = 1 << (pin))
 //gpio_set_pin_level(pin, false) )
-
+#define gpio_toggle(pin)	(REG_PORT_OUTTGL1 = 1 << (pin))
 
 void LCD_Select(){
 	gpio_setlow(LCD_CS);
@@ -23,7 +23,7 @@ void LCD_Deselect(){
 	//gpio_sethigh(LCD_CS);
 }
 
-void LCD_WriteData(uint16_t data){
+inline void LCD_WriteData(uint16_t data){
 
 	//gpio_sethigh(RD);
 	
@@ -31,14 +31,18 @@ void LCD_WriteData(uint16_t data){
 	gpio_set_port_level(GPIO_PORTA, data & 0xFF, true);
 	gpio_set_port_level(GPIO_PORTB, 0xFF, false);
 	gpio_set_port_level(GPIO_PORTB, (data>>8) & 0xFF, true);*/
-	REG_PORT_OUTCLR0 = 0xFF;
+	/*REG_PORT_OUTCLR0 = 0xFF;
 	REG_PORT_OUTCLR1 = 0xFF;
 	REG_PORT_OUTSET0 = data & 0xFF;
-	REG_PORT_OUTSET1 = data>>8;
+	REG_PORT_OUTSET1 = data>>8;*/
+	
+	*(volatile uint8_t*)(0x41008010) = data & 0xFF;
+	*(volatile uint8_t*)(0x41008090) = data>>8;
 
-	gpio_setlow(LCD_WR);
+	
+	gpio_toggle(LCD_WR);
 	//delay_us(1);
-	gpio_sethigh(LCD_WR);
+	gpio_toggle(LCD_WR);
 }
 
 void LCD_WriteCommand(uint16_t command){
@@ -100,8 +104,9 @@ void LCD_DrawImage(int x, int y, int w, int h, uint16_t *data) {
 	//LCD_WriteCommand(0x0021);
 	LCD_WriteData(y);
 
+	uint32_t p = w*h;
 	LCD_WriteCommand(0x0022);
-	for (int i=0; i<w*h; ++i)
+	for (int i=0; i<p; ++i)
 		LCD_WriteData(data[i]);
 	LCD_Deselect();
 }
@@ -120,8 +125,9 @@ void LCD_FillRect(int x, int y, int w, int h, uint16_t color) {
 	LCD_WriteCommand(0x0021);
 	LCD_WriteData(AD8_16);
 
+	uint32_t p = w*h;
 	LCD_WriteCommand(0x0022);
-	for (int i=0; i<w*h; ++i)
+	for (int i=0; i<p; ++i)
 		LCD_WriteData(color);
 	LCD_Deselect();
 }
