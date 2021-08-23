@@ -48,7 +48,13 @@ TITLE:Your Title
 END:VCARD
 */
 
-void flash_save_vcard(const char* vcard);
+void flash_save_vcard(char* vcard);
 void flash_read_vcard(char* vcard);
+
+
+#define machine_bkg_img	0
+#define machine_img		0
+#define parts_img		0
+#define build_img		0
 
 #endif /* FLASH_H_ */

@@ -132,7 +132,17 @@ void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint16_t *data
 	if ((y+h) >= (HEIGHT-1))
 	h = (HEIGHT-1-y);
 	for (int j=max(0, -y); j<h; ++j) {
-		flash_read(data+ow*j, &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+		flash_read((uint32_t)(data+ow*j), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+	}
+}
+
+void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch){
+	if ((x+w) >= (WIDTH-1))
+	w = (WIDTH-1-x);
+	if ((y+h) >= (HEIGHT-1))
+	h = (HEIGHT-1-y);
+	for (int j=max(0, -y); j<h; ++j) {
+		flash_read((uint32_t)(data+pitch*(j+fy)+fx), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
 	}
 }
 
@@ -144,7 +154,7 @@ void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint16_t *d
 	
 	for (int j=max(0, -y); j<h; ++j) {
 		uint16_t row[w];
-		flash_read(data+pitch*(fy+j)+fx, row, w*sizeof(uint16_t));
+		flash_read((uint32_t)(data+pitch*(fy+j)+fx), row, w*sizeof(uint16_t));
 		for (int i=max(0, -x); i<w; ++i) {
 			uint16_t c = row[i];
 			if (c != tansparent_color)

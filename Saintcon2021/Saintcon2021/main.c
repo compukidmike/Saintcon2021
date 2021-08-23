@@ -1,5 +1,4 @@
 #include "main.h"
-#include <atmel_start.h>
 #include "ILI9331.h"
 #include <math.h>
 #include <string.h>
@@ -8,6 +7,8 @@ volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
 badgestate g_state;
+
+bool back_event = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
@@ -58,8 +59,11 @@ int main(void)
 		}
 	}
 	
-	int x=25,y=0,dx=1,dy=1;
-	uint16_t c;
+	Scene scene = TEST;
+	
+	bool btn_down = false;
+	bool changed = true;
+	
 	while (1) {
 		touch_process();
 		/*if (measurement_done_touch == 1) {
@@ -68,35 +72,57 @@ int main(void)
 		}*/
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
-		//touchWheel = getTouchWheelPostion();
-		static int x1=0,x2=0,y1=0,y2=0;
-		double angle = (((double)(scroller_position)/256)*2*M_PI) + (1.5*M_PI);
-		//LCD_DrawLine(x1,y1,x2,y2,RGB(100,80,100));
-		x1 = 80*cos(angle)+120;
-		y1 = 80*sin(angle)+120;
-		x2 = 100*cos(angle)+120;
-		y2 = 100*sin(angle)+120;
-		//LCD_DrawLine(x1,y1,x2,y2,0xFFFF);
-		
-		c = dy>0?RGB(20,20,200):RGB(200,20,20);
-		canvas_clearScreen(c);
-		canvas_drawImage_FromFlash(x, y, 160, 80, addr);
-		canvas_drawText(80, 125, "Bird", RGB(255,255,255));
-		//canvas_fillRect(80,80,40,40,c);
-		canvas_drawLine(x1, y1, x2, y2, scroller_status?0xFFFF:0);
-		canvas_blt();
 		
 		if(gpio_get_pin_level(PIN_PA27)){
 			//gpio_set_pin_level(PIN_PA21,true);
+			btn_down = false;
 			pwm_disable(&PWM_0);
-		} else {
+			} else {
+			if (!btn_down) {
+				back_event = true;
+			}
+			btn_down = true;
 			//gpio_set_pin_level(PIN_PA21,false);
 			pwm_enable(&PWM_0);
 		}
 		
-		x+=dx; y+=dy;
-		if ((x<=0) || x>=80) dx*=-1;
-		if ((y<=0) || y>=160) dy*=-1;
+		Scene ns;
+		switch(scene) {
+		case TEST:
+			ns = test_scene_loop(changed);
+			break;
+		case COMBO:
+			ns = combo_scene_loop(changed);
+			break;
+		case INVENTORY:
+			ns = inventory_scene_loop(changed);
+			break;
+		case MACHINE:
+			ns = machine_scene_loop(changed);
+			break;
+		case MENU:
+		default:
+			ns = menu_scene_loop(changed);
+		}
+		
+		if (ns != scene) {
+			changed = true;
+			scene = ns;
+		}
+		
+		back_event = false;
 
 	}
+}
+
+
+int getTouchLocation() {
+	int ret = scroller_position*360/256 + 270;
+	if (ret > 360) ret-=360;
+	return ret;
+}
+
+uint32_t millis() {
+	//TODO: Stub function
+	return 0;
 }
