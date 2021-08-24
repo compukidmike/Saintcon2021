@@ -16,14 +16,7 @@ badgestate g_state;
 
 extern uint16_t bird_raw[];
 
-volatile uint32_t MS_Timer = 0;
-void SysTick_Handler(void) {
-	MS_Timer++;                // Increment global millisecond timer
-}
-
-uint32_t millis() {
-	return MS_Timer++;
-}
+static void back_button_pressed(void);
 
 int main(void)
 {
@@ -33,9 +26,6 @@ int main(void)
 	SysTick_Config(48000000/1000);
 
 	/* Replace with your application code */
-	//Super basic init and button/LED test
-	gpio_set_pin_direction(PIN_PA27,GPIO_DIRECTION_IN);
-	gpio_set_pin_pull_mode(PIN_PA27,GPIO_PULL_UP);
 	pwm_set_parameters(&PWM_0, 10000, 5000);
 	
 	
@@ -68,6 +58,8 @@ int main(void)
 			flash_write(addr + offset, (uint8_t*)bird_raw + offset, 0x100);
 		}
 	}
+	
+	ext_irq_register(PIN_PA27, back_button_pressed);
 	
 	int x=25,y=0,dx=1,dy=1;
 	uint16_t c;
@@ -117,17 +109,32 @@ int main(void)
 		blt_ms = now - tsstep;
 		tsstep = now;
 		
-		if(gpio_get_pin_level(PIN_PA27)){
-			//gpio_set_pin_level(PIN_PA21,true);
-			pwm_disable(&PWM_0);
-		} else {
-			//gpio_set_pin_level(PIN_PA21,false);
-			pwm_enable(&PWM_0);
-		}
-		
 		x+=dx; y+=dy;
 		if ((x<=0) || x>=80) dx*=-1;
 		if ((y<=0) || y>=160) dy*=-1;
 
 	}
 }
+
+bool led_toggle=false;
+static void back_button_pressed(void)
+{
+	led_toggle = !led_toggle;
+	if(led_toggle){
+		//gpio_set_pin_level(PIN_PA21,true);
+		pwm_disable(&PWM_0);
+	} else {
+		//gpio_set_pin_level(PIN_PA21,false);
+		pwm_enable(&PWM_0);
+	}
+}
+
+volatile uint32_t MS_Timer = 0;
+void SysTick_Handler(void) {
+	MS_Timer++;                // Increment global millisecond timer
+}
+
+uint32_t millis() {
+	return MS_Timer++;
+}
+

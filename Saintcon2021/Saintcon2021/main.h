@@ -21,5 +21,6 @@ typedef struct _badgestate {
 extern badgestate g_state;
 
 void touch_status_display(void);
+uint32_t millis();
 
 #endif /* MAIN_H_ */

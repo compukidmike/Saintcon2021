@@ -10,6 +10,19 @@
 #include "driver_init.h"
 #include "utils.h"
 
+static void button_on_PA27_pressed(void)
+{
+}
+
+/**
+ * Example of using EXTERNAL_IRQ_0
+ */
+void EXTERNAL_IRQ_0_example(void)
+{
+
+	ext_irq_register(PIN_PA27, button_on_PA27_pressed);
+}
+
 /**
  * Example of using QUAD_SPI_0 to get N25Q256A status value,
  * and check bit 0 which indicate embedded operation is busy or not.

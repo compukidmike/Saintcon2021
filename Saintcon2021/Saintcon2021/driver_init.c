@@ -33,6 +33,27 @@ static void PTC_0_clock_init(void)
 	hri_gclk_write_PCHCTRL_reg(GCLK, ADC0_GCLK_ID, CONF_GCLK_ADC0_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 }
 
+void EXTERNAL_IRQ_0_init(void)
+{
+	hri_gclk_write_PCHCTRL_reg(GCLK, EIC_GCLK_ID, CONF_GCLK_EIC_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_mclk_set_APBAMASK_EIC_bit(MCLK);
+
+	// Set pin direction to input
+	gpio_set_pin_direction(PA27, GPIO_DIRECTION_IN);
+
+	gpio_set_pin_pull_mode(PA27,
+	                       // <y> Pull configuration
+	                       // <id> pad_pull_config
+	                       // <GPIO_PULL_OFF"> Off
+	                       // <GPIO_PULL_UP"> Pull-up
+	                       // <GPIO_PULL_DOWN"> Pull-down
+	                       GPIO_PULL_UP);
+
+	gpio_set_pin_function(PA27, PINMUX_PA27A_EIC_EXTINT11);
+
+	ext_irq_init();
+}
+
 void QUAD_SPI_0_PORT_init(void)
 {
 
@@ -507,6 +528,8 @@ void system_init(void)
 	init_mcu();
 
 	PTC_0_clock_init();
+
+	EXTERNAL_IRQ_0_init();
 
 	QUAD_SPI_0_init();
 
