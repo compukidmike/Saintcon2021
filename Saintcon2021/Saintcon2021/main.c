@@ -113,6 +113,7 @@ int main(void)
 		if ((x<=0) || x>=80) dx*=-1;
 		if ((y<=0) || y>=160) dy*=-1;
 
+		cdcd_loop();
 	}
 }
 

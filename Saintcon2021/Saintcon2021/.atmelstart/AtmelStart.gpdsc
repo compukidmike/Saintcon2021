@@ -167,6 +167,23 @@
         <file category="library" condition="IAR" name="qtouch/lib/iar/qtm_scroller_cm4_0x000b.a"/>
         <file category="library" condition="IAR" name="qtouch/lib/iar/qtm_touch_key_cm4_0x0002.a"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="qtouch/license.h"/>
+        <file category="doc" condition="ARMCC, GCC, IAR" name="documentation/usb_device_cdc.rst"/>
+        <file category="doc" condition="ARMCC, GCC, IAR" name="documentation/usb_device_core.rst"/>
+        <file category="doc" condition="ARMCC, GCC, IAR" name="documentation/usb_protocol_cdc.rst"/>
+        <file category="doc" condition="ARMCC, GCC, IAR" name="documentation/usb_protocol_core.rst"/>
+        <file category="other" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device/atmel_devices_cdc.cat"/>
+        <file category="other" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device/atmel_devices_cdc.inf"/>
+        <file category="source" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device/cdcdf_acm.c"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device/cdcdf_acm.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device/cdcdf_acm_desc.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/class/cdc/usb_protocol_cdc.h"/>
+        <file category="source" condition="ARMCC, GCC, IAR" name="usb/device/usbdc.c"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/device/usbdc.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/usb_atmel.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/usb_debug.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/usb_includes.h"/>
+        <file category="source" condition="ARMCC, GCC, IAR" name="usb/usb_protocol.c"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb/usb_protocol.h"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="main.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="driver_init.c"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="driver_init.h"/>
@@ -219,6 +236,8 @@
         <file category="header" condition="ARMCC, GCC, IAR" name="qtouch/include/touch_api_ptc.h"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="examples/touch_example.c"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="examples/touch_example.h"/>
+        <file category="source" condition="ARMCC, GCC, IAR" name="usb_start.c"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="usb_start.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="atmel_start.h"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="atmel_start.c"/>
         <file attr="config" category="header" condition="ARMCC, GCC, IAR" name="config/hpl_cmcc_config.h"/>
@@ -235,6 +254,7 @@
         <file attr="config" category="header" condition="ARMCC, GCC, IAR" name="config/hpl_tcc_config.h"/>
         <file attr="config" category="header" condition="ARMCC, GCC, IAR" name="config/hpl_usb_config.h"/>
         <file attr="config" category="header" condition="ARMCC, GCC, IAR" name="config/peripheral_clk_config.h"/>
+        <file attr="config" category="header" condition="ARMCC, GCC, IAR" name="config/usbd_config.h"/>
         <file category="include" condition="ARMCC, GCC, IAR" name=""/>
         <file category="include" condition="ARMCC, GCC, IAR" name="config"/>
         <file category="include" condition="ARMCC, GCC, IAR" name="examples"/>
@@ -262,6 +282,12 @@
         <file category="include" condition="ARMCC, GCC, IAR" name="examples"/>
         <file category="include" condition="ARMCC, GCC, IAR" name="qtouch"/>
         <file category="include" condition="ARMCC, GCC, IAR" name="qtouch/include"/>
+        <file category="include" condition="ARMCC, GCC, IAR" name=""/>
+        <file category="include" condition="ARMCC, GCC, IAR" name="config"/>
+        <file category="include" condition="ARMCC, GCC, IAR" name="usb"/>
+        <file category="include" condition="ARMCC, GCC, IAR" name="usb/class/cdc"/>
+        <file category="include" condition="ARMCC, GCC, IAR" name="usb/class/cdc/device"/>
+        <file category="include" condition="ARMCC, GCC, IAR" name="usb/device"/>
         <file category="include" condition="ARMCC, GCC, IAR" name=""/>
       </files>
     </component>

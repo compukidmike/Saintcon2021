@@ -38,6 +38,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
@@ -57,6 +61,10 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
@@ -93,6 +101,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
@@ -124,6 +136,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>

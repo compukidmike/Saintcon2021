@@ -163,6 +163,17 @@
           <AcmeProjectActionInfo Action="File" Source="qtouch/lib/iar/qtm_scroller_cm4_0x000b.a" IsConfig="false" Hash="O6ibeMeB1MlXuWj1PSnPFQ" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/lib/iar/qtm_touch_key_cm4_0x0002.a" IsConfig="false" Hash="jkjTAiXTGvBNjErJ1wWXtQ" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/license.h" IsConfig="false" Hash="Kf+DcGpWATKFBnI3Ys1bPg" />
+          <AcmeProjectActionInfo Action="File" Source="usb/class/cdc/device/cdcdf_acm.c" IsConfig="false" Hash="eNygjCARrgKdYWBp1K2fMg" />
+          <AcmeProjectActionInfo Action="File" Source="usb/class/cdc/device/cdcdf_acm.h" IsConfig="false" Hash="3UVwYCq5LIll+pYQIOOU/g" />
+          <AcmeProjectActionInfo Action="File" Source="usb/class/cdc/device/cdcdf_acm_desc.h" IsConfig="false" Hash="7dZSClDfhapvvdGI4OfwxQ" />
+          <AcmeProjectActionInfo Action="File" Source="usb/class/cdc/usb_protocol_cdc.h" IsConfig="false" Hash="aF/ryjltM3V07OUwTkI3vA" />
+          <AcmeProjectActionInfo Action="File" Source="usb/device/usbdc.c" IsConfig="false" Hash="VB7xRkVxKvMjoOYa6LtxAg" />
+          <AcmeProjectActionInfo Action="File" Source="usb/device/usbdc.h" IsConfig="false" Hash="hZ5sE53uZ00U5AqlGdkJdw" />
+          <AcmeProjectActionInfo Action="File" Source="usb/usb_atmel.h" IsConfig="false" Hash="A2zuakDUf9USNNrhd3rOug" />
+          <AcmeProjectActionInfo Action="File" Source="usb/usb_debug.h" IsConfig="false" Hash="SroGtseBRZZsZQC2yhHauQ" />
+          <AcmeProjectActionInfo Action="File" Source="usb/usb_includes.h" IsConfig="false" Hash="Rb0AWqieP1+ot9abbGRC9g" />
+          <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.c" IsConfig="false" Hash="506QsMNqKwMw3St/nEXa8Q" />
+          <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.h" IsConfig="false" Hash="IjsDWsLIdSQj3pFlkAX0UA" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
           <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="5q5L4l/OIk3R+bITAllmdA" />
           <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="Q+7vxWwCU7+t/6HMZqqsWA" />
@@ -215,8 +226,10 @@
           <AcmeProjectActionInfo Action="File" Source="qtouch/include/touch_api_ptc.h" IsConfig="false" Hash="CClbkgUGOHbZ6eZHRFtrFg" />
           <AcmeProjectActionInfo Action="File" Source="examples/touch_example.c" IsConfig="false" Hash="+yle9RwzPlO94p5i43sbEA" />
           <AcmeProjectActionInfo Action="File" Source="examples/touch_example.h" IsConfig="false" Hash="lhGCrqAeOUGGoHoBC6vtxw" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start.h" IsConfig="false" Hash="fwGJAZwQpLfSTa0xY9qcIw" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start.c" IsConfig="false" Hash="3K6DtdnDW2dCf6HdZTthNw" />
+          <AcmeProjectActionInfo Action="File" Source="usb_start.c" IsConfig="false" Hash="Z3VoMycwi6ePlP/FidkA8w" />
+          <AcmeProjectActionInfo Action="File" Source="usb_start.h" IsConfig="false" Hash="tIiPIYvUpZZo7de2aDnOew" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start.h" IsConfig="false" Hash="xvCBHOuC/4bj9FTF7qJgzQ" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start.c" IsConfig="false" Hash="7y6fdP/vKD87QXg9DBAjAw" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_cmcc_config.h" IsConfig="true" Hash="bmtxQ8rLloaRtAo2HeXZRQ" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_dmac_config.h" IsConfig="true" Hash="mNec32O7w53e4vDmQlvjCA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_eic_config.h" IsConfig="true" Hash="agh+rjSnArLL0p9fRA+h/Q" />
@@ -231,6 +244,7 @@
           <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="e4Lbnq0uVc7gtVAasNNhXA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_usb_config.h" IsConfig="true" Hash="OTnXMB+/o/b7gPmkxUTUeQ" />
           <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="YcotY75NXSkxQOU5y1J6Yg" />
+          <AcmeProjectActionInfo Action="File" Source="config/usbd_config.h" IsConfig="true" Hash="+IN9FTPiQVdcpm7kwsDEQA" />
         </AcmeActionInfos>
         <NonsecureFilesInfo />
       </AcmeProjectConfig>
@@ -292,6 +306,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
@@ -310,6 +328,10 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
@@ -347,6 +369,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
@@ -377,6 +403,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
@@ -425,6 +455,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
@@ -444,6 +478,10 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
@@ -481,6 +519,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.assembler.general.IncludePaths>
@@ -512,6 +554,10 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
       <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
     </ListValues>
   </armgcc.preprocessingassembler.general.IncludePaths>
@@ -561,6 +607,11 @@
     <Folder Include="qtouch\include\" />
     <Folder Include="qtouch\lib\" />
     <Folder Include="qtouch\lib\gcc\" />
+    <Folder Include="usb\" />
+    <Folder Include="usb\class\" />
+    <Folder Include="usb\class\cdc\" />
+    <Folder Include="usb\class\cdc\device\" />
+    <Folder Include="usb\device\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="atmel_start.c">
@@ -705,6 +756,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Config\RTE_Components.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Config\usbd_config.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Device_Startup\startup_same53.c">
@@ -1208,7 +1262,49 @@
     <Compile Include="qtouch\touch.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="RougeMaze.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="small.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\class\cdc\device\cdcdf_acm.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\class\cdc\device\cdcdf_acm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\class\cdc\device\cdcdf_acm_desc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\class\cdc\usb_protocol_cdc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\device\usbdc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\device\usbdc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\usb_atmel.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\usb_debug.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\usb_includes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\usb_protocol.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb\usb_protocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb_start.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usb_start.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -1226,6 +1322,18 @@
       <SubType>compile</SubType>
     </None>
     <None Include="documentation\qtouch_lib_standard.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="documentation\usb_device_cdc.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="documentation\usb_device_core.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="documentation\usb_protocol_cdc.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="documentation\usb_protocol_core.rst">
       <SubType>compile</SubType>
     </None>
     <None Include="FrameBuffer.h">
@@ -1262,6 +1370,12 @@
       <SubType>compile</SubType>
     </None>
     <None Include="qtouch\lib\gcc\libqtm_touch_key_cm4_0x0002.a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="usb\class\cdc\device\atmel_devices_cdc.cat">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="usb\class\cdc\device\atmel_devices_cdc.inf">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>
