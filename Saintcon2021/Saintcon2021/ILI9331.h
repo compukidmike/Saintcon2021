@@ -15,8 +15,6 @@
 #define LCD_BL	17
 #define LCD_RST 22
 
-#define RGB(r, g, b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | ((b) >> 3))
-
 void LCD_DrawPixel(uint8_t x, uint8_t y, uint16_t color);
 void LCD_DrawImage(int x, int y, int w, int h, uint16_t *data);
 void LCD_FillRect(int x, int y, int w, int h, uint16_t color);

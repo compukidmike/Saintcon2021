@@ -1,5 +1,4 @@
 #include "main.h"
-#include <atmel_start.h>
 #include "ILI9331.h"
 #include <math.h>
 #include <string.h>
@@ -9,6 +8,8 @@ volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
 badgestate g_state;
+
+bool back_event = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
@@ -58,14 +59,13 @@ int main(void)
 			flash_write(addr + offset, (uint8_t*)bird_raw + offset, 0x100);
 		}
 	}
-	
+
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	
-	int x=25,y=0,dx=1,dy=1;
-	uint16_t c;
-	uint32_t draw_ms=0, blt_ms=0, sys_ms=0, now, tsstep=millis();
+	Scene scene = TEST;
+	bool changed = true;
+
 	while (1) {
-		char lines[4][20];
 		touch_process();
 		/*if (measurement_done_touch == 1) {
 			measurement_done_touch = 0;
@@ -73,46 +73,35 @@ int main(void)
 		}*/
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
-		//touchWheel = getTouchWheelPostion();
-		static int x1=0,x2=0,y1=0,y2=0;
-		double angle = (((double)(scroller_position)/256)*2*M_PI) + (1.5*M_PI);
-		//LCD_DrawLine(x1,y1,x2,y2,RGB(100,80,100));
-		x1 = 80*cos(angle)+120;
-		y1 = 80*sin(angle)+120;
-		x2 = 100*cos(angle)+120;
-		y2 = 100*sin(angle)+120;
-		//LCD_DrawLine(x1,y1,x2,y2,0xFFFF);
 		
-		c = dy>0?RGB(20,20,200):RGB(200,20,20);
-		snprintf(lines[0], 20, "draw:%3lums", draw_ms);
-		snprintf(lines[1], 20, "blt: %3lums", blt_ms);
-		snprintf(lines[2], 20, "sys: %3lums", sys_ms);
-		snprintf(lines[3], 20, "%3lufps", 1000/(sys_ms+blt_ms+draw_ms));
+		Scene ns;
+		switch(scene) {
+		case TEST:
+			ns = test_scene_loop(changed);
+			break;
+		case COMBO:
+			ns = combo_scene_loop(changed);
+			break;
+		case INVENTORY:
+			ns = inventory_scene_loop(changed);
+			break;
+		case MACHINE:
+			ns = machine_scene_loop(changed);
+			break;
+		case BUILD:
+			ns = build_scene_loop(changed);
+			break;
+		case MENU:
+		default:
+			ns = menu_scene_loop(changed);
+		}
+		changed = false;
 		
+		if (ns != scene) {
+			changed = true;
+			scene = ns;
+		}
 		
-		now = millis();
-		sys_ms = now - tsstep;
-		tsstep = now;
-		canvas_clearScreen(c);
-		canvas_drawImage_FromFlash(x, y, 160, 80, addr);
-		canvas_drawText(80, 85, lines[0], RGB(255,255,255));
-		canvas_drawText(80, 105, lines[1], RGB(255,255,255));
-		canvas_drawText(80, 125, lines[2], RGB(255,255,255));
-		canvas_drawText(90, 145, lines[3], RGB(255,255,255));
-		//canvas_fillRect(80,80,40,40,c);
-		canvas_drawLine(x1, y1, x2, y2, scroller_status?0xFFFF:0);
-		now = millis();
-		draw_ms = now - tsstep;
-		tsstep = now;
-		canvas_blt();
-		now = millis();
-		blt_ms = now - tsstep;
-		tsstep = now;
-		
-		x+=dx; y+=dy;
-		if ((x<=0) || x>=80) dx*=-1;
-		if ((y<=0) || y>=160) dy*=-1;
-
 		cdcd_loop();
 	}
 }
@@ -120,6 +109,7 @@ int main(void)
 bool led_toggle=false;
 static void back_button_pressed(void)
 {
+	back_event = true;
 	led_toggle = !led_toggle;
 	if(led_toggle){
 		//gpio_set_pin_level(PIN_PA21,true);
@@ -137,5 +127,12 @@ void SysTick_Handler(void) {
 
 uint32_t millis() {
 	return MS_Timer++;
+}
+
+
+int getTouchLocation() {
+	int ret = scroller_position*360/256 + 270;
+	if (ret > 360) ret-=360;
+	return ret;
 }
 

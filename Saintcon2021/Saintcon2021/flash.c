@@ -160,7 +160,7 @@ void flash_write(uint32_t addr, void *buf, size_t len) {
 	while(flash_is_busy());
 }
 
-void flash_save_vcard(const char* vcard) {
+void flash_save_vcard(char* vcard) {
 	flash_erase_sector(FLASH_VCARD);
 	flash_write(FLASH_VCARD, vcard, 256);
 	flash_write(FLASH_VCARD, vcard+256, 256);

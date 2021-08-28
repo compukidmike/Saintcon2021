@@ -603,6 +603,7 @@
     <Folder Include="hpl\tcc\" />
     <Folder Include="hpl\usb\" />
     <Folder Include="hri\" />
+    <Folder Include="Scenes" />
     <Folder Include="qtouch\" />
     <Folder Include="qtouch\include\" />
     <Folder Include="qtouch\lib\" />
@@ -1229,6 +1230,12 @@
     <Compile Include="ILI9331.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="machine_common.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="machine_common.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1265,7 +1272,28 @@
     <Compile Include="RougeMaze.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Scenes\buildScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\comboScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\inventoryScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\machineScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\menuScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\testScene.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="small.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="unlocks.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usb\class\cdc\device\cdcdf_acm.c">

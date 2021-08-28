@@ -13,7 +13,7 @@
 #define WIDTH   240
 #define HEIGHT  240
 
-//#define RGB(r, g, b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | ((b) >> 3))
+#define RGB(r, g, b) ((((r) & 0xF8) << 8) | (((g) & 0xFC) << 3) | ((b) >> 3))
 //#define RGB(r, g, b) ((((g) & 0x1C) << 11) | ((b & 0xF8) << 5) | ((r) & 0xF8) | (((g) & 0xE0) >> 5))
 
     
@@ -33,6 +33,7 @@ void canvas_drawImage_pt(int x, int y, int w, int h, const uint16_t *data, int f
 void canvas_drawImageAlpha(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color);
 
 void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint16_t *data);
+void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch);
 void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color);
 
 void canvas_drawText(int x, int y, const char* text, uint16_t color);
