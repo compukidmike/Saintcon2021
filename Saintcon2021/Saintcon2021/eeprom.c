@@ -15,6 +15,8 @@ volatile uint8_t  *EEPROM_STATE_PARTS		= (uint8_t*)(SEEPROM_ADDR + 32);
 
 volatile uint32_t *USER_PAGE = (uint32_t*)0x00804000;
 
+#define EEPROM_MAGIC		0x53544152
+
 
 void enable_eeprom_fuse() {
 	uint32_t userword[8];
@@ -71,13 +73,15 @@ void eeprom_init() {
 
 void eeprom_save_state() {
 	EEPROM_WAIT;
-	EEPROM_STATE_BITMASKS[0] = g_state.modules_bitmask;
+	EEPROM_STATE_BITMASKS[0] = EEPROM_MAGIC;
 	EEPROM_WAIT;
-	EEPROM_STATE_BITMASKS[1] = g_state.combos_bitmask;
+	EEPROM_STATE_BITMASKS[1] = g_state.modules_bitmask;
 	EEPROM_WAIT;
-	EEPROM_STATE_BITMASKS[2] = g_state.nfc_bitmask;
+	EEPROM_STATE_BITMASKS[2] = g_state.combos_bitmask;
 	EEPROM_WAIT;
-	EEPROM_STATE_BITMASKS[3] = g_state.badge_bitmask;
+	EEPROM_STATE_BITMASKS[3] = g_state.nfc_bitmask;
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[4] = g_state.badge_bitmask;
 	
 	for (int i=0; i<12; ++i) {
 		EEPROM_WAIT;
@@ -90,13 +94,19 @@ void eeprom_save_state() {
 
 void eeprom_load_state() {
 	EEPROM_WAIT;
-	g_state.modules_bitmask = EEPROM_STATE_BITMASKS[0];
+	uint32_t magic =  EEPROM_STATE_BITMASKS[0];
+	if (magic != EEPROM_MAGIC) {
+		memset((uint8_t*)&g_state, 0, sizeof(g_state));
+		return;
+	}
 	EEPROM_WAIT;
-	g_state.combos_bitmask = EEPROM_STATE_BITMASKS[1];
+	g_state.modules_bitmask = EEPROM_STATE_BITMASKS[1];
 	EEPROM_WAIT;
-	g_state.nfc_bitmask = EEPROM_STATE_BITMASKS[2];
+	g_state.combos_bitmask = EEPROM_STATE_BITMASKS[2];
 	EEPROM_WAIT;
-	g_state.badge_bitmask = EEPROM_STATE_BITMASKS[3];
+	g_state.nfc_bitmask = EEPROM_STATE_BITMASKS[3];
+	EEPROM_WAIT;
+	g_state.badge_bitmask = EEPROM_STATE_BITMASKS[4];
 	
 	for (int i=0; i<12; ++i) {
 		EEPROM_WAIT;

@@ -26,7 +26,7 @@ Scene inventory_scene_loop(bool init) {
 				canvas_drawText(56, y, line, RGB(200,200,200));
 				int px = (i % 4)*16;
 				int py = (i / 4)*16;
-				canvas_drawImage_FromFlash_pt(88, y, 16, 16, parts_img, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(88, y, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 				y+=16;
 			}
 		}

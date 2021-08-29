@@ -7,6 +7,9 @@
  */
 #include "atmel_start.h"
 #include "usb_start.h"
+#include "flash.h"
+#include "FrameBuffer.h"
+#include "ILI9331.h"
 
 #if CONF_USBD_HS_SP
 static uint8_t single_desc_bytes[] = {
@@ -50,6 +53,7 @@ static bool cdcWriteDone(const uint8_t ep, const enum usb_xfer_code rc, const ui
 static bool cdcReadDone(const uint8_t ep, const enum usb_xfer_code rc, const uint32_t count)
 {
 	cdcTransferReadLen = count;
+	cdcTransferRead = false;
 	return false;
 }
 
@@ -134,7 +138,11 @@ void cdcd_loop(void) {
 			char input[8];
 			uint8_t len = cdcRead(input);
 			if (len) {
-				handleInput(input, len);
+				if (input[0] == '`'){
+					cdcWriteFlash();
+				}
+				else
+					handleInput(input, len);
 			}
 		}
 	}
@@ -146,4 +154,44 @@ void usb_init(void)
 {
 
 	cdc_device_acm_init();
+}
+
+void cdcWriteFlash(void) {
+	uint8_t buf[256];
+	uint16_t buf_idx=0;
+	uint32_t offset=0;
+	
+	cdcWrite("Are you sure you want to rewrite the external Flash?\r\n", 54);
+	
+	while (cdcTransferReadLen == 0)
+		if (!cdcConnected)
+			return; //lost connection
+		
+	//first read is from other routine, we'll steal control after that	
+	if (inBuf[0] != 'Y')
+		return;
+	
+	cdcWrite("Erasing\r\n", 9);
+	flash_erase_all();
+	cdcWrite("Ready\r\n", 7);
+	
+	uint32_t c=0;
+	while (offset < (8*1024*1024)) {
+		buf_idx = 0;
+		while(buf_idx < sizeof(buf)) {
+			cdcTransferRead = true;
+			cdcdf_acm_read(&buf[buf_idx], sizeof(buf) - buf_idx);
+			LCD_DrawPixel(30 + c%180, 30 + c/180, RGB(0,255,0));
+			while (cdcTransferRead) {//busy loop
+				if (!cdcConnected)
+					return; //lost connection
+			}
+			buf_idx += cdcTransferReadLen;
+		}
+		
+		flash_write(offset, buf, buf_idx);
+		c++;
+		offset += buf_idx;
+		//cdcWrite(".", 1);
+	}
 }

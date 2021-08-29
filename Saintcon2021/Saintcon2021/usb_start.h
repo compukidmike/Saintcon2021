@@ -16,6 +16,7 @@ extern "C" {
 #include "cdcdf_acm_desc.h"
 
 void cdcd_loop(void);
+void cdcWriteFlash(void);
 
 
 /**

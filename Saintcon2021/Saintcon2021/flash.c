@@ -8,6 +8,8 @@
 
 #include "flash.h"
 #include <driver_init.h>
+#include "ILI9331.h"
+#include "FrameBuffer.h"
 
 const uint32_t FLASH_VCARD = 0x7ff000;
 
@@ -65,7 +67,6 @@ void flash_enable_write(bool enable) {
 }
 
 void flash_erase_all() {
-	
 	flash_enable_write(true);
 	
 	while(flash_is_busy());
@@ -78,7 +79,13 @@ void flash_erase_all() {
 	};
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
-	while(flash_is_busy());
+	LCD_FillRect(0,0,240,240,0);
+	uint32_t c=0;
+	while(flash_is_busy()) {
+		LCD_DrawPixel(30+c%180, 30+c/180, RGB(0,0,255));
+		c++;
+		delay_ms(2);
+	}
 }
 
 void flash_erase_halfblock(uint32_t addr) {

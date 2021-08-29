@@ -51,10 +51,10 @@ END:VCARD
 void flash_save_vcard(char* vcard);
 void flash_read_vcard(char* vcard);
 
-
-#define machine_bkg_img	0
-#define machine_img		0
-#define parts_img		0
-#define build_img		0
+#define BIRD_IMG             	 ((uint32_t)0X000000)
+#define MACHINE_BKG_IMG      	 ((uint32_t)0X006400)
+#define MACHINE_IMG          	 ((uint32_t)0X022800)
+#define BUILD_IMG            	 ((uint32_t)0X255000)
+#define PARTS_IMG            	 ((uint32_t)0X278C00)
 
 #endif /* FLASH_H_ */

@@ -32,9 +32,9 @@ void canvas_drawImage_pt(int x, int y, int w, int h, const uint16_t *data, int f
 
 void canvas_drawImageAlpha(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color);
 
-void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint16_t *data);
-void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch);
-void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color);
+void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint32_t addr);
+void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint32_t addr, int fx, int fy, int pitch);
+void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint32_t addr, int fx, int fy, int pitch, uint16_t tansparent_color);
 
 void canvas_drawText(int x, int y, const char* text, uint16_t color);
 void canvas_drawChar(int x, int y, char c, uint16_t color);

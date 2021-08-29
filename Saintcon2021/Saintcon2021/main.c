@@ -42,6 +42,7 @@ int main(void)
 		g_state.badge_bitmask = 0xaabbccdd;
 		eeprom_save_state();
 	}
+	g_state.modules_bitmask=0xFFFFFFFF;
 	
 	//Testing Flash 
 	flash_init();
@@ -49,14 +50,13 @@ int main(void)
 	//flash_erase_all();
 	
 	//(copy bird to flash if not already there)
-	uint32_t addr = 0x7f8000;
 	uint16_t buf[80] = {0x80};
-	flash_read(addr, buf, 80*sizeof(uint16_t));
+	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 	if (memcmp(buf, bird_raw, 80*sizeof(uint16_t))) {
-		flash_erase_halfblock(addr);
+		flash_erase_halfblock(BIRD_IMG);
 		for (int i=0; i<100; ++i) {
 			uint32_t offset = i * 0x100;
-			flash_write(addr + offset, (uint8_t*)bird_raw + offset, 0x100);
+			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
 		}
 	}
 

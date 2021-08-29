@@ -125,28 +125,28 @@ void canvas_drawImage_pt(int x, int y, int w, int h, const uint16_t *data, int f
     }
 }
 
-void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint16_t *data){
+void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint32_t data){
 	int ow=w;
 	if ((x+w) >= (WIDTH-1))
 	w = (WIDTH-1-x);
 	if ((y+h) >= (HEIGHT-1))
 	h = (HEIGHT-1-y);
 	for (int j=max(0, -y); j<h; ++j) {
-		flash_read((uint32_t)(data+ow*j), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+		flash_read(data+(ow*j)*sizeof(uint16_t), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
 	}
 }
 
-void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch){
+void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch){
 	if ((x+w) >= (WIDTH-1))
 	w = (WIDTH-1-x);
 	if ((y+h) >= (HEIGHT-1))
 	h = (HEIGHT-1-y);
 	for (int j=max(0, -y); j<h; ++j) {
-		flash_read((uint32_t)(data+pitch*(j+fy)+fx), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+		flash_read(data+(pitch*(j+fy)+fx)*sizeof(uint16_t), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
 	}
 }
 
-void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color) {
+void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch, uint16_t tansparent_color) {
 	if ((x+w) >= (WIDTH-1))
 	w = (WIDTH-1-x);
 	if ((y+h) >= (HEIGHT-1))
@@ -154,7 +154,7 @@ void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint16_t *d
 	
 	for (int j=max(0, -y); j<h; ++j) {
 		uint16_t row[w];
-		flash_read((uint32_t)(data+pitch*(fy+j)+fx), row, w*sizeof(uint16_t));
+		flash_read(data+(pitch*(fy+j)+fx)*sizeof(uint16_t), row, w*sizeof(uint16_t));
 		for (int i=max(0, -x); i<w; ++i) {
 			uint16_t c = row[i];
 			if (c != tansparent_color)
@@ -298,10 +298,8 @@ void canvas_drawBitmask(int x, int y, int w, int h, const uint8_t *data, uint16_
 						int ay = j - cy;
                         double nx = cosa*ax - sina*ay + cx;
                         double ny = sina*ax + cosa*ay + cy;
-                        nx = i*8+k;
-                        ny = j;
                         canvas_drawPixel(x+nx, y+ny, color);
-                        //drawPixel(x+roundf(nx), y+roundf(ny), color);
+                        canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
                     }
                 }
             }

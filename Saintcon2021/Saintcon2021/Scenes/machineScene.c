@@ -15,13 +15,13 @@ int machine_frame, machine_lastDraw;
 #define FRAME_SPAN  100
 
 void machine_draw() {
-	canvas_drawImage(0, 0, 240, 240, machine_bkg_img);
+	canvas_drawImage_FromFlash(0, 0, 240, 240, MACHINE_BKG_IMG);
 	
 	for (int i=0; i< MODULE_COUNT; ++i) {
 		module a = module_info[i];
 		if (g_state.modules_bitmask & a.id) {
 			a.src_y += machine_frame*240;
-			canvas_drawImage_FromFlash_pt(a.dest_x, a.dest_y, a.src_w, a.src_h, machine_img, a.src_x, a.src_y, 240, RGB(255,0,255));
+			canvas_drawImage_FromFlash_pt(a.dest_x, a.dest_y, a.src_w, a.src_h, MACHINE_IMG, a.src_x, a.src_y, 240, RGB(255,0,255));
 		}
 	}
 

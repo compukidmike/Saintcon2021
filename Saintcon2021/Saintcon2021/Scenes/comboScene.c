@@ -58,6 +58,8 @@ void combo_draw() {
     
     //draw center
     canvas_fillCircle(120, 120, 48, RGB(80,80,80));
+	int a = (360-combo_selected*9) % 360;
+	canvas_drawBitmask(96, 96, 48, 48, saint_bits, RGB(160,160,160), a * M_PI / 180.0);
     
     //draw combo
     char cmb[10];

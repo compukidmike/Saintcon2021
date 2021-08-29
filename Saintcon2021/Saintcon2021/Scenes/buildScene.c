@@ -39,7 +39,7 @@ bool build_metPreReqs() {
 void build_draw() {
 	const module *mod = &module_info[build_index];
 	char line[20];
-	canvas_drawImage_FromFlash(0, 0, 240, 240, build_img);
+	canvas_drawImage_FromFlash(0, 0, 240, 240, BUILD_IMG);
 	
 	if (build_metPreReqs()) {
 		int x = 120-(int)strlen(mod->name)*4;
@@ -53,7 +53,7 @@ void build_draw() {
 		}
 		int xoff = rw /2;
 		int yoff = mod->src_h /2;
-		canvas_drawImage_FromFlash_pt(120-xoff,46-yoff, rw, mod->src_h, machine_img, rx, mod->src_y, 240, RGB(255,0,255));
+		canvas_drawImage_FromFlash_pt(120-xoff,46-yoff, rw, mod->src_h, MACHINE_IMG, rx, mod->src_y, 240, RGB(255,0,255));
 		
 		
 		if ((g_state.modules_bitmask & mod->id) == 0 ){
@@ -66,33 +66,33 @@ void build_draw() {
 					canvas_drawText(50, 132 + i * 16, line, color);
 					int px = (mod->reqparts[i].part % 4)*16;
 					int py = (mod->reqparts[i].part / 4)*16;
-					canvas_drawImage_FromFlash_pt(90, 132 + i * 16, 16, 16, parts_img, px, py, 64, RGB(242, 170, 206));
+					canvas_drawImage_FromFlash_pt(90, 132 + i * 16, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 				}
 			}
 			if (!build_hasParts()) {
-				canvas_drawImage_FromFlash_p(80, 210, 81, 30, build_img, 80, 244, 240);
+				canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
 			}
 		}
 		else {
 			canvas_drawText(90, 146, "Already", RGB(200,200,200));
 			canvas_drawText(98, 162, "Built", RGB(200,200,200));
-			canvas_drawImage_FromFlash_p(80, 210, 81, 30, build_img, 80, 244, 240);
+			canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
 		}
 		
 		
 	}
 	else {
 		canvas_drawText(96, 102, "??????", RGB(200,200,200));
-		canvas_drawImage_FromFlash_p(80, 210, 81, 30, build_img, 80, 244, 240);
+		canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
 	}
 	
 	if (build_touching) {
 		if (build_lastTouch == 2)
-		canvas_drawImage_FromFlash_p(208, 88, 32, 64, build_img, 208, 240, 240);
+		canvas_drawImage_FromFlash_p(208, 88, 32, 64, BUILD_IMG, 208, 240, 240);
 		else if (build_lastTouch == 6)
-		canvas_drawImage_FromFlash_p(0, 88, 32, 64, build_img, 0, 240, 240);
+		canvas_drawImage_FromFlash_p(0, 88, 32, 64, BUILD_IMG, 0, 240, 240);
 		else if ((build_lastTouch == 4) && build_holdtime) {
-			canvas_drawImage_FromFlash_p(80, 210, 81, 30, build_img, 80, 274, 240);
+			canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 274, 240);
 			int h = build_holdtime * 68 / BUILDTIME;
 			canvas_fillRect(86, 218, h, 2, RGB(180,180,255));
 		}

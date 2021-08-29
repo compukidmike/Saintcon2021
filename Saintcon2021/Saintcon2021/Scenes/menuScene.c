@@ -14,12 +14,12 @@
 int menu_rotation, menu_selected, menu_lastLocation;
 bool menu_scrolling;
 
-const char* menu_options[] = {"", "Build", "Trading", "Enter Codes", "Testing", "The Machine", "Inventory", "VCard"};
+const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Testing", "The Machine", "Inventory", "VCard"};
 
 void menu_draw() {
-	canvas_clearScreen(RGB(120,80,40));
+	canvas_clearScreen(0x857a);
 	
-	canvas_fillCircle(120, 120, 80, RGB(80,80,80));
+	canvas_fillCircle(120, 120, 80, 0x8a52);
 	
 	//draw icons
 	for (int i=1; i<8; ++i) {
@@ -40,7 +40,7 @@ void menu_draw() {
 		int p2x = p1x*1.5f;
 		int p2y = p1y*1.5f;
 
-		canvas_drawLine(p1x+120, p1y+120, p2x+120, p2y+120, RGB(255,255,255));
+		canvas_drawLine(p1x+120, p1y+120, p2x+120, p2y+120, 0x8a52);
 	}
 	
 	//draw center
@@ -48,7 +48,7 @@ void menu_draw() {
 	const char* str_line = menu_options[menu_selected];
 	int offset = (int)strlen(str_line) * 4;
 	
-	canvas_drawText(120-offset, 115, str_line, RGB(255,0,0));
+	canvas_drawText(120-offset, 115, str_line, 0xFFFF);
 	
 	canvas_blt();
 }

@@ -19,7 +19,7 @@ const uint8_t combo_locks[COMBO_COUNT][3] = {
 {38,  8, 18}, // Flash
 { 3, 21, 35}, // Master lock puzzle
 {28, 18,  4}, // Master lock serial number A31304
-{23, 25, 15},
+{23, 25, 15}, // Lanyard
 {12, 26,  2},
 {30, 32, 14},
 {32, 10, 32},

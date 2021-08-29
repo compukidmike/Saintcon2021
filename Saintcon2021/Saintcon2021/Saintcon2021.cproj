@@ -714,6 +714,9 @@
     <Compile Include="CMSIS\5.4.0\CMSIS\Core_A\Source\irq_ctrl_gic.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="combonums.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Config\hpl_cmcc_config.h">
       <SubType>compile</SubType>
     </Compile>
