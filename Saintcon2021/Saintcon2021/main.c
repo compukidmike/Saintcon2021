@@ -19,6 +19,25 @@ extern uint16_t bird_raw[];
 
 static void back_button_pressed(void);
 
+static struct timer_task Timer_task1;
+/**
+ * Example of using Timer.
+ */
+static void Timer_task1_cb(const struct timer_task *const timer_task)
+{
+	touch_process();
+}
+
+void Timer_touch_init(void)
+{
+	Timer_task1.interval = 20;
+	Timer_task1.cb       = Timer_task1_cb;
+	Timer_task1.mode     = TIMER_TASK_REPEAT;
+
+	timer_add_task(&Timer, &Timer_task1);
+	timer_start(&Timer);
+}
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
@@ -61,16 +80,12 @@ int main(void)
 	}
 
 	ext_irq_register(PIN_PA27, back_button_pressed);
+	Timer_touch_init();
 	
 	Scene scene = TEST;
 	bool changed = true;
 
 	while (1) {
-		touch_process();
-		/*if (measurement_done_touch == 1) {
-			measurement_done_touch = 0;
-			touch_status_display();
-		}*/
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
 		
