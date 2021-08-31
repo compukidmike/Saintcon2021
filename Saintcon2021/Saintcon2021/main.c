@@ -61,13 +61,10 @@ int main(void)
 		g_state.badge_bitmask = 0xaabbccdd;
 		eeprom_save_state();
 	}
-	g_state.modules_bitmask=0xFFFFFFFF;
 	
-	//Testing Flash 
 	flash_init();
-	//flash_read_id(flash_id);
-	//flash_erase_all();
 	
+	//Testing Flash
 	//(copy bird to flash if not already there)
 	uint16_t buf[80] = {0x80};
 	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));

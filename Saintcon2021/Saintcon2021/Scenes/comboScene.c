@@ -12,40 +12,35 @@
 #include "combonums.h"
 
 int combo_selected;
-int combo_frame;
+int combo_position;
 int combo_stage;
 int combo_combo[2];
 int combo_lastLocation;
-int combo_scroll;
 bool combo_scrolling;
-
 
 void combo_draw() {
 	canvas_clearScreen(0);
     
     //draw numbers
     for (int i=0; i<40; i+=5) {
-        int a = (i*9 - combo_selected*9 + 360) % 360;
-        float b = ((i-combo_selected)*M_PI/20);
+        float a = ((i*9 - combo_position + 360) % 360) * M_PI / 180.0;
         
-		int px = 80*sinf(b) + 106;
-		int py = -80*cosf(b) + 106;
+		int px = 80*sinf(a) + 106;
+		int py = -80*cosf(a) + 106;
 
-        canvas_drawBitmask(px, py, 32, 32, num_bits[i/5], 0xFFFF, a * M_PI / 180.0);
+        canvas_drawBitmask(px, py, 32, 32, num_bits[i/5], 0xFFFF, a);
         
     }
     
     //draw fingers
     for (int i=0; i<40; ++i) {
-        float ang = i*M_PI/20;
+		float ang = (i*9 - combo_position) * M_PI / 180.0;
 		int p1x = 90*sinf(ang);
 		int p1y = -90*cosf(ang);
 
-        /*Point p1(sine_tbl[i*9], sine_tbl[(i*9+270)%360]);
-        p1 -= Point(90,90);*/
         int p2x = p1x *1.3f;
 		int p2y = p1y *1.3f;
-        if (((i+combo_selected)%5)==0) {
+        if ((i%5)==0) {
 			p1x*=1.15f;
 			p1y*=1.15f;
 		}
@@ -58,8 +53,8 @@ void combo_draw() {
     
     //draw center
     canvas_fillCircle(120, 120, 48, RGB(80,80,80));
-	int a = (360-combo_selected*9) % 360;
-	canvas_drawBitmask(96, 96, 48, 48, saint_bits, RGB(160,160,160), a * M_PI / 180.0);
+	float ang = (360 - combo_position) * M_PI / 180.0;
+	canvas_drawBitmask(96, 96, 48, 48, saint_bits, RGB(160,160,160), ang);
     
     //draw combo
     char cmb[10];
@@ -81,7 +76,13 @@ void combo_draw() {
         default:
             snprintf(cmb, 10, "Invalid");
     }
-    canvas_drawText(90, 130, cmb, RGB(255,0,0));
+		
+	canvas_drawBitmask(117, 0, 8, 4, arrow, RGB(255,100,100), 0);
+	
+	//Draw combo (maybe remove this?, although it is nice to have)
+	canvas_fillRect(60, 222, 120, 20, RGB(20,20,20));
+	canvas_drawText(86, 222, cmb, RGB(120,120,80));
+	
     canvas_blt();
 }
 
@@ -92,8 +93,8 @@ Scene combo_scene_loop(bool init) {
 	}
 	if (init) {
 		combo_selected = 0;
+		combo_position = 0;
 		combo_stage = 0;
-		combo_scroll = 0;
 		combo_scrolling = false;
 		combo_draw();
 	}
@@ -109,62 +110,61 @@ Scene combo_scene_loop(bool init) {
 		return COMBO;
 	}
 	
-	combo_scroll += -1 * (getTouchLocation() - combo_lastLocation);
+	int combo_scroll = -1 * (getTouchLocation() - combo_lastLocation);
 	combo_lastLocation = getTouchLocation();
 	while (combo_scroll < -180) combo_scroll+=360;
 	while (combo_scroll > 180) combo_scroll-=360;
 	
 	switch(combo_stage) {
 		case 0: //First number selected
-		if (combo_scroll > 10) {
-			combo_combo[0] = combo_selected;
-			combo_stage++;
-		}
-		break;
+			if (combo_scroll > 10) {
+				combo_combo[0] = combo_selected;
+				combo_stage++;
+			}
+			break;
 		case 1:
-		if (combo_scroll < -10) //didn't make full turn reset
-		combo_stage = -1;
-		else if (combo_selected == combo_combo[0])
-		combo_stage++;
-		break;
+			if (combo_scroll < -10) //didn't make full turn reset
+				combo_stage = -1;
+			else if (combo_selected == combo_combo[0])
+				combo_stage++;
+			break;
 		case 2:
-		if (combo_selected != combo_combo[0])
-		combo_stage++;
-		break;
-		case 3: //Second number selected
-		if (combo_scroll < -10) {
-			combo_combo[1] = combo_selected;
+			if (combo_selected != combo_combo[0])
 			combo_stage++;
-		}
-		else if (combo_selected == combo_combo[0]) //went around twice
-		combo_stage = -1;
-		break;
+			break;
+		case 3: //Second number selected
+			if (combo_scroll < -10) {
+				combo_combo[1] = combo_selected;
+				combo_stage++;
+			}
+			else if (combo_selected == combo_combo[0]) //went around twice
+				combo_stage = -1;
+			break;
 		case 4:
-		if (combo_selected != combo_combo[1])
-		combo_stage++;
-		break;
-		case 5:
-		if (combo_scroll > 10) {//nope
-			combo_stage = -1;
-			combo_combo[0] = combo_selected;
-		}
-		else if (combo_selected == combo_combo[1]) //went all the way around, reset
-		combo_stage = 0;
-		break;
+			if (combo_selected != combo_combo[1])
+				combo_stage++;
+			break;
+			case 5:
+			if (combo_scroll > 10) {//nope
+				combo_stage = -1;
+				combo_combo[0] = combo_selected;
+			}
+			else if (combo_selected == combo_combo[1]) //went all the way around, reset
+				combo_stage = 0;
+			break;
 		default:
-		if (combo_scroll > 10)
-		combo_combo[0] = combo_selected;
-		else if (combo_selected == combo_combo[0]) //reset
-		combo_stage = 0;
+			if (combo_scroll > 10)
+				combo_combo[0] = combo_selected;
+			else if (combo_selected == combo_combo[0]) //reset
+				combo_stage = 0;
 	}
 	if (combo_scroll) {
-		combo_selected += (combo_scroll/9);
-		combo_scroll%=9;
-
-		if (combo_selected < 0)
-		combo_selected += 40;
-		if (combo_selected >= 40)
-		combo_selected -= 40;
+		combo_position += combo_scroll;
+		combo_position %= 360;
+		while(combo_position>360) combo_position-=360; 
+		while(combo_position<0) combo_position+=360; 
+		combo_selected = combo_position/9;
+		
 		combo_draw();
 	}
 	
