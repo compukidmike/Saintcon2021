@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include "st25r95.h"
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
@@ -118,8 +119,10 @@ int main(void)
 	bool changed = true;
 
 	while (1) {
+		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
+		//comment the following line if you're not working on the NFC
 		exampleRfalPollerRun(); //NFC
-		//exampleNFCARun();
+
 		touch_process();
 		/*if (measurement_done_touch == 1) {
 			measurement_done_touch = 0;
@@ -184,7 +187,10 @@ int32_t spi_m_sync_io_readwrite(struct io_descriptor *io, uint8_t *rxbuf, uint8_
 	xfer.size  = length;
 
 	return spi_m_sync_transfer(spi, &xfer);
+}
+
 bool led_toggle=false;
+
 static void back_button_pressed(void)
 {
 	back_event = true;
@@ -204,7 +210,7 @@ void SysTick_Handler(void) {
 }
 
 uint32_t millis() {
-	return MS_Timer++;
+	return MS_Timer;
 }
 
 

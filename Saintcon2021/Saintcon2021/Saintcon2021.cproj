@@ -29,12 +29,12 @@
     <eraseonlaunchrule>1</eraseonlaunchrule>
     <EraseKey />
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
+      <framework-data xmlns="https://www.microchip.com">
         <options />
         <configurations />
         <files />
-        <documentation help="" />
-        <offline-documentation help="" />
+        <documentation help="https://www.microchip.com" />
+        <offline-documentation help="https://www.microchip.com" />
         <dependencies>
           <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
         </dependencies>
@@ -250,21 +250,21 @@
       </AcmeProjectConfig>
     </AcmeProjectConfig>
     <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
-    <avrtoolserialnumber>801009411</avrtoolserialnumber>
+    <avrtoolserialnumber>260111452</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x61830306</avrdeviceexpectedsignature>
     <avrtoolinterface>SWD</avrtoolinterface>
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
         <InterfaceProperties>
-          <SwdClock>4000000</SwdClock>
+          <SwdClock>402682</SwdClock>
         </InterfaceProperties>
         <InterfaceName>SWD</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
-      <ToolNumber>801009411</ToolNumber>
+      <ToolNumber>260111452</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>402682</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -1415,6 +1415,8 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="st_errno.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="RougeMaze.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1481,14 +1483,14 @@
     <Compile Include="usb_start.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FrameBuffer.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CMSIS\5.4.0\ARM.CMSIS.pdsc">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="FrameBuffer.c">
-      <SubType>compile</SubType>
-    </Compile>
     <None Include="Device_Startup\same53j18a_flash.ld">
       <SubType>compile</SubType>
     </None>
@@ -1553,6 +1555,8 @@
       <SubType>compile</SubType>
     </None>
     <None Include="ST25RFAL\doc\_htmresc\st_logo.png">
+      <SubType>compile</SubType>
+    </None>
     <None Include="usb\class\cdc\device\atmel_devices_cdc.cat">
       <SubType>compile</SubType>
     </None>
