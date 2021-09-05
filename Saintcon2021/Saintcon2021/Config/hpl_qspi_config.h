@@ -16,7 +16,7 @@
 // <i> The SPI data transfer rate. Note: (fqspi_clock / baudrate) < 255
 // <id> qspi_baud_rate
 #ifndef CONF_QSPI_BAUD
-#define CONF_QSPI_BAUD 375000
+#define CONF_QSPI_BAUD 24000000
 #endif
 
 // <o> Clock Polarity

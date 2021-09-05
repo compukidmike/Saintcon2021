@@ -200,6 +200,74 @@ middlewares:
     dependencies:
       QTouch Timer: QTOUCH_TIMER
       QTouch Binding: QTOUCH_BINDING
+  USB_CHAPTER_9:
+    user_label: USB_CHAPTER_9
+    configuration: {}
+    definition: Atmel:USB:0.0.1::USB_Chapter_9
+    functionality: USB_Chapter_9
+    api: USB:Protocol:Core
+    dependencies: {}
+  USB_CLASS_CDC_0:
+    user_label: USB_CLASS_CDC_0
+    configuration: {}
+    definition: Atmel:USB:0.0.1::USB_Class_CDC
+    functionality: USB_Class_CDC
+    api: USB:Protocol:CDC
+    dependencies:
+      USB Chapter 9: USB_CHAPTER_9
+  USB_DEVICE_STACK_CORE_INSTANCE:
+    user_label: USB_DEVICE_STACK_CORE_INSTANCE
+    configuration:
+      usbd_hs_sp: false
+    definition: Atmel:USB:0.0.1::USB_Device_Core
+    functionality: USB_Device_Core
+    api: USB:Device:Core
+    dependencies:
+      USB Chapter 9: USB_CHAPTER_9
+      USB Device instance: USB_0
+  USB_DEVICE_CDC_ACM_0:
+    user_label: USB_DEVICE_CDC_ACM_0
+    configuration:
+      usb_cdcd_acm_bcddevice: 256
+      usb_cdcd_acm_bcdusb: USB 2.0 version
+      usb_cdcd_acm_bconfigval: 1
+      usb_cdcd_acm_bmattri: Bus power supply, not support for remote wakeup
+      usb_cdcd_acm_bmaxpksz0: 64 bytes
+      usb_cdcd_acm_bmaxpower: 50
+      usb_cdcd_acm_bnumconfig: 1
+      usb_cdcd_acm_comm_baltset: 0
+      usb_cdcd_acm_comm_bifcnum: 0
+      usb_cdcd_acm_comm_iifc: 0
+      usb_cdcd_acm_comm_int_interval: 10
+      usb_cdcd_acm_comm_int_maxpksz: 64 bytes
+      usb_cdcd_acm_data_baltset: 0
+      usb_cdcd_acm_data_bifcnum: 1
+      usb_cdcd_acm_data_buckout_maxpksz: 64 bytes
+      usb_cdcd_acm_data_buckout_maxpksz_hs: 512 bytes
+      usb_cdcd_acm_data_builin_maxpksz: 64 bytes
+      usb_cdcd_acm_data_builin_maxpksz_hs: 512 bytes
+      usb_cdcd_acm_data_bulkin_epaddr: EndpointAddress = 0x81
+      usb_cdcd_acm_data_bulkout_epaddr: EndpointAddress = 0x01
+      usb_cdcd_acm_data_iifc: 0
+      usb_cdcd_acm_epaddr: EndpointAddress = 0x82
+      usb_cdcd_acm_iconfig_en: false
+      usb_cdcd_acm_iconfig_str: ''
+      usb_cdcd_acm_idproduct: 9220
+      usb_cdcd_acm_idvender: 1003
+      usb_cdcd_acm_imanufact_en: true
+      usb_cdcd_acm_imanufact_str: SAINTCON
+      usb_cdcd_acm_iproduct_en: true
+      usb_cdcd_acm_iproduct_str: SAINTCON Lock badge
+      usb_cdcd_acm_iserialnum_en: false
+      usb_cdcd_acm_iserialnum_str: 123456789ABCDEF
+      usb_cdcd_acm_langid: '0x0409'
+      usb_cdcd_acm_str_en: true
+    definition: Atmel:USB:0.0.1::USB_Device_CDC_ACM
+    functionality: USB_Device_CDC_ACM
+    api: USB:Device:CDC_ACM
+    dependencies:
+      USB Device Stack Core Instance: USB_DEVICE_STACK_CORE_INSTANCE
+      USB Class CDC: USB_CLASS_CDC_0
 drivers:
   PTC_0:
     user_label: PTC_0
@@ -791,6 +859,136 @@ drivers:
     variant: null
     clocks:
       domain_group: null
+  EXTERNAL_IRQ_0:
+    user_label: EXTERNAL_IRQ_0
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::EIC::driver_config_definition::Default::HAL:Driver:Ext.IRQ
+    functionality: External_IRQ
+    api: HAL:Driver:Ext_IRQ
+    configuration:
+      eic_arch_asynch0: false
+      eic_arch_asynch1: false
+      eic_arch_asynch10: false
+      eic_arch_asynch11: false
+      eic_arch_asynch12: false
+      eic_arch_asynch13: false
+      eic_arch_asynch14: false
+      eic_arch_asynch15: false
+      eic_arch_asynch2: false
+      eic_arch_asynch3: false
+      eic_arch_asynch4: false
+      eic_arch_asynch5: false
+      eic_arch_asynch6: false
+      eic_arch_asynch7: false
+      eic_arch_asynch8: false
+      eic_arch_asynch9: false
+      eic_arch_cksel: Clocked by GCLK
+      eic_arch_debounce_enable0: false
+      eic_arch_debounce_enable1: false
+      eic_arch_debounce_enable10: false
+      eic_arch_debounce_enable11: true
+      eic_arch_debounce_enable12: false
+      eic_arch_debounce_enable13: false
+      eic_arch_debounce_enable14: false
+      eic_arch_debounce_enable15: false
+      eic_arch_debounce_enable2: false
+      eic_arch_debounce_enable3: false
+      eic_arch_debounce_enable4: false
+      eic_arch_debounce_enable5: false
+      eic_arch_debounce_enable6: false
+      eic_arch_debounce_enable7: false
+      eic_arch_debounce_enable8: false
+      eic_arch_debounce_enable9: false
+      eic_arch_enable_irq_setting0: false
+      eic_arch_enable_irq_setting1: false
+      eic_arch_enable_irq_setting10: false
+      eic_arch_enable_irq_setting11: true
+      eic_arch_enable_irq_setting12: false
+      eic_arch_enable_irq_setting13: false
+      eic_arch_enable_irq_setting14: false
+      eic_arch_enable_irq_setting15: false
+      eic_arch_enable_irq_setting2: false
+      eic_arch_enable_irq_setting3: false
+      eic_arch_enable_irq_setting4: false
+      eic_arch_enable_irq_setting5: false
+      eic_arch_enable_irq_setting6: false
+      eic_arch_enable_irq_setting7: false
+      eic_arch_enable_irq_setting8: false
+      eic_arch_enable_irq_setting9: false
+      eic_arch_extinteo0: false
+      eic_arch_extinteo1: false
+      eic_arch_extinteo10: false
+      eic_arch_extinteo11: false
+      eic_arch_extinteo12: false
+      eic_arch_extinteo13: false
+      eic_arch_extinteo14: false
+      eic_arch_extinteo15: false
+      eic_arch_extinteo2: false
+      eic_arch_extinteo3: false
+      eic_arch_extinteo4: false
+      eic_arch_extinteo5: false
+      eic_arch_extinteo6: false
+      eic_arch_extinteo7: false
+      eic_arch_extinteo8: false
+      eic_arch_extinteo9: false
+      eic_arch_filten0: false
+      eic_arch_filten1: false
+      eic_arch_filten10: false
+      eic_arch_filten11: false
+      eic_arch_filten12: false
+      eic_arch_filten13: false
+      eic_arch_filten14: false
+      eic_arch_filten15: false
+      eic_arch_filten2: false
+      eic_arch_filten3: false
+      eic_arch_filten4: false
+      eic_arch_filten5: false
+      eic_arch_filten6: false
+      eic_arch_filten7: false
+      eic_arch_filten8: false
+      eic_arch_filten9: false
+      eic_arch_nmi_ctrl: false
+      eic_arch_nmiasynch: false
+      eic_arch_nmifilten: false
+      eic_arch_nmisense: No detection
+      eic_arch_prescaler0: Divided by 2
+      eic_arch_prescaler1: Divided by 2
+      eic_arch_sense0: No detection
+      eic_arch_sense1: No detection
+      eic_arch_sense10: No detection
+      eic_arch_sense11: Falling-edge detection
+      eic_arch_sense12: No detection
+      eic_arch_sense13: No detection
+      eic_arch_sense14: No detection
+      eic_arch_sense15: No detection
+      eic_arch_sense2: No detection
+      eic_arch_sense3: No detection
+      eic_arch_sense4: No detection
+      eic_arch_sense5: No detection
+      eic_arch_sense6: No detection
+      eic_arch_sense7: No detection
+      eic_arch_sense8: No detection
+      eic_arch_sense9: No detection
+      eic_arch_states0: '3'
+      eic_arch_states1: '7'
+      eic_arch_tickon: The sampling rate is EIC clock
+    optional_signals:
+    - identifier: EXTERNAL_IRQ_0:EXTINT/11
+      pad: PA27
+      mode: Enabled
+      configuration: null
+      definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::EIC.EXTINT.11
+      name: EIC/EXTINT/11
+      label: EXTINT/11
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: EIC
+          input: Generic clock generator 0
+          external: false
+          external_frequency: 0
+        configuration:
+          eic_gclk_selection: Generic clock generator 0
   GCLK:
     user_label: GCLK
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::GCLK::driver_config_definition::GCLK::HAL:HPL:GCLK
@@ -1133,7 +1331,7 @@ drivers:
     api: HAL:Driver:QSPI_Sync
     configuration:
       qspi_advanced: false
-      qspi_baud_rate: 375000
+      qspi_baud_rate: 24000000
       qspi_cpha: Data is changed on the leading edge of SPCK and captured on the following
         edge of SPCK.
       qspi_cpol: The inactive state value of SPCK is logic level zero.
@@ -1579,5 +1777,12 @@ pads:
     mode: Advanced
     user_label: PA25
     configuration: null
+  PA27:
+    name: PA27
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PA27
+    mode: Digital input
+    user_label: PA27
+    configuration:
+      pad_pull_config: Pull-up
 toolchain_options: []
 static_files: []

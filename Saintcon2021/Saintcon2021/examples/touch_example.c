@@ -35,8 +35,8 @@ extern volatile uint8_t measurement_done_touch;
  *----------------------------------------------------------------------------*/
 uint8_t key_status = 0;
 
-uint8_t  scroller_status   = 0;
-uint16_t scroller_position = 0;
+uint8_t  _scroller_status   = 0;
+uint16_t _scroller_position = 0;
 
 /*----------------------------------------------------------------------------
  *   prototypes
@@ -114,13 +114,13 @@ void touch_status_display(void)
 		// LED_OFF
 	}
 
-	scroller_status   = get_scroller_state(0);
-	scroller_position = get_scroller_position(0);
+	_scroller_status   = get_scroller_state(0);
+	_scroller_position = get_scroller_position(0);
 	// Example: 8 bit scroller resolution. Modify as per requirement.
-	scroller_position = scroller_position >> 5;
+	_scroller_position = _scroller_position >> 5;
 	// LED_OFF
-	if (0u != scroller_status) {
-		switch (scroller_position) {
+	if (0u != _scroller_status) {
+		switch (_scroller_position) {
 		case 0:
 			// LED0_ON
 			break;

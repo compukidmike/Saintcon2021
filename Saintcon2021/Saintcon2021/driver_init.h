@@ -21,6 +21,8 @@ extern "C" {
 #include <hal_io.h>
 #include <hal_sleep.h>
 
+#include <hal_ext_irq.h>
+
 #include <hal_qspi_sync.h>
 
 #include <hal_timer.h>

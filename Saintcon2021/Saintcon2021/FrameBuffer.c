@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include "font8x16.h"
 #include "ILI9331.h"
+#include "flash.h"
 
 
 
@@ -35,8 +36,9 @@
 uint16_t frame[WIDTH * HEIGHT];
 
 void canvas_clearScreen(uint16_t color) {
-    for (int i=0; i<WIDTH*HEIGHT; ++i)
-        frame[i] = color;
+	uint32_t cc = (color << 16) + color;
+    for (int i=0; i<(WIDTH*HEIGHT/2); ++i)
+        ((uint32_t*)frame)[i] = cc;
 }
 
 void canvas_drawPixel(int x, int y, uint16_t color) {
@@ -123,6 +125,44 @@ void canvas_drawImage_pt(int x, int y, int w, int h, const uint16_t *data, int f
     }
 }
 
+void canvas_drawImage_FromFlash(int x, int y, int w, int h, const uint32_t data){
+	int ow=w;
+	if ((x+w) >= (WIDTH-1))
+	w = (WIDTH-1-x);
+	if ((y+h) >= (HEIGHT-1))
+	h = (HEIGHT-1-y);
+	for (int j=max(0, -y); j<h; ++j) {
+		flash_read(data+(ow*j)*sizeof(uint16_t), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+	}
+}
+
+void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch){
+	if ((x+w) >= (WIDTH-1))
+	w = (WIDTH-1-x);
+	if ((y+h) >= (HEIGHT-1))
+	h = (HEIGHT-1-y);
+	for (int j=max(0, -y); j<h; ++j) {
+		flash_read(data+(pitch*(j+fy)+fx)*sizeof(uint16_t), &frame[(j+y)*WIDTH+x], w*sizeof(uint16_t));
+	}
+}
+
+void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch, uint16_t tansparent_color) {
+	if ((x+w) >= (WIDTH-1))
+	w = (WIDTH-1-x);
+	if ((y+h) >= (HEIGHT-1))
+	h = (HEIGHT-1-y);
+	
+	for (int j=max(0, -y); j<h; ++j) {
+		uint16_t row[w];
+		flash_read(data+(pitch*(fy+j)+fx)*sizeof(uint16_t), row, w*sizeof(uint16_t));
+		for (int i=max(0, -x); i<w; ++i) {
+			uint16_t c = row[i];
+			if (c != tansparent_color)
+			frame[(j+y)*WIDTH+i+x] = c;
+		}
+	}
+}
+
 void canvas_drawImageAlpha(int x, int y, int w, int h, const uint16_t *data, int fx, int fy, int pitch, uint16_t tansparent_color) {
     if ((x+w) >= (WIDTH-1))
         w = (WIDTH-1-x);
@@ -166,7 +206,7 @@ void canvas_drawRect(int x, int y, int w, int h, uint16_t color) {
 
 void canvas_drawLine(int x1, int y1, int x2, int y2, uint16_t color) {
     if (x1 == x2) {
-        canvas_drawVerticalLine(y1, x1, x2, color);
+        canvas_drawVerticalLine(y1, x1, y2, color);
         return;
     }
     if (y1 == y2) {
@@ -258,10 +298,8 @@ void canvas_drawBitmask(int x, int y, int w, int h, const uint8_t *data, uint16_
 						int ay = j - cy;
                         double nx = cosa*ax - sina*ay + cx;
                         double ny = sina*ax + cosa*ay + cy;
-                        nx = i*8+k;
-                        ny = j;
                         canvas_drawPixel(x+nx, y+ny, color);
-                        //drawPixel(x+roundf(nx), y+roundf(ny), color);
+                        canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
                     }
                 }
             }
