@@ -414,6 +414,8 @@
       <Value>../qtouch/include</Value>
       <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
       <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../ST25RFAL/include</Value>
+      <Value>../ST25RFAL/source/st25r95</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
   <armgcc.compiler.optimization.level>Optimize debugging experience (-Og)</armgcc.compiler.optimization.level>
@@ -544,6 +546,12 @@
     <Folder Include="qtouch\include\" />
     <Folder Include="qtouch\lib\" />
     <Folder Include="qtouch\lib\gcc\" />
+    <Folder Include="ST25RFAL\" />
+    <Folder Include="ST25RFAL\doc\" />
+    <Folder Include="ST25RFAL\doc\_htmresc\" />
+    <Folder Include="ST25RFAL\include\" />
+    <Folder Include="ST25RFAL\source\" />
+    <Folder Include="ST25RFAL\source\st25r95\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="atmel_start.c">
@@ -1134,6 +1142,15 @@
     <Compile Include="main.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="NFC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="platform.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="platform.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="qtouch\include\qtm_acq_same53_0x000f_api.h">
       <SubType>compile</SubType>
     </Compile>
@@ -1159,6 +1176,132 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="qtouch\touch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_analogConfig.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_chip.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_isoDep.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfca.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfcb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfcDep.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfcf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_nfcv.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_rf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_st25tb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_st25xv.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_t1t.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_t2t.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\include\rfal_t4t.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_analogConfig.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_crc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_crc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_iso15693_2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_iso15693_2.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_isoDep.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfca.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfcb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfcDep.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfcf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_nfcv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_st25tb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_st25xv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_t1t.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_t2t.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\rfal_t4t.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\rfal_analogConfigTbl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\rfal_features.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\rfal_rfst25r95.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95_com.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95_com.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95_com_spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ST25RFAL\source\st25r95\st25r95_com_uart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="st_errno.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -1209,6 +1352,15 @@
       <SubType>compile</SubType>
     </None>
     <None Include="qtouch\lib\gcc\libqtm_touch_key_cm4_0x0002.a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="ST25RFAL\doc\Release_Notes.html">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="ST25RFAL\doc\rfal.chm">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="ST25RFAL\doc\_htmresc\st_logo.png">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>
