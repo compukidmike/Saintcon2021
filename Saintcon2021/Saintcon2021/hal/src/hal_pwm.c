@@ -50,8 +50,8 @@ int32_t pwm_init(struct pwm_descriptor *const descr, void *const hw, struct _pwm
 {
 	ASSERT(descr && hw);
 	_pwm_init(&descr->device, hw);
-	descr->device.callback.pwm_period_cb = pwm_period_expired;
-	descr->device.callback.pwm_error_cb  = pwm_detect_fault;
+	//descr->device.callback.pwm_period_cb = pwm_period_expired;
+	//descr->device.callback.pwm_error_cb  = pwm_detect_fault;
 	return ERR_NONE;
 }
 

@@ -17,6 +17,13 @@ struct io_descriptor *io;
 #include <stdint.h>
 #include <atmel_start.h>
 
+#define LED_COLOR_OFF (uint8_t[]){0,0,0}
+#define LED_COLOR_RED (uint8_t[]){255,0,0}
+#define LED_COLOR_GREEN (uint8_t[]){0,255,0}
+#define LED_COLOR_BLUE (uint8_t[]){0,0,255}
+#define LED_COLOR_YELLOW (uint8_t[]){127,127,0}
+#define LED_COLOR_WHITE (uint8_t[]){85,85,85}
+
 typedef enum {
 	MENU,
 	BUILD,
@@ -59,5 +66,8 @@ Scene machine_scene_loop(bool init);
 Scene build_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
+
+void led_set_color(uint8_t color[3]);
+void led_off(void);
 
 #endif /* MAIN_H_ */

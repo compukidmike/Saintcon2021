@@ -42,12 +42,12 @@ void Timer_touch_init(void)
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
-	//touch init is disabled in this function because it's causing problems. Needs work.
 	atmel_start_init();
 	SysTick_Config(48000000/1000);
 
 	/* Replace with your application code */
-	pwm_set_parameters(&PWM_0, 10000, 5000);
+	pwm_enable(&PWM_0);
+	pwm_set_parameters(&PWM_0,255,100);
 	
 	gpio_set_pin_direction(NFC_CS_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(NFC_CS_PIN, true);
@@ -117,11 +117,12 @@ int main(void)
 	
 	Scene scene = TEST;
 	bool changed = true;
-
+	
+	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
 		//comment the following line if you're not working on the NFC
-		exampleRfalPollerRun(); //NFC
+		//exampleRfalPollerRun(); //NFC
 
 		touch_process();
 		/*if (measurement_done_touch == 1) {
@@ -196,11 +197,9 @@ static void back_button_pressed(void)
 	back_event = true;
 	led_toggle = !led_toggle;
 	if(led_toggle){
-		//gpio_set_pin_level(PIN_PA21,true);
-		pwm_disable(&PWM_0);
+		led_off();
 	} else {
-		//gpio_set_pin_level(PIN_PA21,false);
-		pwm_enable(&PWM_0);
+		led_set_color(LED_COLOR_WHITE);
 	}
 }
 
@@ -220,3 +219,14 @@ int getTouchLocation() {
 	return ret;
 }
 
+void led_set_color(uint8_t color[3]){
+	hri_tcc_write_CC_reg(TCC0, 2, 255-color[0]);
+	hri_tcc_write_CC_reg(TCC0, 1, 255-color[1]);
+	hri_tcc_write_CC_reg(TCC0, 3, 255-color[2]);
+}
+
+void led_off(void){
+	hri_tcc_write_CC_reg(TCC0, 2, 255);
+	hri_tcc_write_CC_reg(TCC0, 1, 255);
+	hri_tcc_write_CC_reg(TCC0, 3, 255);
+}
