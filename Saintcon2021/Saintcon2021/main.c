@@ -70,15 +70,21 @@ int main(void)
 	
 	flash_init();
 	
+	uint8_t id[4];
+	
+	flash_read_id(id);
+	//flash_erase_all();
 	//Testing Flash
 	//(copy bird to flash if not already there)
 	uint16_t buf[80] = {0x80};
 	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 	if (memcmp(buf, bird_raw, 80*sizeof(uint16_t))) {
-		flash_erase_halfblock(BIRD_IMG);
+		flash_erase_32k(BIRD_IMG);
+		flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 		for (int i=0; i<100; ++i) {
 			uint32_t offset = i * 0x100;
 			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
+			flash_read(BIRD_IMG + offset, buf, 80*sizeof(uint16_t));
 		}
 	}
 
@@ -99,7 +105,7 @@ int main(void)
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	//NFC Test - Remove in final code
-	st25r95Initialize();
+	/*st25r95Initialize();
 	delay_ms(1);
 	if(st25r95CheckChipID()){
 		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
@@ -110,7 +116,7 @@ int main(void)
 	}
 	//End NFC Test
 	
-	NFC_init();
+	NFC_init();*/
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
