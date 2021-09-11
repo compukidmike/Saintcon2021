@@ -10,7 +10,7 @@ volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
 uint8_t key_status = 0;
-char keys[5] = {0};
+uint8_t keys[4] = {0};
 badgestate g_state;
 
 bool back_event = false;
@@ -145,34 +145,34 @@ int main(void)
 		key_status = get_sensor_state(3) & KEY_TOUCHED_MASK;
 		if (0u != key_status) {
 			// LED_ON
-			keys[0] = '1';
+			keys[0] = 1;
 			} else {
 			// LED_OFF
-			keys[0] = '0';
+			keys[0] = 0;
 		}
 		key_status = get_sensor_state(4) & KEY_TOUCHED_MASK;
 		if (0u != key_status) {
 			// LED_ON
-			keys[1] = '1';
+			keys[1] = 1;
 			} else {
 			// LED_OFF
-			keys[1] = '0';
+			keys[1] = 0;
 		}
 		key_status = get_sensor_state(5) & KEY_TOUCHED_MASK;
 		if (0u != key_status) {
 			// LED_ON
-			keys[2] = '1';
+			keys[2] = 1;
 			} else {
 			// LED_OFF
-			keys[2] = '0';
+			keys[2] = 0;
 		}
 		key_status = get_sensor_state(6) & KEY_TOUCHED_MASK;
 		if (0u != key_status) {
 			// LED_ON
-			keys[3] = '1';
+			keys[3] = 1;
 			} else {
 			// LED_OFF
-			keys[3] = '0';
+			keys[3] = 0;
 		}
 		
 
