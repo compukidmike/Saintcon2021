@@ -175,11 +175,11 @@
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.c" IsConfig="false" Hash="506QsMNqKwMw3St/nEXa8Q" />
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.h" IsConfig="false" Hash="IjsDWsLIdSQj3pFlkAX0UA" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="5q5L4l/OIk3R+bITAllmdA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="Q+7vxWwCU7+t/6HMZqqsWA" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="XpEynxoaWG5jPA22VhuSuw" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="+mxnjSKEkNxMZRJMUIzbaQ" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="M+C0Zju349GcYPO3/V06lA" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="X0sYLjNaXpKsYeYvKiUzuw" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="9f7QtNFbXV0cG/0GjXeWhQ" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="S0GWpAQhQWZlbLfQYDdZdw" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="IMHlkvfDbK9Svpb6NuEvjA" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_pwm.h" IsConfig="false" Hash="RXcBZcci/7vXKRJKNIq/Kw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_timer.h" IsConfig="false" Hash="5pZVthtMl40VMvofOld2ng" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_calendar.h" IsConfig="false" Hash="Axxal1o5u+cNnytorSIZkA" />
@@ -221,10 +221,10 @@
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.c" IsConfig="false" Hash="Z4LuJljuq384TsemEvHpdw" />
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.h" IsConfig="false" Hash="rdWkAK12qkOYV59tWwzy6A" />
           <AcmeProjectActionInfo Action="File" Source="hpl/usb/hpl_usb.c" IsConfig="false" Hash="pxMAvWdqmE7X3Fa2tkbYUQ" />
-          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.h" IsConfig="false" Hash="VpIl2+KpjrzAyxRmRZg33w" />
-          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.c" IsConfig="false" Hash="7EuoTWTm/6wS0vuIdgdPWw" />
+          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.h" IsConfig="false" Hash="r7UABdC9LSz0SKb8Lto14w" />
+          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.c" IsConfig="false" Hash="8d3La+EFeDamzAdUBiculw" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/include/touch_api_ptc.h" IsConfig="false" Hash="CClbkgUGOHbZ6eZHRFtrFg" />
-          <AcmeProjectActionInfo Action="File" Source="examples/touch_example.c" IsConfig="false" Hash="+yle9RwzPlO94p5i43sbEA" />
+          <AcmeProjectActionInfo Action="File" Source="examples/touch_example.c" IsConfig="false" Hash="ZPjGOgTnpHdyzuuYJcCT/w" />
           <AcmeProjectActionInfo Action="File" Source="examples/touch_example.h" IsConfig="false" Hash="lhGCrqAeOUGGoHoBC6vtxw" />
           <AcmeProjectActionInfo Action="File" Source="usb_start.c" IsConfig="false" Hash="Z3VoMycwi6ePlP/FidkA8w" />
           <AcmeProjectActionInfo Action="File" Source="usb_start.h" IsConfig="false" Hash="tIiPIYvUpZZo7de2aDnOew" />
@@ -240,10 +240,10 @@
           <AcmeProjectActionInfo Action="File" Source="config/hpl_port_config.h" IsConfig="true" Hash="rMTNR+5FXtu+wfT1NbfRRA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_qspi_config.h" IsConfig="true" Hash="Z6P8GbXiPtXz3qa44Jot5g" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_rtc_config.h" IsConfig="true" Hash="9Fe6jPSvaDcH9Ejz/4s7XA" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="jHYjAmTcyvGS2DKMB1AQWA" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="NKVUlBrLuf+pOieW51TM2Q" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="e4Lbnq0uVc7gtVAasNNhXA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_usb_config.h" IsConfig="true" Hash="OTnXMB+/o/b7gPmkxUTUeQ" />
-          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="YcotY75NXSkxQOU5y1J6Yg" />
+          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="rY+STWE2Y1lE2BCg1AcT4w" />
           <AcmeProjectActionInfo Action="File" Source="config/usbd_config.h" IsConfig="true" Hash="+IN9FTPiQVdcpm7kwsDEQA" />
         </AcmeActionInfos>
         <NonsecureFilesInfo />
@@ -256,7 +256,7 @@
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
         <InterfaceProperties>
-          <SwdClock>402682</SwdClock>
+          <SwdClock>1959214</SwdClock>
         </InterfaceProperties>
         <InterfaceName>SWD</InterfaceName>
       </ToolOptions>
@@ -264,7 +264,7 @@
       <ToolNumber>260111452</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterfaceclock>402682</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>1959214</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -328,6 +328,13 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
@@ -430,6 +437,10 @@
     <ListValues>
       <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
       <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../ST25RFAL/include</Value>
+      <Value>../ST25RFAL/source/st25r95</Value>
       <Value>../Config</Value>
       <Value>../</Value>
       <Value>../examples</Value>
@@ -455,10 +466,6 @@
       <Value>../documentation</Value>
       <Value>../qtouch</Value>
       <Value>../qtouch/include</Value>
-      <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
-      <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
-      <Value>../ST25RFAL/include</Value>
-      <Value>../ST25RFAL/source/st25r95</Value>
       <Value>../usb</Value>
       <Value>../usb/class/cdc</Value>
       <Value>../usb/class/cdc/device</Value>
@@ -482,6 +489,13 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
@@ -607,11 +621,11 @@
     <Folder Include="hpl\tcc\" />
     <Folder Include="hpl\usb\" />
     <Folder Include="hri\" />
-    <Folder Include="Scenes" />
     <Folder Include="qtouch\" />
     <Folder Include="qtouch\include\" />
     <Folder Include="qtouch\lib\" />
     <Folder Include="qtouch\lib\gcc\" />
+    <Folder Include="Scenes" />
     <Folder Include="ST25RFAL\" />
     <Folder Include="ST25RFAL\doc\" />
     <Folder Include="ST25RFAL\doc\_htmresc\" />
@@ -1444,6 +1458,9 @@
     <Compile Include="unlocks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FrameBuffer.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="usb\class\cdc\device\cdcdf_acm.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1481,9 +1498,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usb_start.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="FrameBuffer.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

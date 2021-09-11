@@ -85,6 +85,74 @@ middlewares:
       QTouch Acquisition: QTOUCH_ACQUISITION
       Y-line: PTC_0:Y/13
       PTC: PTC_0
+  QTOUCH_NODE_2:
+    user_label: QTOUCH_NODE_2
+    configuration:
+      order: 3
+      ptc_analog_gain: '1'
+      ptc_csd: 0
+      ptc_digital_gain: '1'
+      ptc_filter_level: '16'
+      ptc_prescaler: Divide by 32
+      ptc_rsel: No Resistor
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_selfcap_node
+    functionality: QTouch_Node
+    api: QTouch:General:Node
+    dependencies:
+      QTouch Acquisition: QTOUCH_ACQUISITION
+      Y-line: PTC_0:Y/26
+      PTC: PTC_0
+  QTOUCH_NODE_3:
+    user_label: QTOUCH_NODE_3
+    configuration:
+      order: 4
+      ptc_analog_gain: '1'
+      ptc_csd: 0
+      ptc_digital_gain: '1'
+      ptc_filter_level: '16'
+      ptc_prescaler: Divide by 32
+      ptc_rsel: No Resistor
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_selfcap_node
+    functionality: QTouch_Node
+    api: QTouch:General:Node
+    dependencies:
+      QTouch Acquisition: QTOUCH_ACQUISITION
+      Y-line: PTC_0:Y/27
+      PTC: PTC_0
+  QTOUCH_NODE_4:
+    user_label: QTOUCH_NODE_4
+    configuration:
+      order: 5
+      ptc_analog_gain: '1'
+      ptc_csd: 0
+      ptc_digital_gain: '1'
+      ptc_filter_level: '16'
+      ptc_prescaler: Divide by 32
+      ptc_rsel: No Resistor
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_selfcap_node
+    functionality: QTouch_Node
+    api: QTouch:General:Node
+    dependencies:
+      QTouch Acquisition: QTOUCH_ACQUISITION
+      Y-line: PTC_0:Y/28
+      PTC: PTC_0
+  QTOUCH_NODE_5:
+    user_label: QTOUCH_NODE_5
+    configuration:
+      order: 6
+      ptc_analog_gain: '1'
+      ptc_csd: 0
+      ptc_digital_gain: '1'
+      ptc_filter_level: '16'
+      ptc_prescaler: Divide by 32
+      ptc_rsel: No Resistor
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_selfcap_node
+    functionality: QTouch_Node
+    api: QTouch:General:Node
+    dependencies:
+      QTouch Acquisition: QTOUCH_ACQUISITION
+      Y-line: PTC_0:Y/29
+      PTC: PTC_0
   QTOUCH_SENSOR:
     user_label: QTOUCH_SENSOR
     configuration:
@@ -149,12 +217,76 @@ middlewares:
     dependencies:
       QTouch Sensor: QTOUCH_SENSOR
       QTouch Node: QTOUCH_NODE_0
+  QTOUCH_BUTTON:
+    user_label: QTOUCH_BUTTON
+    configuration:
+      order: 3
+      radius: 30
+      touch_sensor_aks: No AKS setting
+      touch_sensor_hysterisis: 25 percent of Sensor Threshold
+      touch_sensor_threshold: 20
+      x_position: 140
+      y_position: 50
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_Key
+    functionality: QTouch_Key
+    api: QTouch:General:Key
+    dependencies:
+      QTouch Sensor: QTOUCH_SENSOR
+      QTouch Node: QTOUCH_NODE_2
+  QTOUCH_BUTTON_0:
+    user_label: QTOUCH_BUTTON_0
+    configuration:
+      order: 4
+      radius: 30
+      touch_sensor_aks: No AKS setting
+      touch_sensor_hysterisis: 25 percent of Sensor Threshold
+      touch_sensor_threshold: 20
+      x_position: 220
+      y_position: 50
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_Key
+    functionality: QTouch_Key
+    api: QTouch:General:Key
+    dependencies:
+      QTouch Sensor: QTOUCH_SENSOR
+      QTouch Node: QTOUCH_NODE_3
+  QTOUCH_BUTTON_1:
+    user_label: QTOUCH_BUTTON_1
+    configuration:
+      order: 5
+      radius: 30
+      touch_sensor_aks: No AKS setting
+      touch_sensor_hysterisis: 25 percent of Sensor Threshold
+      touch_sensor_threshold: 20
+      x_position: 300
+      y_position: 50
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_Key
+    functionality: QTouch_Key
+    api: QTouch:General:Key
+    dependencies:
+      QTouch Sensor: QTOUCH_SENSOR
+      QTouch Node: QTOUCH_NODE_4
+  QTOUCH_BUTTON_2:
+    user_label: QTOUCH_BUTTON_2
+    configuration:
+      order: 6
+      radius: 30
+      touch_sensor_aks: No AKS setting
+      touch_sensor_hysterisis: 25 percent of Sensor Threshold
+      touch_sensor_threshold: 20
+      x_position: 380
+      y_position: 50
+    definition: Atmel:QTOUCH_SAM_E54:1.0.0::QTouch_Key
+    functionality: QTouch_Key
+    api: QTouch:General:Key
+    dependencies:
+      QTouch Sensor: QTOUCH_SENSOR
+      QTouch Node: QTOUCH_NODE_5
   QTOUCH_WHEEL:
     user_label: QTOUCH_WHEEL
     configuration:
       height: 30
       touch_contact_min_threshold: 20
-      touch_scroller_deadband: 10percent
+      touch_scroller_deadband: no deadband
       touch_scroller_hysterisis: 8
       touch_scroller_resolution: 8 bit
       touch_scroller_size: 3
@@ -297,6 +429,34 @@ drivers:
       definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::ADC0.Y.14
       name: ADC0/Y/14
       label: Y/14
+    - identifier: PTC_0:Y/26
+      pad: PB12
+      mode: Enabled
+      configuration: null
+      definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::ADC0.Y.26
+      name: ADC0/Y/26
+      label: Y/26
+    - identifier: PTC_0:Y/27
+      pad: PB13
+      mode: Enabled
+      configuration: null
+      definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::ADC0.Y.27
+      name: ADC0/Y/27
+      label: Y/27
+    - identifier: PTC_0:Y/28
+      pad: PB14
+      mode: Enabled
+      configuration: null
+      definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::ADC0.Y.28
+      name: ADC0/Y/28
+      label: Y/28
+    - identifier: PTC_0:Y/29
+      pad: PB15
+      mode: Enabled
+      configuration: null
+      definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::optional_signal_definition::ADC0.Y.29
+      name: ADC0/Y/29
+      label: Y/29
     variant: null
     clocks:
       domain_group:
@@ -1489,9 +1649,9 @@ drivers:
         configuration:
           core_gclk_selection: Generic clock generator 0
           slow_gclk_selection: Generic clock generator 3
-  SPI_0:
-    user_label: SPI_0
-    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::SERCOM4::driver_config_definition::SPI.Master::HAL:Driver:SPI.Master.Sync
+  SPI_1:
+    user_label: SPI_1
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::SERCOM2::driver_config_definition::SPI.Master::HAL:Driver:SPI.Master.Sync
     functionality: SPI
     api: HAL:Driver:SPI_Master_Sync
     configuration:
@@ -1510,14 +1670,14 @@ drivers:
     variant:
       specification: TXPO=0, RXPO=3
       required_signals:
-      - name: SERCOM4/PAD/0
-        pad: PB12
+      - name: SERCOM2/PAD/0
+        pad: PA12
         label: MOSI
-      - name: SERCOM4/PAD/1
-        pad: PB13
+      - name: SERCOM2/PAD/1
+        pad: PA13
         label: SCK
-      - name: SERCOM4/PAD/3
-        pad: PB15
+      - name: SERCOM2/PAD/3
+        pad: PA15
         label: MISO
     clocks:
       domain_group:
@@ -1702,20 +1862,44 @@ pads:
   PB12:
     name: PB12
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PB12
-    mode: Digital output
+    mode: Peripheral IO
     user_label: PB12
     configuration: null
   PB13:
     name: PB13
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PB13
-    mode: Digital output
+    mode: Peripheral IO
     user_label: PB13
+    configuration: null
+  PB14:
+    name: PB14
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PB14
+    mode: Peripheral IO
+    user_label: PB14
     configuration: null
   PB15:
     name: PB15
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PB15
-    mode: Digital input
+    mode: Peripheral IO
     user_label: PB15
+    configuration: null
+  PA12:
+    name: PA12
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PA12
+    mode: Digital output
+    user_label: PA12
+    configuration: null
+  PA13:
+    name: PA13
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PA13
+    mode: Digital output
+    user_label: PA13
+    configuration: null
+  PA15:
+    name: PA15
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::pad::PA15
+    mode: Digital input
+    user_label: PA15
     configuration: null
   PA16:
     name: PA16

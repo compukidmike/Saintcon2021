@@ -14,7 +14,7 @@
 #include <hpl_rtc_base.h>
 
 struct timer_descriptor      Timer;
-struct spi_m_sync_descriptor SPI_0;
+struct spi_m_sync_descriptor SPI_1;
 
 struct qspi_sync_descriptor QUAD_SPI_0;
 
@@ -328,10 +328,10 @@ void I2C_0_init(void)
 	I2C_0_PORT_init();
 }
 
-void SPI_0_PORT_init(void)
+void SPI_1_PORT_init(void)
 {
 
-	gpio_set_pin_level(PB12,
+	gpio_set_pin_level(PA12,
 	                   // <y> Initial level
 	                   // <id> pad_initial_level
 	                   // <false"> Low
@@ -339,11 +339,11 @@ void SPI_0_PORT_init(void)
 	                   false);
 
 	// Set pin direction to output
-	gpio_set_pin_direction(PB12, GPIO_DIRECTION_OUT);
+	gpio_set_pin_direction(PA12, GPIO_DIRECTION_OUT);
 
-	gpio_set_pin_function(PB12, PINMUX_PB12C_SERCOM4_PAD0);
+	gpio_set_pin_function(PA12, PINMUX_PA12C_SERCOM2_PAD0);
 
-	gpio_set_pin_level(PB13,
+	gpio_set_pin_level(PA13,
 	                   // <y> Initial level
 	                   // <id> pad_initial_level
 	                   // <false"> Low
@@ -351,14 +351,14 @@ void SPI_0_PORT_init(void)
 	                   false);
 
 	// Set pin direction to output
-	gpio_set_pin_direction(PB13, GPIO_DIRECTION_OUT);
+	gpio_set_pin_direction(PA13, GPIO_DIRECTION_OUT);
 
-	gpio_set_pin_function(PB13, PINMUX_PB13C_SERCOM4_PAD1);
+	gpio_set_pin_function(PA13, PINMUX_PA13C_SERCOM2_PAD1);
 
 	// Set pin direction to input
-	gpio_set_pin_direction(PB15, GPIO_DIRECTION_IN);
+	gpio_set_pin_direction(PA15, GPIO_DIRECTION_IN);
 
-	gpio_set_pin_pull_mode(PB15,
+	gpio_set_pin_pull_mode(PA15,
 	                       // <y> Pull configuration
 	                       // <id> pad_pull_config
 	                       // <GPIO_PULL_OFF"> Off
@@ -366,22 +366,22 @@ void SPI_0_PORT_init(void)
 	                       // <GPIO_PULL_DOWN"> Pull-down
 	                       GPIO_PULL_OFF);
 
-	gpio_set_pin_function(PB15, PINMUX_PB15C_SERCOM4_PAD3);
+	gpio_set_pin_function(PA15, PINMUX_PA15C_SERCOM2_PAD3);
 }
 
-void SPI_0_CLOCK_init(void)
+void SPI_1_CLOCK_init(void)
 {
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_CORE, CONF_GCLK_SERCOM4_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM4_GCLK_ID_SLOW, CONF_GCLK_SERCOM4_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_CORE, CONF_GCLK_SERCOM2_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_SLOW, CONF_GCLK_SERCOM2_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
 
-	hri_mclk_set_APBDMASK_SERCOM4_bit(MCLK);
+	hri_mclk_set_APBBMASK_SERCOM2_bit(MCLK);
 }
 
-void SPI_0_init(void)
+void SPI_1_init(void)
 {
-	SPI_0_CLOCK_init();
-	spi_m_sync_init(&SPI_0, SERCOM4);
-	SPI_0_PORT_init();
+	SPI_1_CLOCK_init();
+	spi_m_sync_init(&SPI_1, SERCOM2);
+	SPI_1_PORT_init();
 }
 
 void PWM_0_PORT_init(void)
@@ -537,7 +537,7 @@ void system_init(void)
 
 	I2C_0_init();
 
-	SPI_0_init();
+	SPI_1_init();
 
 	PWM_0_init();
 

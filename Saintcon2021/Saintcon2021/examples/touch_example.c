@@ -33,7 +33,7 @@ extern volatile uint8_t measurement_done_touch;
 /*----------------------------------------------------------------------------
  *   Global variables
  *----------------------------------------------------------------------------*/
-uint8_t key_status = 0;
+uint8_t _key_status = 0;
 
 uint8_t  _scroller_status   = 0;
 uint16_t _scroller_position = 0;
@@ -95,20 +95,44 @@ Notes  : none
 ============================================================================*/
 void touch_status_display(void)
 {
-	key_status = get_sensor_state(0) & KEY_TOUCHED_MASK;
-	if (0u != key_status) {
+	_key_status = get_sensor_state(0) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
 		// LED_ON
 	} else {
 		// LED_OFF
 	}
-	key_status = get_sensor_state(1) & KEY_TOUCHED_MASK;
-	if (0u != key_status) {
+	_key_status = get_sensor_state(1) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
 		// LED_ON
 	} else {
 		// LED_OFF
 	}
-	key_status = get_sensor_state(2) & KEY_TOUCHED_MASK;
-	if (0u != key_status) {
+	_key_status = get_sensor_state(2) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
+		// LED_ON
+	} else {
+		// LED_OFF
+	}
+	_key_status = get_sensor_state(3) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
+		// LED_ON
+	} else {
+		// LED_OFF
+	}
+	_key_status = get_sensor_state(4) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
+		// LED_ON
+	} else {
+		// LED_OFF
+	}
+	_key_status = get_sensor_state(5) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
+		// LED_ON
+	} else {
+		// LED_OFF
+	}
+	_key_status = get_sensor_state(6) & KEY_TOUCHED_MASK;
+	if (0u != _key_status) {
 		// LED_ON
 	} else {
 		// LED_OFF

@@ -17,6 +17,7 @@ void flash_init() {
 	qspi_sync_enable(&QUAD_SPI_0);
 	
 	flash_enable_write(true);
+	
 	struct _qspi_command cmd = {
 		.inst_frame.bits.inst_en      = 1,
 		.inst_frame.bits.tfr_type     = QSPI_WRITE_ACCESS,
@@ -26,7 +27,7 @@ void flash_init() {
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
 }
-
+/*
 void flash_read_id(uint8_t *id) {
 	struct _qspi_command cmd    = {
 		.inst_frame.bits.inst_en  = 1,
@@ -35,6 +36,52 @@ void flash_read_id(uint8_t *id) {
 		.inst_frame.bits.width    = QSPI_INST4_ADDR4_DATA4,
 		.instruction              = FLASH_ID,
 		.buf_len                  = 3,
+		.rx_buf                   = id,
+	};
+
+	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
+}*/
+/*
+void flash_read_id(uint8_t *id) {
+	struct _qspi_command cmd    = {
+		.inst_frame.bits.inst_en  = 1,
+		.inst_frame.bits.data_en  = 1,
+		.inst_frame.bits.tfr_type = QSPI_READ_ACCESS,
+		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
+		.instruction              = 0x9F,
+		.buf_len                  = 3,
+		.rx_buf                   = id,
+	};
+
+	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
+}*/
+
+void flash_read_id(uint8_t *id) {
+    struct _qspi_command cmd    = {
+        .inst_frame.bits.inst_en  = 1,
+        .inst_frame.bits.data_en  = 1,
+        .inst_frame.bits.addr_en      = 1,
+        .inst_frame.bits.dummy_cycles = 4,
+        .inst_frame.bits.tfr_type     = QSPI_READMEM_ACCESS,
+        .inst_frame.bits.width        = QSPI_INST1_ADDR1_DATA1,
+        .instruction                  = 0x9F,
+        .address                      = 0,
+        .buf_len                      = 3,
+        .rx_buf                       = id,
+    };
+
+    qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
+}
+
+
+void flash_read_status_2(uint8_t *id) {
+	struct _qspi_command cmd    = {
+		.inst_frame.bits.inst_en  = 1,
+		.inst_frame.bits.data_en  = 1,
+		.inst_frame.bits.tfr_type = QSPI_READ_ACCESS,
+		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
+		.instruction              = 0x35,
+		.buf_len                  = 1,
 		.rx_buf                   = id,
 	};
 
@@ -60,7 +107,7 @@ void flash_enable_write(bool enable) {
 	struct _qspi_command cmd    = {
 		.inst_frame.bits.inst_en  = 1,
 		.inst_frame.bits.tfr_type = QSPI_WRITE_ACCESS,
-		.inst_frame.bits.width    = QSPI_INST4_ADDR4_DATA4,
+		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
 		.instruction              = enable?FLASH_WRITE_EN:FLASH_WRITE_DE,
 	};
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);

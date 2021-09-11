@@ -4,10 +4,13 @@
 #include <string.h>
 #include <stdio.h>
 #include "st25r95.h"
+#include <stdlib.h>
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
+uint8_t key_status = 0;
+char keys[5] = {0};
 badgestate g_state;
 
 bool back_event = false;
@@ -91,9 +94,9 @@ int main(void)
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	
 	
-	spi_m_sync_get_io_descriptor(&SPI_0, &io);
+	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
-	spi_m_sync_enable(&SPI_0);
+	spi_m_sync_enable(&SPI_1);
 
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
@@ -118,6 +121,9 @@ int main(void)
 	Scene scene = TEST;
 	bool changed = true;
 	
+	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
+	gpio_set_pin_level(MB_CLK_PIN, false);
+	
 	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
@@ -129,6 +135,41 @@ int main(void)
 			measurement_done_touch = 0;
 			touch_status_display();
 		}*/
+		
+		key_status = get_sensor_state(3) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[0] = '1';
+			} else {
+			// LED_OFF
+			keys[0] = '0';
+		}
+		key_status = get_sensor_state(4) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[1] = '1';
+			} else {
+			// LED_OFF
+			keys[1] = '0';
+		}
+		key_status = get_sensor_state(5) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[2] = '1';
+			} else {
+			// LED_OFF
+			keys[2] = '0';
+		}
+		key_status = get_sensor_state(6) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[3] = '1';
+			} else {
+			// LED_OFF
+			keys[3] = '0';
+		}
+		
+
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
 		
@@ -197,9 +238,9 @@ static void back_button_pressed(void)
 	back_event = true;
 	led_toggle = !led_toggle;
 	if(led_toggle){
-		led_off();
+		//led_off();
 	} else {
-		led_set_color(LED_COLOR_WHITE);
+		//led_set_color(LED_COLOR_WHITE);
 	}
 }
 

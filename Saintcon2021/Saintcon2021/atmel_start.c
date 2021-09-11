@@ -6,7 +6,7 @@
 void atmel_start_init(void)
 {
 	system_init();
-	usb_init();
+	//usb_init();
 
 	touch_init();
 }
