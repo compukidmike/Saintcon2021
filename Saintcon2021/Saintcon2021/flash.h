@@ -11,21 +11,20 @@
 #ifndef FLASH_H_
 #define FLASH_H_
 
-//Prototype 1
-/*#define FLASH_ID			0x9F
+#define FLASH_ID			0x94
 #define FLASH_WRITE_EN		0x06
 #define FLASH_WRITE_DE		0x04
 #define FLASH_STATUS		0x05
 #define FLASH_ERROR			0x07
 #define FLASH_QPI_EN		0x38
 #define FLASH_QPI_DE		0xF5
-#define FLASH_READ			0xEB
-#define FLASH_WRITE_PAGE	0x02
-#define FLASH_ERASE_ALL		0x60
-#define FLASH_ERASE_BLOCK	0xDC
-#define FLASH_ERASE_HBLOCK	0x53
-#define FLASH_ERASE_SEC		0x21
-#define FLASH_SLEEP			0xDH
+#define FLASH_READ			0x6B
+#define FLASH_WRITE_PAGE	0x32
+#define FLASH_ERASE_ALL		0xC7
+#define FLASH_ERASE_64K		0xD8
+#define FLASH_ERASE_32K		0x52
+#define FLASH_ERASE_4K		0x20
+#define FLASH_SLEEP			0xB9
 #define FLASH_WAKE			0xAB
 #define FLASH_WRITE_REG		0x01*/
 
@@ -52,8 +51,8 @@ void flash_read_id(uint8_t *id);
 void flash_read_status_2(uint8_t *id);
 void flash_enable_write(bool enable);
 void flash_erase_all();
-void flash_erase_sector(uint32_t addr);
-void flash_erase_halfblock(uint32_t addr);
+void flash_erase_4k(uint32_t addr);
+void flash_erase_32k(uint32_t addr);
 void flash_read(uint32_t addr, void *out, size_t len);
 void flash_write(uint32_t addr, void *buf, size_t len);
 
