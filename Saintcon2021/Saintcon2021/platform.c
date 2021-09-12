@@ -6,6 +6,7 @@
 #include "platform.h"
 #include "ILI9331.h"
 #include "FrameBuffer.h"
+#include "nfc.h"
 
 extern uint32_t millis();
 

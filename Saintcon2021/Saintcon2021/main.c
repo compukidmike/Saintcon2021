@@ -3,7 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "st25r95.h"
+#include "nfc.h"
+//#include "st25r95.h"
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
@@ -49,10 +50,6 @@ int main(void)
 	pwm_enable(&PWM_0);
 	pwm_set_parameters(&PWM_0,255,100);
 	
-	gpio_set_pin_direction(NFC_CS_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_CS_PIN, true);
-	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	
 	
 	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
@@ -88,13 +85,14 @@ int main(void)
 	canvas_drawText(80,100, "Magic", RGB(255,255,255));
 	canvas_blt();
 	
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
+	//gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	
 	
 	spi_m_sync_get_io_descriptor(&SPI_0, &io);
 
 	spi_m_sync_enable(&SPI_0);
 
+	/*
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
@@ -111,6 +109,8 @@ int main(void)
 	//End NFC Test
 	
 	NFC_init();
+	*/
+// 	nfc_init();
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
