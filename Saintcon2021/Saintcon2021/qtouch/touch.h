@@ -79,7 +79,7 @@ extern "C" {
  * Range: 1 to 65535.
  * Default value: 1
  */
-#define DEF_NUM_CHANNELS (3)
+#define DEF_NUM_CHANNELS (7)
 
 /* Defines self-cap node parameter setting
  * {X-line, Y-line, Charge Share Delay, Prescaler, NODE_G(Analog Gain , Digital Gain), filter level}
@@ -96,6 +96,22 @@ extern "C" {
 	{                                                                                                                  \
 		X_NONE, Y(14), 0, PRSC_DIV_SEL_32, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                  \
 	}
+#define NODE_3_PARAMS                                                                                                  \
+	{                                                                                                                  \
+		X_NONE, Y(26), 0, PRSC_DIV_SEL_32, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                  \
+	}
+#define NODE_4_PARAMS                                                                                                  \
+	{                                                                                                                  \
+		X_NONE, Y(27), 0, PRSC_DIV_SEL_32, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                  \
+	}
+#define NODE_5_PARAMS                                                                                                  \
+	{                                                                                                                  \
+		X_NONE, Y(28), 0, PRSC_DIV_SEL_32, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                  \
+	}
+#define NODE_6_PARAMS                                                                                                  \
+	{                                                                                                                  \
+		X_NONE, Y(29), 0, PRSC_DIV_SEL_32, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                  \
+	}
 
 /**********************************************************/
 /***************** Key Params   ******************/
@@ -104,7 +120,7 @@ extern "C" {
  * Range: 1 to 65535.
  * Default value: 1
  */
-#define DEF_NUM_SENSORS (3)
+#define DEF_NUM_SENSORS (7)
 
 /* Defines Key Sensor setting
  * {Sensor Threshold, Sensor Hysterisis, Sensor AKS}
@@ -120,6 +136,22 @@ extern "C" {
 #define KEY_2_PARAMS                                                                                                   \
 	{                                                                                                                  \
 		20, HYST_25, AKS_GROUP_1                                                                                       \
+	}
+#define KEY_3_PARAMS                                                                                                   \
+	{                                                                                                                  \
+		20, HYST_25, NO_AKS_GROUP                                                                                      \
+	}
+#define KEY_4_PARAMS                                                                                                   \
+	{                                                                                                                  \
+		20, HYST_25, NO_AKS_GROUP                                                                                      \
+	}
+#define KEY_5_PARAMS                                                                                                   \
+	{                                                                                                                  \
+		20, HYST_25, NO_AKS_GROUP                                                                                      \
+	}
+#define KEY_6_PARAMS                                                                                                   \
+	{                                                                                                                  \
+		20, HYST_25, NO_AKS_GROUP                                                                                      \
 	}
 
 /* De-bounce counter for additional measurements to confirm touch detection
@@ -193,7 +225,7 @@ extern "C" {
  */
 #define SCROLLER_0_PARAMS                                                                                              \
 	{                                                                                                                  \
-		SCROLLER_TYPE_WHEEL, 0, 3, SCROLLER_RESOL_DEADBAND(SCR_RESOL_8_BIT, SCR_DB_10_PERCENT), 8, 20                  \
+		SCROLLER_TYPE_WHEEL, 0, 3, SCROLLER_RESOL_DEADBAND(SCR_RESOL_8_BIT, SCR_DB_NONE), 8, 20                        \
 	}
 
 /**********************************************************/

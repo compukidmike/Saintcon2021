@@ -26,10 +26,29 @@
 #define FLASH_ERASE_4K		0x20
 #define FLASH_SLEEP			0xB9
 #define FLASH_WAKE			0xAB
+#define FLASH_WRITE_REG		0x01*/
+
+//Prototype 2
+#define FLASH_ID			0x9F
+#define FLASH_WRITE_EN		0x06
+#define FLASH_WRITE_DE		0x04
+#define FLASH_STATUS		0x05
+#define FLASH_ERROR			0x07
+#define FLASH_QPI_EN		0x38
+#define FLASH_QPI_DE		0xFF
+#define FLASH_READ			0xEB
+#define FLASH_WRITE_PAGE	0x02
+#define FLASH_ERASE_ALL		0x60
+#define FLASH_ERASE_BLOCK	0xD8
+#define FLASH_ERASE_HBLOCK	0x52
+#define FLASH_ERASE_SEC		0x20
+#define FLASH_SLEEP			0xB9
+#define FLASH_WAKE			0xAB
 #define FLASH_WRITE_REG		0x01
 
 void flash_init();
 void flash_read_id(uint8_t *id);
+void flash_read_status_2(uint8_t *id);
 void flash_enable_write(bool enable);
 void flash_erase_all();
 void flash_erase_4k(uint32_t addr);
