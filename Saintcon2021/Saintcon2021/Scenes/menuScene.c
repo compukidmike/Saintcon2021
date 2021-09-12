@@ -14,9 +14,9 @@
 
 static int menu_rotation, menu_selected, menu_lastLocation;
 static uint8_t menu_frame;
-static bool menu_scrolling;
+static bool menu_scrolling, vcard_enabled;
 
-const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Testing", "The Machine", "Inventory", "VCard"};
+const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Testing", "The Machine", "Inventory", "Read Tag"};
 
 void menu_draw() {
 	canvas_clearScreen(RGB(42,19,44));
@@ -47,10 +47,13 @@ void menu_draw() {
 	int idx = menu_frame%4;
 	canvas_drawImage_FromFlash_pt(40,30,160,170,MENU_IMG, 0, 170*idx, 160, RGB(255,0,255));
 	
+	if(!vcard_enabled)
+		canvas_drawBitmask(133, 200, 32, 32, no_icon, RGB(200,0,0), 0);//rad);
+	
 	const char* str_line = menu_options[menu_selected];
 	int offset = (int)strlen(str_line) * 4;
 	
-	canvas_drawText(120-offset, 52, str_line, 0xFFFF);
+	canvas_drawText(120-offset, 54, str_line, 0xFFFF);
 	
 	canvas_blt();
 }

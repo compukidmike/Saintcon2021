@@ -11,12 +11,13 @@
 #include "FrameBuffer.h"
 #include "combonums.h"
 
-int combo_selected;
-int combo_position;
-int combo_stage;
-int combo_combo[2];
-int combo_lastLocation;
-bool combo_scrolling;
+static int combo_selected;
+static int combo_position;
+static int combo_stage;
+static int combo_combo[2];
+static int combo_lastLocation;
+static bool combo_scrolling;
+static int scroll_dist;
 
 void combo_draw() {
 	canvas_clearScreen(0);
@@ -82,6 +83,8 @@ void combo_draw() {
 	//Draw combo (maybe remove this?, although it is nice to have)
 	canvas_fillRect(60, 222, 120, 20, RGB(20,20,20));
 	canvas_drawText(86, 222, cmb, RGB(120,120,80));
+	snprintf(cmb, 10, "s:%d d:%d", combo_stage, scroll_dist);
+	canvas_drawText(86, 200, cmb, RGB(120,120,80));
 	
     canvas_blt();
 }
@@ -114,49 +117,57 @@ Scene combo_scene_loop(bool init) {
 	combo_lastLocation = getTouchLocation();
 	while (combo_scroll < -180) combo_scroll+=360;
 	while (combo_scroll > 180) combo_scroll-=360;
+	scroll_dist += combo_scroll;
 	
 	switch(combo_stage) {
 		case 0: //First number selected
 			if (combo_scroll > 10) {
 				combo_combo[0] = combo_selected;
 				combo_stage++;
+				scroll_dist=0;
 			}
 			break;
 		case 1:
-			if (combo_scroll < -10) //didn't make full turn reset
+			if (combo_scroll < -10) {//didn't make full turn reset
 				combo_stage = -1;
-			else if (combo_selected == combo_combo[0])
+				scroll_dist = 0;
+			}
+			else if (scroll_dist > 350)
 				combo_stage++;
 			break;
-		case 2:
-			if (combo_selected != combo_combo[0])
-			combo_stage++;
-			break;
-		case 3: //Second number selected
+		case 2: //Second number selected
 			if (combo_scroll < -10) {
 				combo_combo[1] = combo_selected;
 				combo_stage++;
+				scroll_dist = 0;
 			}
-			else if (combo_selected == combo_combo[0]) //went around twice
+			else if (scroll_dist > 640) {//went around twice
 				combo_stage = -1;
+				scroll_dist = 0;
+			}
 			break;
-		case 4:
+		case 3:
 			if (combo_selected != combo_combo[1])
 				combo_stage++;
 			break;
-			case 5:
+		case 4:
 			if (combo_scroll > 10) {//nope
 				combo_stage = -1;
-				combo_combo[0] = combo_selected;
+				scroll_dist = 0;
 			}
-			else if (combo_selected == combo_combo[1]) //went all the way around, reset
+			else if (scroll_dist < -360){ //went all the way around, reset
 				combo_stage = 0;
+				scroll_dist = 0;
+			}
 			break;
 		default:
 			if (combo_scroll > 10)
 				combo_combo[0] = combo_selected;
-			else if (combo_selected == combo_combo[0]) //reset
+			else if (scroll_dist < -320) //reset
+			{
 				combo_stage = 0;
+				scroll_dist = 0;
+			}
 	}
 	if (combo_scroll) {
 		combo_position += combo_scroll;
