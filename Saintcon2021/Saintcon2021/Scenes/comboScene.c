@@ -163,7 +163,7 @@ Scene combo_scene_loop(bool init) {
 		combo_position %= 360;
 		while(combo_position>360) combo_position-=360; 
 		while(combo_position<0) combo_position+=360; 
-		combo_selected = combo_position/9;
+		combo_selected = ((combo_position+4)/9)%40;
 		
 		combo_draw();
 	}

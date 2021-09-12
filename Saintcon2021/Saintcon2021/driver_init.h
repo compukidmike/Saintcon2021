@@ -39,7 +39,7 @@ extern struct qspi_sync_descriptor QUAD_SPI_0;
 extern struct timer_descriptor     Timer;
 
 extern struct i2c_m_sync_desc       I2C_0;
-extern struct spi_m_sync_descriptor SPI_0;
+extern struct spi_m_sync_descriptor SPI_1;
 
 extern struct pwm_descriptor PWM_0;
 
@@ -51,9 +51,9 @@ void I2C_0_CLOCK_init(void);
 void I2C_0_init(void);
 void I2C_0_PORT_init(void);
 
-void SPI_0_PORT_init(void);
-void SPI_0_CLOCK_init(void);
-void SPI_0_init(void);
+void SPI_1_PORT_init(void);
+void SPI_1_CLOCK_init(void);
+void SPI_1_init(void);
 
 void PWM_0_PORT_init(void);
 void PWM_0_CLOCK_init(void);

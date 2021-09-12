@@ -3,12 +3,14 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "nfc.h"
-//#include "st25r95.h"
+#include "st25r95.h"
+#include <stdlib.h>
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
 uint16_t scroller_position = 0;
+uint8_t key_status = 0;
+uint8_t keys[4] = {0};
 badgestate g_state;
 
 bool back_event = false;
@@ -40,6 +42,9 @@ void Timer_touch_init(void)
 	timer_start(&Timer);
 }
 
+
+extern uint16_t bird_raw[];
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
@@ -67,12 +72,16 @@ int main(void)
 	
 	flash_init();
 	
+	uint8_t id[4];
+	
+	flash_read_id(id);
+	//flash_erase_all();
 	//Testing Flash
 	//(copy bird to flash if not already there)
 	uint16_t buf[80] = {0x80};
 	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 	if (memcmp(buf, bird_raw, 80*sizeof(uint16_t))) {
-		flash_erase_halfblock(BIRD_IMG);
+		flash_erase_32k(BIRD_IMG);
 		for (int i=0; i<100; ++i) {
 			uint32_t offset = i * 0x100;
 			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
@@ -88,16 +97,16 @@ int main(void)
 	//gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	
 	
-	spi_m_sync_get_io_descriptor(&SPI_0, &io);
+	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
-	spi_m_sync_enable(&SPI_0);
+	spi_m_sync_enable(&SPI_1);
 
 	/*
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	//NFC Test - Remove in final code
-	st25r95Initialize();
+	/*st25r95Initialize();
 	delay_ms(1);
 	if(st25r95CheckChipID()){
 		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
@@ -108,15 +117,16 @@ int main(void)
 	}
 	//End NFC Test
 	
-	NFC_init();
-	*/
-// 	nfc_init();
+	NFC_init();*/
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
 	
 	Scene scene = TEST;
 	bool changed = true;
+	
+	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
+	gpio_set_pin_level(MB_CLK_PIN, false);
 	
 	
 	while (1) {
@@ -129,6 +139,41 @@ int main(void)
 			measurement_done_touch = 0;
 			touch_status_display();
 		}*/
+		
+		key_status = get_sensor_state(3) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[0] = 1;
+			} else {
+			// LED_OFF
+			keys[0] = 0;
+		}
+		key_status = get_sensor_state(4) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[1] = 1;
+			} else {
+			// LED_OFF
+			keys[1] = 0;
+		}
+		key_status = get_sensor_state(5) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[2] = 1;
+			} else {
+			// LED_OFF
+			keys[2] = 0;
+		}
+		key_status = get_sensor_state(6) & KEY_TOUCHED_MASK;
+		if (0u != key_status) {
+			// LED_ON
+			keys[3] = 1;
+			} else {
+			// LED_OFF
+			keys[3] = 0;
+		}
+		
+
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
 		
@@ -197,9 +242,9 @@ static void back_button_pressed(void)
 	back_event = true;
 	led_toggle = !led_toggle;
 	if(led_toggle){
-		led_off();
+		//led_off();
 	} else {
-		led_set_color(LED_COLOR_WHITE);
+		//led_set_color(LED_COLOR_WHITE);
 	}
 }
 

@@ -4,18 +4,19 @@ import serial, sys, os
 from time import sleep
 
 def usage():
-	print("usage: %s serial_port flash_image"%sys.argv[0])
+	print("usage: %s serial_port"%sys.argv[0])
 	sys.exit(-1)
 
 
 
 if __name__ == '__main__':
-	if len(sys.argv) < 3:
+	if len(sys.argv) < 2:
 		usage()
 
-	total = os.stat(sys.argv[2]).st_size
+	total = os.stat('flash.bin').st_size
 	
 	with serial.Serial(sys.argv[1], timeout=10) as ser:
+		print("Sending code...")
 		ser.write(b'`')
 		line = ser.readline()
 		print(line)
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 			if b'Ready' in line:
 				break
 		print(line)
-		with open(sys.argv[2], 'rb') as f:
+		with open('flash.bin', 'rb') as f:
 			chunk = f.read(256)
 			while (chunk):
 				ser.write(chunk)

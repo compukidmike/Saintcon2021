@@ -175,11 +175,11 @@
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.c" IsConfig="false" Hash="506QsMNqKwMw3St/nEXa8Q" />
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.h" IsConfig="false" Hash="IjsDWsLIdSQj3pFlkAX0UA" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="5q5L4l/OIk3R+bITAllmdA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="Q+7vxWwCU7+t/6HMZqqsWA" />
-          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="XpEynxoaWG5jPA22VhuSuw" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="+mxnjSKEkNxMZRJMUIzbaQ" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="M+C0Zju349GcYPO3/V06lA" />
+          <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="X0sYLjNaXpKsYeYvKiUzuw" />
           <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="9f7QtNFbXV0cG/0GjXeWhQ" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="S0GWpAQhQWZlbLfQYDdZdw" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="IMHlkvfDbK9Svpb6NuEvjA" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_pwm.h" IsConfig="false" Hash="RXcBZcci/7vXKRJKNIq/Kw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_timer.h" IsConfig="false" Hash="5pZVthtMl40VMvofOld2ng" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_calendar.h" IsConfig="false" Hash="Axxal1o5u+cNnytorSIZkA" />
@@ -221,10 +221,10 @@
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.c" IsConfig="false" Hash="Z4LuJljuq384TsemEvHpdw" />
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.h" IsConfig="false" Hash="rdWkAK12qkOYV59tWwzy6A" />
           <AcmeProjectActionInfo Action="File" Source="hpl/usb/hpl_usb.c" IsConfig="false" Hash="pxMAvWdqmE7X3Fa2tkbYUQ" />
-          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.h" IsConfig="false" Hash="VpIl2+KpjrzAyxRmRZg33w" />
-          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.c" IsConfig="false" Hash="7EuoTWTm/6wS0vuIdgdPWw" />
+          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.h" IsConfig="false" Hash="r7UABdC9LSz0SKb8Lto14w" />
+          <AcmeProjectActionInfo Action="File" Source="qtouch/touch.c" IsConfig="false" Hash="8d3La+EFeDamzAdUBiculw" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/include/touch_api_ptc.h" IsConfig="false" Hash="CClbkgUGOHbZ6eZHRFtrFg" />
-          <AcmeProjectActionInfo Action="File" Source="examples/touch_example.c" IsConfig="false" Hash="+yle9RwzPlO94p5i43sbEA" />
+          <AcmeProjectActionInfo Action="File" Source="examples/touch_example.c" IsConfig="false" Hash="ZPjGOgTnpHdyzuuYJcCT/w" />
           <AcmeProjectActionInfo Action="File" Source="examples/touch_example.h" IsConfig="false" Hash="lhGCrqAeOUGGoHoBC6vtxw" />
           <AcmeProjectActionInfo Action="File" Source="usb_start.c" IsConfig="false" Hash="Z3VoMycwi6ePlP/FidkA8w" />
           <AcmeProjectActionInfo Action="File" Source="usb_start.h" IsConfig="false" Hash="tIiPIYvUpZZo7de2aDnOew" />
@@ -240,10 +240,10 @@
           <AcmeProjectActionInfo Action="File" Source="config/hpl_port_config.h" IsConfig="true" Hash="rMTNR+5FXtu+wfT1NbfRRA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_qspi_config.h" IsConfig="true" Hash="Z6P8GbXiPtXz3qa44Jot5g" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_rtc_config.h" IsConfig="true" Hash="9Fe6jPSvaDcH9Ejz/4s7XA" />
-          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="jHYjAmTcyvGS2DKMB1AQWA" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="NKVUlBrLuf+pOieW51TM2Q" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="e4Lbnq0uVc7gtVAasNNhXA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_usb_config.h" IsConfig="true" Hash="OTnXMB+/o/b7gPmkxUTUeQ" />
-          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="YcotY75NXSkxQOU5y1J6Yg" />
+          <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="rY+STWE2Y1lE2BCg1AcT4w" />
           <AcmeProjectActionInfo Action="File" Source="config/usbd_config.h" IsConfig="true" Hash="+IN9FTPiQVdcpm7kwsDEQA" />
         </AcmeActionInfos>
         <NonsecureFilesInfo />
@@ -256,7 +256,7 @@
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
         <InterfaceProperties>
-          <SwdClock>2000000</SwdClock>
+          <SwdClock>1959214</SwdClock>
         </InterfaceProperties>
         <InterfaceName>SWD</InterfaceName>
         <JlinkConfigFile>C:\Users\1110m\Documents\GitHub\saintcon2021dev\Saintcon2021\Saintcon2021\jlink.config</JlinkConfigFile>
@@ -265,309 +265,323 @@
       <ToolNumber>801035067</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterfaceclock>2000000</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>1959214</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <ArmGcc>
-        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
-        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
-        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
-        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
-        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-        <armgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </armgcc.compiler.symbols.DefSymbols>
-        <armgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.compiler.directories.IncludePaths>
-        <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
-        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-        <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -mfloat-abi=softfp -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
-        <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
-        <armgcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>libqtm_touch_key_cm4_0x0002.a</Value>
-            <Value>libqtm_scroller_cm4_0x000b.a</Value>
-            <Value>libqtm_acq_same53_0x000f.a</Value>
-            <Value>libm</Value>
-          </ListValues>
-        </armgcc.linker.libraries.Libraries>
-        <armgcc.linker.libraries.LibrarySearchPaths>
-          <ListValues>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>%24(ProjectDir)\Device_Startup</Value>
-          </ListValues>
-        </armgcc.linker.libraries.LibrarySearchPaths>
-        <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
-        <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
-        <armgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.assembler.general.IncludePaths>
-        <armgcc.preprocessingassembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.preprocessingassembler.general.IncludePaths>
-      </ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -mfloat-abi=softfp -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libqtm_touch_key_cm4_0x0002.a</Value>
+      <Value>libqtm_scroller_cm4_0x000b.a</Value>
+      <Value>libqtm_acq_same53_0x000f.a</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>%24(ProjectDir)\Device_Startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+</ArmGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <ArmGcc>
-        <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
-        <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
-        <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
-        <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
-        <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
-        <armgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>DEBUG</Value>
-          </ListValues>
-        </armgcc.compiler.symbols.DefSymbols>
-        <armgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
-            <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
-            <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
-            <Value>../ST25RFAL/include</Value>
-            <Value>../ST25RFAL/source/st25r95</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.compiler.directories.IncludePaths>
-        <armgcc.compiler.optimization.level>Optimize debugging experience (-Og)</armgcc.compiler.optimization.level>
-        <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
-        <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
-        <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
-        <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -mfloat-abi=softfp -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
-        <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
-        <armgcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>libqtm_touch_key_cm4_0x0002.a</Value>
-            <Value>libqtm_scroller_cm4_0x000b.a</Value>
-            <Value>libqtm_acq_same53_0x000f.a</Value>
-            <Value>libm</Value>
-          </ListValues>
-        </armgcc.linker.libraries.Libraries>
-        <armgcc.linker.libraries.LibrarySearchPaths>
-          <ListValues>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>..\qtouch\lib\gcc</Value>
-            <Value>%24(ProjectDir)\Device_Startup</Value>
-          </ListValues>
-        </armgcc.linker.libraries.LibrarySearchPaths>
-        <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
-        <armgcc.linker.memorysettings.ExternalRAM />
-        <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld -Wl,--defsym,STACK_SIZE=0x2000</armgcc.linker.miscellaneous.LinkerFlags>
-        <armgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.assembler.general.IncludePaths>
-        <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
-        <armgcc.preprocessingassembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../</Value>
-            <Value>../examples</Value>
-            <Value>../hal/include</Value>
-            <Value>../hal/utils/include</Value>
-            <Value>../hpl/cmcc</Value>
-            <Value>../hpl/core</Value>
-            <Value>../hpl/dmac</Value>
-            <Value>../hpl/eic</Value>
-            <Value>../hpl/gclk</Value>
-            <Value>../hpl/mclk</Value>
-            <Value>../hpl/osc32kctrl</Value>
-            <Value>../hpl/oscctrl</Value>
-            <Value>../hpl/pm</Value>
-            <Value>../hpl/port</Value>
-            <Value>../hpl/qspi</Value>
-            <Value>../hpl/ramecc</Value>
-            <Value>../hpl/rtc</Value>
-            <Value>../hpl/sercom</Value>
-            <Value>../hpl/tcc</Value>
-            <Value>../hpl/usb</Value>
-            <Value>../hri</Value>
-            <Value>../documentation</Value>
-            <Value>../qtouch</Value>
-            <Value>../qtouch/include</Value>
-            <Value>../usb</Value>
-            <Value>../usb/class/cdc</Value>
-            <Value>../usb/class/cdc/device</Value>
-            <Value>../usb/device</Value>
-            <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
-          </ListValues>
-        </armgcc.preprocessingassembler.general.IncludePaths>
-        <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
-      </ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../ST25RFAL/include</Value>
+      <Value>../ST25RFAL/source/st25r95</Value>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize debugging experience (-Og)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -mfloat-abi=softfp -mfpu=fpv4-sp-d16</armgcc.compiler.miscellaneous.OtherFlags>
+  <armgcc.linker.general.UseNewlibNano>True</armgcc.linker.general.UseNewlibNano>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libqtm_touch_key_cm4_0x0002.a</Value>
+      <Value>libqtm_scroller_cm4_0x000b.a</Value>
+      <Value>libqtm_acq_same53_0x000f.a</Value>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>%24(ProjectDir)\Device_Startup</Value>
+    </ListValues>
+  </armgcc.linker.libraries.LibrarySearchPaths>
+  <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
+  <armgcc.linker.memorysettings.ExternalRAM />
+  <armgcc.linker.miscellaneous.LinkerFlags>-Tsame53j18a_flash.ld -Wl,--defsym,STACK_SIZE=0x2000</armgcc.linker.miscellaneous.LinkerFlags>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../</Value>
+      <Value>../examples</Value>
+      <Value>../hal/include</Value>
+      <Value>../hal/utils/include</Value>
+      <Value>../hpl/cmcc</Value>
+      <Value>../hpl/core</Value>
+      <Value>../hpl/dmac</Value>
+      <Value>../hpl/eic</Value>
+      <Value>../hpl/gclk</Value>
+      <Value>../hpl/mclk</Value>
+      <Value>../hpl/osc32kctrl</Value>
+      <Value>../hpl/oscctrl</Value>
+      <Value>../hpl/pm</Value>
+      <Value>../hpl/port</Value>
+      <Value>../hpl/qspi</Value>
+      <Value>../hpl/ramecc</Value>
+      <Value>../hpl/rtc</Value>
+      <Value>../hpl/sercom</Value>
+      <Value>../hpl/tcc</Value>
+      <Value>../hpl/usb</Value>
+      <Value>../hri</Value>
+      <Value>../documentation</Value>
+      <Value>../qtouch</Value>
+      <Value>../qtouch/include</Value>
+      <Value>../usb</Value>
+      <Value>../usb/class/cdc</Value>
+      <Value>../usb/class/cdc/device</Value>
+      <Value>../usb/device</Value>
+      <Value>%24(PackRepoDir)\atmel\SAME53_DFP\1.1.118\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
+</ArmGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
@@ -608,11 +622,11 @@
     <Folder Include="hpl\tcc\" />
     <Folder Include="hpl\usb\" />
     <Folder Include="hri\" />
-    <Folder Include="Scenes" />
     <Folder Include="qtouch\" />
     <Folder Include="qtouch\include\" />
     <Folder Include="qtouch\lib\" />
     <Folder Include="qtouch\lib\gcc\" />
+    <Folder Include="Scenes" />
     <Folder Include="ST25RFAL\" />
     <Folder Include="ST25RFAL\doc\" />
     <Folder Include="ST25RFAL\doc\_htmresc\" />
@@ -1448,6 +1462,9 @@
     <Compile Include="unlocks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FrameBuffer.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="usb\class\cdc\device\cdcdf_acm.c">
       <SubType>compile</SubType>
     </Compile>
@@ -1485,9 +1502,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usb_start.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="FrameBuffer.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

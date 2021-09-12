@@ -13,6 +13,10 @@
     <ListValues>
       <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
       <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core/Include</Value>
+      <Value>../CMSIS/5.4.0/CMSIS/Core_A/Include</Value>
+      <Value>../ST25RFAL/include</Value>
+      <Value>../ST25RFAL/source/st25r95</Value>
       <Value>../Config</Value>
       <Value>../</Value>
       <Value>../examples</Value>
@@ -61,6 +65,13 @@
   </armgcc.linker.libraries.Libraries>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>

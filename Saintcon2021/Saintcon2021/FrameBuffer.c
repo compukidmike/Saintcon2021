@@ -5,7 +5,7 @@
 //  Created by Professor Plum on 12/10/19.
 //  Copyright © 2019 Professor Plum. All rights reserved.
 //
-
+#include "main.h"
 #include "FrameBuffer.h"
 
 #include <stdio.h>
@@ -16,6 +16,8 @@
 #include "font8x16.h"
 #include "ILI9331.h"
 #include "flash.h"
+
+
 
 
 
@@ -331,7 +333,9 @@ void canvas_blt() {
     
 #ifndef SDL
 
+	gpio_set_pin_level(MB_CLK_PIN, true);
     LCD_DrawImage(0, 0, 240, 240, frame);
+	gpio_set_pin_level(MB_CLK_PIN, false);
 
 
 #else
