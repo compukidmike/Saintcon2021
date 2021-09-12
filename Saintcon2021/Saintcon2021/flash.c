@@ -87,7 +87,7 @@ void flash_erase_all() {
 	while(flash_is_busy()) {
 		LCD_DrawPixel(30+c%180, 30+c/180, RGB(0,0,255));
 		c++;
-		delay_ms(2);
+		delay_ms(1);
 	}
 }
 

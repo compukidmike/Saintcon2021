@@ -80,11 +80,9 @@ int main(void)
 	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 	if (memcmp(buf, bird_raw, 80*sizeof(uint16_t))) {
 		flash_erase_32k(BIRD_IMG);
-		flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
 		for (int i=0; i<100; ++i) {
 			uint32_t offset = i * 0x100;
 			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
-			flash_read(BIRD_IMG + offset, buf, 80*sizeof(uint16_t));
 		}
 	}
 
