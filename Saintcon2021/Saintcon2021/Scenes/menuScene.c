@@ -50,7 +50,7 @@ void menu_draw() {
 	const char* str_line = menu_options[menu_selected];
 	int offset = (int)strlen(str_line) * 4;
 	
-	canvas_drawText(120-offset, 48, str_line, 0xFFFF);
+	canvas_drawText(120-offset, 52, str_line, 0xFFFF);
 	
 	canvas_blt();
 }

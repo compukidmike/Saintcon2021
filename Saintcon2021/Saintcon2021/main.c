@@ -17,7 +17,6 @@ bool back_event = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
-<<<<<<< Updated upstream
 #include "eeprom.h"
 
 extern uint16_t bird_raw[];
@@ -42,10 +41,9 @@ void Timer_touch_init(void)
 	timer_add_task(&Timer, &Timer_task1);
 	timer_start(&Timer);
 }
-=======
+
 
 extern uint16_t bird_raw[];
->>>>>>> Stashed changes
 
 int main(void)
 {
