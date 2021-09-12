@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "st25r95.h"
+#include "nfc.h"
 #include <stdlib.h>
 
 volatile uint8_t measurement_done_touch;
@@ -97,9 +97,9 @@ int main(void)
 	//gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	
 	
-	spi_m_sync_get_io_descriptor(&SPI_1, &io);
-
-	spi_m_sync_enable(&SPI_1);
+// 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
+// 
+// 	spi_m_sync_enable(&SPI_1);
 
 	/*
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
@@ -118,6 +118,8 @@ int main(void)
 	//End NFC Test
 	
 	NFC_init();*/
+	
+	nfc_init();
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();

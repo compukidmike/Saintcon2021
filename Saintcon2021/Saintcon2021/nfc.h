@@ -9,10 +9,12 @@
 
 #define NFC_IRQ_IN_PIN PIN_PB08
 #define NFC_IRQ_OUT_PIN PIN_PB09
-#define NFC_CS_PIN PIN_PB14
+#define NFC_CS_PIN PIN_PA14
 
-void nfc_init(void);
-
-
+bool nfc_init(void);
+void poll_nfc(void);
+bool nfc_test(void);
+uint8_t nfc_read(uint8_t* );
+void nfc_reset(void);
 
 #endif
