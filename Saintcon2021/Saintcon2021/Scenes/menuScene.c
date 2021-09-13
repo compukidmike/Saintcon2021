@@ -48,7 +48,7 @@ void menu_draw() {
 	canvas_drawImage_FromFlash_pt(40,30,160,170,MENU_IMG, 0, 170*idx, 160, RGB(255,0,255));
 	
 	if(!vcard_enabled)
-		canvas_drawBitmask(133, 200, 32, 32, no_icon, RGB(200,0,0), 0);//rad);
+		canvas_drawBitmask(138, 144, 32, 32, no_icon, RGB(200,0,0), 0);//rad);
 	
 	const char* str_line = menu_options[menu_selected];
 	int offset = (int)strlen(str_line) * 4;
@@ -66,6 +66,7 @@ Scene menu_scene_loop(bool init) {
 		menu_selected =0;
 		menu_lastLocation =0;
 		menu_scrolling = false;
+		vcard_enabled = false; //TODO: finish this
 		menu_draw();
 	}
 	if (scroller_status) {
