@@ -127,15 +127,15 @@ extern "C" {
  */
 #define KEY_0_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		50, HYST_6_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_1_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		50, HYST_6_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_2_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		50, HYST_6_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_3_PARAMS                                                                                                   \
 	{                                                                                                                  \
@@ -225,7 +225,7 @@ extern "C" {
  */
 #define SCROLLER_0_PARAMS                                                                                              \
 	{                                                                                                                  \
-		SCROLLER_TYPE_WHEEL, 0, 3, SCROLLER_RESOL_DEADBAND(SCR_RESOL_8_BIT, SCR_DB_NONE), 8, 20                        \
+		SCROLLER_TYPE_WHEEL, 0, 3, SCROLLER_RESOL_DEADBAND(SCR_RESOL_8_BIT, SCR_DB_NONE), 8, 50                        \
 	}
 
 /**********************************************************/
