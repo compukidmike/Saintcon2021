@@ -2,7 +2,8 @@
 #include "nfc.h"
 #include "main.h"
 #include "string.h"
-
+#include "platform.h"
+#include <stdlib.h>
 
 bool nfc_init(void){
 	
@@ -19,7 +20,7 @@ bool nfc_init(void){
 	
 	nfc_reset();
 
-
+	delay_ms(2); //Occasionally hangs without a delay here. Might be able to shorten it.
 // 	delay_ms(0.2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 // 	delay_ms(0.2);
@@ -30,12 +31,14 @@ bool nfc_init(void){
 	
 	uint8_t rxbuff[20] = {};
 	uint8_t txbuff[20] = {};
-	uint8_t size;	
-	size = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
+	uint8_t size;	bool validFrame = false;
 	
-	size = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
+	while(!validFrame){ 
+		size = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
+		
+		size = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
 
-	if(size == 0){		nfc_poll();		size = nfc_read(rxbuff);	}	
+		if(size == 0){			nfc_poll();			size = nfc_read(rxbuff);			char data[2] = {0};			itoa(rxbuff[1],data,16);			platformLog(data);			if(rxbuff[1] == 0x80) validFrame = true;		}	}	while(1);	
 }
 
 void nfc_poll(){
@@ -51,12 +54,13 @@ void nfc_poll(){
 }
 
 bool nfc_test(){
-	uint8_t rxbuff[20] = {};
+	uint8_t rxbuff[20] = {0};
 	uint8_t txbuff[3] = {};
 			
 	uint8_t size = nfc_comm(rxbuff, txbuff, "\x00\x01\x00", 3);
 	
 	if (size == 15){
+		platformLog((char*)rxbuff+3);
 		return true;
 	}
 	return false;
