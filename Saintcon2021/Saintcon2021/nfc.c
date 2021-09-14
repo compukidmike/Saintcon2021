@@ -31,17 +31,17 @@ bool nfc_init(void){
 	
 	uint8_t rxbuff[20] = {};
 	uint8_t txbuff[20] = {};
-	uint8_t size;
+	uint8_t cmd;
 	bool validFrame = false;
 	
 	while(!validFrame){ 
-		size = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
+		cmd = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
 		
-		size = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
+		cmd = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
 
-		if(size == 0){
+		if(cmd == 0){
 			nfc_poll();
-			size = nfc_read(rxbuff);
+			cmd = nfc_read(rxbuff);
 			char data[2] = {0};
 			itoa(rxbuff[1],data,16);
 			platformLog(data);
@@ -123,7 +123,5 @@ uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size){
 	
 	nfc_poll();
 	
-	nfc_read(rx);	
-	
-	return rx[1];
+	return nfc_read(rx);
 }
