@@ -20,7 +20,7 @@ bool nfc_init(void){
 	nfc_reset();
 
 
-// 	delay_ms(0.2);
+ 	delay_ms(2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 // 	delay_ms(0.2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
@@ -30,12 +30,17 @@ bool nfc_init(void){
 	
 	uint8_t rxbuff[20] = {};
 	uint8_t txbuff[20] = {};
-	uint8_t size;	
-	size = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
+	uint8_t cmd;
+		
+	// set to card emulation
+	cmd = nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5);
 	
-	size = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
+	// start listening
+	cmd = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
 
-	if(size == 0){		nfc_poll();		size = nfc_read(rxbuff);	}	
+
+	// fetch listen data
+	if(cmd == 0){		nfc_poll();		cmd = nfc_read(rxbuff);	}		
 }
 
 void nfc_poll(){
@@ -85,11 +90,13 @@ void nfc_reset(){
 	uint8_t tx[2] = {};
 	uint8_t buff[2] = {};
 	
+	// send echo just to make sure card emulation has exited
  	memcpy(tx, "\x00\x55", 2);
  	gpio_set_pin_level(NFC_CS_PIN, false);
  	spi_m_sync_io_readwrite(io, buff, tx, 2);
  	gpio_set_pin_level(NFC_CS_PIN, true);
 	
+	//send reset control bit
 	memcpy(tx, "\x01", 1);
 	gpio_set_pin_level(NFC_CS_PIN, false);
 	spi_m_sync_io_readwrite(io, buff, tx, 1);
@@ -105,5 +112,7 @@ uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size){
 	
 	nfc_poll();
 	
-	return nfc_read(rx);	
+	nfc_read(rx);	
+	
+	return rx[1];
 }
