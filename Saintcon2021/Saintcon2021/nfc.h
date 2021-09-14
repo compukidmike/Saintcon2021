@@ -12,9 +12,10 @@
 #define NFC_CS_PIN PIN_PA14
 
 bool nfc_init(void);
-void poll_nfc(void);
+void nfc_poll(void);
 bool nfc_test(void);
-uint8_t nfc_read(uint8_t* );
+uint8_t nfc_read(uint8_t* buffer);
 void nfc_reset(void);
+uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, uint8_t * command, uint8_t size);
 
 #endif
