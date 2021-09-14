@@ -16,6 +16,6 @@ void nfc_poll(void);
 bool nfc_test(void);
 uint8_t nfc_read(uint8_t* buffer);
 void nfc_reset(void);
-uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, uint8_t * command, uint8_t size);
+uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size);
 
 #endif

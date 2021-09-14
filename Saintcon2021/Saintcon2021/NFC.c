@@ -35,10 +35,10 @@ bool nfc_init(void){
 	
 	size = nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3);
 
-	if(size == 0){		poll_nfc();		size = nfc_read(rxbuff);	}	
+	if(size == 0){		nfc_poll();		size = nfc_read(rxbuff);	}	
 }
 
-void poll_nfc(){
+void nfc_poll(){
 
 	uint8_t rbuff = 0;
 	uint8_t tbuff = 3;
@@ -92,18 +92,18 @@ void nfc_reset(){
 	
 	memcpy(tx, "\x01", 1);
 	gpio_set_pin_level(NFC_CS_PIN, false);
-	spi_m_sync_io_readwrite(io, &buff, &tx, 1);
+	spi_m_sync_io_readwrite(io, buff, tx, 1);
 	gpio_set_pin_level(NFC_CS_PIN, true);
 	
 }
 
-uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, uint8_t * command, uint8_t size){
+uint8_t nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size){
 	memcpy(tx, command, size);
 	gpio_set_pin_level(NFC_CS_PIN, false);
 	spi_m_sync_io_readwrite(io, rx, tx, size);
 	gpio_set_pin_level(NFC_CS_PIN, true);
 	
-	poll_nfc();
+	nfc_poll();
 	
 	return nfc_read(rx);	
 }
