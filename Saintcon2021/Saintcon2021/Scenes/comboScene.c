@@ -83,8 +83,6 @@ void combo_draw() {
 	//Draw combo (maybe remove this?, although it is nice to have)
 	canvas_fillRect(60, 222, 120, 20, RGB(20,20,20));
 	canvas_drawText(86, 222, cmb, RGB(120,120,80));
-	snprintf(cmb, 10, "s:%d d:%d", combo_stage, scroll_dist);
-	canvas_drawText(86, 200, cmb, RGB(120,120,80));
 	
     canvas_blt();
 }

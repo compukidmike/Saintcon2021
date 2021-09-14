@@ -287,25 +287,43 @@ void canvas_drawBitmask(int x, int y, int w, int h, const uint8_t *data, uint16_
     /*
      * Fast and cheap rotation (only do the math if the bit is white)
      */
-    double cosa = cos(angle);
-    double sina = sin(angle);
-    for (int i=0; i< wb; ++i)
-        for (int j=0; j<h; ++j) {
-            uint8_t b = data[i+j*wb];
-            if (b) {
-                for (int k=0; k<8; ++k) {
-                    int s = (b >> k) & 1;
-                    if (s) {
-						int ax =i*8+k - cx;
-						int ay = j - cy;
-                        double nx = cosa*ax - sina*ay + cx;
-                        double ny = sina*ax + cosa*ay + cy;
-                        canvas_drawPixel(x+nx, y+ny, color);
-                        canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
-                    }
-                }
-            }
-        }//*/
+	if (angle){
+		double cosa = cos(angle);
+		double sina = sin(angle);
+		for (int i=0; i< wb; ++i)
+			for (int j=0; j<h; ++j) {
+				uint8_t b = data[i+j*wb];
+				if (b) {
+					for (int k=0; k<8; ++k) {
+						int s = (b >> k) & 1;
+						if (s) {
+							int ax =i*8+k - cx;
+							int ay = j - cy;
+							double nx = cosa*ax - sina*ay + cx;
+							double ny = sina*ax + cosa*ay + cy;
+							canvas_drawPixel(x+nx, y+ny, color);
+							canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
+						}
+					}
+				}
+			}//*/
+	}
+	else {
+		for (int i=0; i< wb; ++i)
+			for (int j=0; j<h; ++j) {
+				uint8_t b = data[i+j*wb];
+				if (b) {
+					for (int k=0; k<8; ++k) {
+						int s = (b >> k) & 1;
+						if (s) {
+							int ax =i*8+k;
+							int ay = j;
+							canvas_drawPixel(x+ax, y+ay, color);
+						}
+					}
+				}
+			}//*/ 
+	} 
 
     /*
      *Slower but more correct implementation, use if we have spare cycles

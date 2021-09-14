@@ -18,7 +18,9 @@ static bool menu_scrolling, vcard_enabled;
 
 const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Testing", "The Machine", "Inventory", "Read Tag"};
 
+uint32_t menu_last;
 void menu_draw() {
+	uint32_t now = millis();
 	canvas_clearScreen(RGB(42,19,44));
 	
 	//draw icons
@@ -55,7 +57,13 @@ void menu_draw() {
 	
 	canvas_drawText(120-offset, 54, str_line, 0xFFFF);
 	
+	char fps[10];
+	sprintf(fps, "%d", 1000/(now-menu_last));
+	canvas_drawText(110, 80, fps, 0xFFFF);
+	
+	
 	canvas_blt();
+	menu_last = now;
 }
 
 Scene menu_scene_loop(bool init) {
