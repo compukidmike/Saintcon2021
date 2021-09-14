@@ -36,7 +36,7 @@ inline void LCD_WriteData(uint16_t data){
 	REG_PORT_OUTSET0 = data & 0xFF;
 	REG_PORT_OUTSET1 = data>>8;*/
 	
-	*(volatile uint8_t*)(0x41008010) = data & 0xFF;
+	*(volatile uint8_t*)(0x41008010) = data;
 	*(volatile uint8_t*)(0x41008090) = data>>8;
 
 	
@@ -106,8 +106,8 @@ void LCD_DrawImage(int x, int y, int w, int h, uint16_t *data) {
 
 	uint32_t p = w*h;
 	LCD_WriteCommand(0x0022);
-	for (int i=0; i<p; ++i)
-		LCD_WriteData(data[i]);
+	for (uint16_t* end=data+p; data<end; ++data) 
+		LCD_WriteData(*data);
 	LCD_Deselect();
 }
 
