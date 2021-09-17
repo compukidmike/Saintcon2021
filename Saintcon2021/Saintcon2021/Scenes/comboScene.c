@@ -14,10 +14,12 @@
 static int combo_selected;
 static int combo_position;
 static int combo_stage;
-static int combo_combo[2];
+static int combo_combo[3];
 static int combo_lastLocation;
 static bool combo_scrolling;
 static int scroll_dist;
+
+int comboFudge(int round, int value, int lastvalue);
 
 void combo_draw() {
 	canvas_clearScreen(0);
@@ -100,6 +102,25 @@ Scene combo_scene_loop(bool init) {
 		combo_draw();
 	}
 	
+	if ((combo_stage == 4) && unlock_event) {
+		combo_combo[2] = comboFudge(2, combo_selected, combo_combo[1]);
+		int r = isValidCombo(combo_combo[0], combo_combo[1], combo_combo[2]);
+		if (r==1) {
+			return REWARD;
+		}
+		else if (r==-1) {
+			setMessage("You already redeemed that code");
+			return MESSAGE;
+		}
+		else if (r==-2) {
+			setMessage("Close, but the solution isn't so black and white...");
+			return MESSAGE;
+		}else {
+			setMessage("Invalid combination");
+			return MESSAGE;
+		}
+	}
+	
 	if (!scroller_status) {
 		combo_scrolling = false;
 		return COMBO;
@@ -135,11 +156,11 @@ Scene combo_scene_loop(bool init) {
 			break;
 		case 2: //Second number selected
 			if (combo_scroll < -10) {
-				combo_combo[1] = combo_selected;
+				combo_combo[1] = comboFudge(1, combo_selected, combo_combo[0]);
 				combo_stage++;
 				scroll_dist = 0;
 			}
-			else if (scroll_dist > 640) {//went around twice
+			else if (scroll_dist > 720) {//went around twice
 				combo_stage = -1;
 				scroll_dist = 0;
 			}
@@ -149,7 +170,7 @@ Scene combo_scene_loop(bool init) {
 				combo_stage++;
 			break;
 		case 4:
-			if (combo_scroll > 10) {//nope
+			if (combo_scroll > 20) {//nope
 				combo_stage = -1;
 				scroll_dist = 0;
 			}

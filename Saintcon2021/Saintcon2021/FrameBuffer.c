@@ -302,7 +302,7 @@ void canvas_drawBitmask(int x, int y, int w, int h, const uint8_t *data, uint16_
 							double nx = cosa*ax - sina*ay + cx;
 							double ny = sina*ax + cosa*ay + cy;
 							canvas_drawPixel(x+nx, y+ny, color);
-							//canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
+							canvas_drawPixel(x+roundf(nx), y+roundf(ny), color);
 						}
 					}
 				}

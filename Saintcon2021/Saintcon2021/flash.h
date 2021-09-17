@@ -58,5 +58,6 @@ void flash_read_vcard(char* vcard);
 #define BUILD_IMG            	 ((uint32_t)0X255000)
 #define PARTS_IMG            	 ((uint32_t)0X278C00)
 #define MENU_IMG             	 ((uint32_t)0X27AC00)
+#define CRATE_IMG            	 ((uint32_t)0X2B0000)
 
 #endif /* FLASH_H_ */
