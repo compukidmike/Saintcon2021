@@ -56,7 +56,7 @@
 // <o> idVender <0x0000-0xFFFF>
 // <id> usb_cdcd_acm_idvender
 #ifndef CONF_USB_CDCD_ACM_IDVENDER
-#define CONF_USB_CDCD_ACM_IDVENDER 0x3eb
+#define CONF_USB_CDCD_ACM_IDVENDER 0x00eb
 #endif
 
 // <o> idProduct <0x0000-0xFFFF>
