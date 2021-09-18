@@ -36,7 +36,7 @@ inline void LCD_WriteData(uint16_t data){
 	REG_PORT_OUTSET0 = data & 0xFF;
 	REG_PORT_OUTSET1 = data>>8;*/
 	
-	*(volatile uint8_t*)(0x41008010) = data;
+	*(volatile uint8_t*)(0x41008010) = data & 0xFF;
 	*(volatile uint8_t*)(0x41008090) = data>>8;
 
 	

@@ -33,7 +33,9 @@ typedef enum {
 	TEST,
 	MACHINE,
 	INVENTORY,
-	VCARD
+	VCARD,
+	REWARD,
+	MESSAGE
 } Scene;
 
 //NOTE: if you modify this update the eeprom save/load functions
@@ -45,7 +47,7 @@ typedef struct _badgestate {
 	uint8_t part_count[12];
 } badgestate;
 
-extern bool back_event; //TODO: maybe make this an interrupt event
+extern bool back_event, unlock_event, claspopen; 
 extern badgestate g_state;
 extern uint8_t  scroller_status;
 extern uint16_t scroller_position;
@@ -65,8 +67,11 @@ Scene combo_scene_loop(bool init);
 Scene inventory_scene_loop(bool init);
 Scene machine_scene_loop(bool init);
 Scene build_scene_loop(bool init);
+Scene reward_scene_loop(bool init);
+Scene message_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
+void setMessage(const char* msg);
 
 void led_set_color(uint8_t color[3]);
 void led_off(void);

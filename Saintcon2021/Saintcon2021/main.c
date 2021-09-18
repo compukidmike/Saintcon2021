@@ -14,6 +14,8 @@ uint8_t keys[4] = {0};
 badgestate g_state;
 
 bool back_event = false;
+bool unlock_event = false;
+bool claspopen = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
@@ -75,11 +77,8 @@ int main(void)
 	}
 	
 	flash_init();
-	
 	uint8_t id[4];
-	
 	flash_read_id(id);
-	//flash_erase_all();
 	//Testing Flash
 	//(copy bird to flash if not already there)
 	uint16_t buf[80] = {0x80};
@@ -92,12 +91,6 @@ int main(void)
 		}
 	}
 
-	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
-
-	canvas_clearScreen(RGB(10,10,200));
-	canvas_drawText(80,100, "Magic", RGB(255,255,255));
-	canvas_blt();
-	
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	
 	
@@ -127,6 +120,7 @@ int main(void)
 	
 	Scene scene = TEST;
 	bool changed = true;
+	bool lastclasp = false;
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
@@ -136,12 +130,8 @@ int main(void)
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
 		//comment the following line if you're not working on the NFC
 		//exampleRfalPollerRun(); //NFC
-
-		touch_process();
-		/*if (measurement_done_touch == 1) {
-			measurement_done_touch = 0;
-			touch_status_display();
-		}*/
+		
+		unlock_event = false;
 		
 		key_status = get_sensor_state(3) & KEY_TOUCHED_MASK;
 		if (0u != key_status) {
@@ -176,6 +166,17 @@ int main(void)
 			keys[3] = 0;
 		}
 		
+		if (keys[0] && !keys[1] && keys[2]) {
+			claspopen = true;
+			if (lastclasp == false)
+				unlock_event = true;
+			lastclasp = true;
+		}
+		else if (!keys[0] && keys[1] && !keys[2]) {
+			claspopen = false;
+			lastclasp = false;
+		}
+		
 
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
@@ -196,6 +197,12 @@ int main(void)
 			break;
 		case BUILD:
 			ns = build_scene_loop(changed);
+			break;
+		case REWARD:
+			ns = reward_scene_loop(changed);
+			break;
+		case MESSAGE:
+			ns = message_scene_loop(changed);
 			break;
 		case MENU:
 		default:

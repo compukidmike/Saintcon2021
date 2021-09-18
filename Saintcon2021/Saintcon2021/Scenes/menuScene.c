@@ -59,7 +59,7 @@ void menu_draw() {
 	
 	char fps[10];
 	sprintf(fps, "%d", 1000/(now-menu_last));
-	canvas_drawText(110, 80, fps, 0xFFFF);
+	//canvas_drawText(110, 80, fps, 0xFFFF);
 	
 	
 	canvas_blt();
@@ -74,7 +74,12 @@ Scene menu_scene_loop(bool init) {
 		menu_selected =0;
 		menu_lastLocation =0;
 		menu_scrolling = false;
-		vcard_enabled = false; //TODO: finish this
+		vcard_enabled = false;
+		menu_draw();
+	}
+	if (claspopen != vcard_enabled) {
+		//TODO: enable or disable NFC vcard
+		vcard_enabled = claspopen;
 		menu_draw();
 	}
 	if (scroller_status) {
