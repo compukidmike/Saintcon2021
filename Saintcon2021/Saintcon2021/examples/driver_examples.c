@@ -104,3 +104,25 @@ void PWM_0_example(void)
 	pwm_set_parameters(&PWM_0, 10000, 5000);
 	pwm_enable(&PWM_0);
 }
+
+/**
+ * Example of using RAND_0 to generate waveform.
+ */
+void RAND_0_example(void)
+{
+	uint32_t random_n[4];
+	rand_sync_enable(&RAND_0);
+	random_n[0] = rand_sync_read32(&RAND_0);
+	random_n[1] = rand_sync_read32(&RAND_0);
+	rand_sync_read_buf32(&RAND_0, &random_n[2], 2);
+	if (random_n[0] == random_n[1]) {
+		/* halt */
+		while (1)
+			;
+	}
+	if (random_n[2] == random_n[3]) {
+		/* halt */
+		while (1)
+			;
+	}
+}

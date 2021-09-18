@@ -60,6 +60,7 @@
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_init.h" IsConfig="false" Hash="OrYSVpF3YA5XrOBImWpdSg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_io.h" IsConfig="false" Hash="XZRSabc39WU/0MFBLYGLvQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_qspi_sync.h" IsConfig="false" Hash="4qiSjqQ6OSFtUrCffFwcHw" />
+          <AcmeProjectActionInfo Action="File" Source="hal/include/hal_rand_sync.h" IsConfig="false" Hash="r1kDO2AS88lqvBd82eYgCw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_sleep.h" IsConfig="false" Hash="KuZDwgrLdU+fuMG82ZFTqg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_spi_m_sync.h" IsConfig="false" Hash="2oma6hRMCcowUy2wVveqMg" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_usb_device.h" IsConfig="false" Hash="nvejrPlc1H5xowRDNbRXjA" />
@@ -79,6 +80,7 @@
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_qspi_dma.h" IsConfig="false" Hash="lk4Jucsw6aNOKkh1omfXow" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_qspi_sync.h" IsConfig="false" Hash="4zf+sgXtmRMPXlmNh5HEAA" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_ramecc.h" IsConfig="false" Hash="jEqIEhx0d2x1jduY0A9CFQ" />
+          <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_rand_sync.h" IsConfig="false" Hash="KLNGR9hVninB5OYTf9Sykw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_sleep.h" IsConfig="false" Hash="JOXa2/KqNtt950+B1ZJfSQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_spi.h" IsConfig="false" Hash="wAxvxvj1p/CvWEoawsWIBw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_spi_async.h" IsConfig="false" Hash="sUIART4unR3sm4AlXv5LlQ" />
@@ -96,6 +98,7 @@
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_init.c" IsConfig="false" Hash="bJvq8kpNbbOE2nZfChOGTQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_io.c" IsConfig="false" Hash="FYpavzYSxhFzVrBQtcH2ZA" />
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_qspi_sync.c" IsConfig="false" Hash="QXpQdsNQ9F+mMPT7W7RFuw" />
+          <AcmeProjectActionInfo Action="File" Source="hal/src/hal_rand_sync.c" IsConfig="false" Hash="mjHvimOpnXqAi1gcICu2gA" />
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_sleep.c" IsConfig="false" Hash="3ebghfB3jYLpnqoi3fhq3g" />
           <AcmeProjectActionInfo Action="File" Source="hal/src/hal_usb_device.c" IsConfig="false" Hash="kjTCQ0tLOU711sB984mqnQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/utils/include/compiler.h" IsConfig="false" Hash="8BnWsmkWteo58vaF6VHKHA" />
@@ -175,11 +178,11 @@
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.c" IsConfig="false" Hash="506QsMNqKwMw3St/nEXa8Q" />
           <AcmeProjectActionInfo Action="File" Source="usb/usb_protocol.h" IsConfig="false" Hash="IjsDWsLIdSQj3pFlkAX0UA" />
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="+mxnjSKEkNxMZRJMUIzbaQ" />
-          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="M+C0Zju349GcYPO3/V06lA" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.c" IsConfig="false" Hash="siLIJ6lBUQnJ0JkE+nm7Mg" />
+          <AcmeProjectActionInfo Action="File" Source="driver_init.h" IsConfig="false" Hash="vg6z4aT1bsvrNF/7inanTA" />
           <AcmeProjectActionInfo Action="File" Source="atmel_start_pins.h" IsConfig="false" Hash="X0sYLjNaXpKsYeYvKiUzuw" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="9f7QtNFbXV0cG/0GjXeWhQ" />
-          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="IMHlkvfDbK9Svpb6NuEvjA" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.h" IsConfig="false" Hash="qeqgxCIhamQMShYTnQA6UQ" />
+          <AcmeProjectActionInfo Action="File" Source="examples/driver_examples.c" IsConfig="false" Hash="bFx/EdGQJO364Q2dSCaMhQ" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_pwm.h" IsConfig="false" Hash="RXcBZcci/7vXKRJKNIq/Kw" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hal_timer.h" IsConfig="false" Hash="5pZVthtMl40VMvofOld2ng" />
           <AcmeProjectActionInfo Action="File" Source="hal/include/hpl_calendar.h" IsConfig="false" Hash="Axxal1o5u+cNnytorSIZkA" />
@@ -220,6 +223,7 @@
           <AcmeProjectActionInfo Action="File" Source="hpl/sercom/hpl_sercom.c" IsConfig="false" Hash="CjIu1Ksl4k1CotxZpVcqMA" />
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.c" IsConfig="false" Hash="Z4LuJljuq384TsemEvHpdw" />
           <AcmeProjectActionInfo Action="File" Source="hpl/tcc/hpl_tcc.h" IsConfig="false" Hash="rdWkAK12qkOYV59tWwzy6A" />
+          <AcmeProjectActionInfo Action="File" Source="hpl/trng/hpl_trng.c" IsConfig="false" Hash="ozPpMlinY/ncU3MYQsLTow" />
           <AcmeProjectActionInfo Action="File" Source="hpl/usb/hpl_usb.c" IsConfig="false" Hash="pxMAvWdqmE7X3Fa2tkbYUQ" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/touch.h" IsConfig="false" Hash="r7UABdC9LSz0SKb8Lto14w" />
           <AcmeProjectActionInfo Action="File" Source="qtouch/touch.c" IsConfig="false" Hash="8d3La+EFeDamzAdUBiculw" />
@@ -242,6 +246,7 @@
           <AcmeProjectActionInfo Action="File" Source="config/hpl_rtc_config.h" IsConfig="true" Hash="9Fe6jPSvaDcH9Ejz/4s7XA" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_sercom_config.h" IsConfig="true" Hash="NKVUlBrLuf+pOieW51TM2Q" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_tcc_config.h" IsConfig="true" Hash="e4Lbnq0uVc7gtVAasNNhXA" />
+          <AcmeProjectActionInfo Action="File" Source="config/hpl_trng_config.h" IsConfig="true" Hash="w2k+3QQFGr1vF7NGmKdLLQ" />
           <AcmeProjectActionInfo Action="File" Source="config/hpl_usb_config.h" IsConfig="true" Hash="OTnXMB+/o/b7gPmkxUTUeQ" />
           <AcmeProjectActionInfo Action="File" Source="config/peripheral_clk_config.h" IsConfig="true" Hash="rY+STWE2Y1lE2BCg1AcT4w" />
           <AcmeProjectActionInfo Action="File" Source="config/usbd_config.h" IsConfig="true" Hash="+IN9FTPiQVdcpm7kwsDEQA" />
@@ -250,21 +255,21 @@
       </AcmeProjectConfig>
     </AcmeProjectConfig>
     <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
-    <avrtoolserialnumber>260111452</avrtoolserialnumber>
+    <avrtoolserialnumber>801009411</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x61830306</avrdeviceexpectedsignature>
     <avrtoolinterface>SWD</avrtoolinterface>
     <com_atmel_avrdbg_tool_samice>
       <ToolOptions>
         <InterfaceProperties>
-          <SwdClock>1959214</SwdClock>
+          <SwdClock>4000000</SwdClock>
         </InterfaceProperties>
         <InterfaceName>SWD</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
-      <ToolNumber>260111452</ToolNumber>
+      <ToolNumber>801009411</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
-    <avrtoolinterfaceclock>1959214</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -301,6 +306,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -344,6 +350,8 @@
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>%24(ProjectDir)\Device_Startup</Value>
     </ListValues>
   </armgcc.linker.libraries.LibrarySearchPaths>
@@ -371,6 +379,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -405,6 +414,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -461,6 +471,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -504,6 +515,8 @@
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
       <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
+      <Value>..\qtouch\lib\gcc</Value>
       <Value>%24(ProjectDir)\Device_Startup</Value>
     </ListValues>
   </armgcc.linker.libraries.LibrarySearchPaths>
@@ -532,6 +545,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -567,6 +581,7 @@
       <Value>../hpl/rtc</Value>
       <Value>../hpl/sercom</Value>
       <Value>../hpl/tcc</Value>
+      <Value>../hpl/trng</Value>
       <Value>../hpl/usb</Value>
       <Value>../hri</Value>
       <Value>../documentation</Value>
@@ -619,6 +634,7 @@
     <Folder Include="hpl\rtc\" />
     <Folder Include="hpl\sercom\" />
     <Folder Include="hpl\tcc\" />
+    <Folder Include="hpl\trng\" />
     <Folder Include="hpl\usb\" />
     <Folder Include="hri\" />
     <Folder Include="qtouch\" />
@@ -777,6 +793,9 @@
     <Compile Include="Config\hpl_tcc_config.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Config\hpl_trng_config.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Config\hpl_usb_config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -858,6 +877,9 @@
     <Compile Include="hal\include\hal_qspi_sync.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="hal\include\hal_rand_sync.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="hal\include\hal_sleep.h">
       <SubType>compile</SubType>
     </Compile>
@@ -925,6 +947,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\include\hpl_ramecc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal\include\hpl_rand_sync.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\include\hpl_reset.h">
@@ -1009,6 +1034,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\src\hal_qspi_sync.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal\src\hal_rand_sync.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hal\src\hal_sleep.c">
@@ -1132,6 +1160,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hpl\tcc\hpl_tcc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hpl\trng\hpl_trng.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hpl\usb\hpl_usb.c">
@@ -1303,6 +1334,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="qtouch\touch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\messageScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\rewardScene.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ST25RFAL\include\rfal_analogConfig.h">
@@ -1542,6 +1579,9 @@
       <SubType>compile</SubType>
     </None>
     <None Include="hal\documentation\quad_spi_sync.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="hal\documentation\rand_sync.rst">
       <SubType>compile</SubType>
     </None>
     <None Include="hal\documentation\spi_master_sync.rst">

@@ -22,6 +22,8 @@ struct i2c_m_sync_desc I2C_0;
 
 struct pwm_descriptor PWM_0;
 
+struct rand_sync_desc RAND_0;
+
 /**
  * \brief PTC initialization function
  *
@@ -408,6 +410,17 @@ void PWM_0_init(void)
 	pwm_init(&PWM_0, TCC0, _tcc_get_pwm());
 }
 
+void RAND_0_CLOCK_init(void)
+{
+	hri_mclk_set_APBCMASK_TRNG_bit(MCLK);
+}
+
+void RAND_0_init(void)
+{
+	RAND_0_CLOCK_init();
+	rand_sync_init(&RAND_0, TRNG);
+}
+
 void USB_0_PORT_init(void)
 {
 
@@ -540,6 +553,8 @@ void system_init(void)
 	SPI_1_init();
 
 	PWM_0_init();
+
+	RAND_0_init();
 
 	USB_0_init();
 }

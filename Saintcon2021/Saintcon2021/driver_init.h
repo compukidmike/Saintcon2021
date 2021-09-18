@@ -33,6 +33,8 @@ extern "C" {
 #include <hal_pwm.h>
 #include <hpl_tcc.h>
 
+#include <hal_rand_sync.h>
+
 #include "hal_usb_device.h"
 
 extern struct qspi_sync_descriptor QUAD_SPI_0;
@@ -42,6 +44,8 @@ extern struct i2c_m_sync_desc       I2C_0;
 extern struct spi_m_sync_descriptor SPI_1;
 
 extern struct pwm_descriptor PWM_0;
+
+extern struct rand_sync_desc RAND_0;
 
 void QUAD_SPI_0_PORT_init(void);
 void QUAD_SPI_0_CLOCK_init(void);
@@ -58,6 +62,9 @@ void SPI_1_init(void);
 void PWM_0_PORT_init(void);
 void PWM_0_CLOCK_init(void);
 void PWM_0_init(void);
+
+void RAND_0_CLOCK_init(void);
+void RAND_0_init(void);
 
 void USB_0_CLOCK_init(void);
 void USB_0_init(void);

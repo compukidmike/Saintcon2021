@@ -1779,6 +1779,18 @@ drivers:
           external_frequency: 0
         configuration:
           tcc_gclk_selection: Generic clock generator 0
+  RAND_0:
+    user_label: RAND_0
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::TRNG::driver_config_definition::RAND::HAL:Driver:RAND.Sync
+    functionality: RAND
+    api: HAL:Driver:RAND_Sync
+    configuration:
+      trng_datardyeo: false
+      trng_runstdby: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group: null
   USB_0:
     user_label: USB_0
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::USB::driver_config_definition::USB.Device::HAL:Driver:USB.Device
