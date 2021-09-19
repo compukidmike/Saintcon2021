@@ -7,7 +7,6 @@
 
 #include <math.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "machine_common.h"
 #include "FrameBuffer.h"
@@ -19,9 +18,19 @@ requirement loot[4];
 static uint8_t reward_frame;
 
 void decideLoot() {
+	uint8_t partslist[13] = {0,1,2,3,4,5,6,7,8,9,10,11,12};
+	//shuffle
+	for (int i=0; i<13; ++i) {
+		uint8_t o =  rand_sync_read32(&RAND_0) % 13;
+		if (o!=i) {
+			uint8_t t = partslist[i];
+			partslist[i] = partslist[o];
+			partslist[o] = t;
+		}
+	}
 	for (int i=0; i<4; ++i) {
-		uint r = rand() % 20;
-		loot[i].part = rand() % 13;
+		uint r = rand_sync_read32(&RAND_0) % 20;
+		loot[i].part = partslist[i];
 		switch(loot[i].part) {
 			case none:
 				loot[i].count = 0;
@@ -75,8 +84,10 @@ Scene reward_scene_loop(bool init) {
 		return MENU;
 	}
 	
-	canvas_clearScreen(RGB(82, 204, 153));
-	canvas_drawImage_FromFlash_p(60, 0, 120, 160, CRATE_IMG, (reward_frame/2) * 120, 0, 600);
+	if (reward_frame < 10) {
+		canvas_clearScreen(RGB(82, 204, 153));
+		canvas_drawImage_FromFlash_p(60, 0, 120, 160, CRATE_IMG, (reward_frame/2) * 120, 0, 600);
+	}
 	
 	if (reward_frame == 10) {
 		canvas_drawText(56, 144, "You've received:", 0);
@@ -88,7 +99,7 @@ Scene reward_scene_loop(bool init) {
 				canvas_drawText(56, y, line, 0);
 				int px = (p % 4)*16;
 				int py = (p / 4)*16;
-				canvas_drawImage_FromFlash_pt(88, y, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(80, y, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 				y+=16;
 			}
 		}

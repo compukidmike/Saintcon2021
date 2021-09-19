@@ -24,11 +24,8 @@ bool claspopen = false;
 extern uint16_t bird_raw[];
 
 static void back_button_pressed(void);
-
 static struct timer_task Timer_task1;
-/**
- * Example of using Timer.
- */
+
 static void Timer_task1_cb(const struct timer_task *const timer_task)
 {
 	touch_process();
@@ -43,9 +40,6 @@ void Timer_touch_init(void)
 	timer_add_task(&Timer, &Timer_task1);
 	timer_start(&Timer);
 }
-
-
-extern uint16_t bird_raw[];
 
 int main(void)
 {
@@ -62,19 +56,16 @@ int main(void)
 	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	
-	
 	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(PIN_PB17,true);
+	
+	rand_sync_enable(&RAND_0);
 	LCD_Init();
 	
 	eeprom_init();
-	
-	//test eeprom
 	eeprom_load_state();
-	if (g_state.badge_bitmask != 0xaabbccdd) {
-		g_state.badge_bitmask = 0xaabbccdd;
-		eeprom_save_state();
-	}
+	memset((uint8_t*)&g_state, 0, sizeof(g_state)); //For testing always start over
+
 	
 	flash_init();
 	uint8_t id[4];
@@ -121,6 +112,8 @@ int main(void)
 	Scene scene = TEST;
 	bool changed = true;
 	bool lastclasp = false;
+	bool screenon = true;
+	uint32_t lastTouch = millis();
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
@@ -180,6 +173,23 @@ int main(void)
 
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
+		
+		uint32_t now = millis();
+		if (scroller_status) {
+			if (!screenon) {
+				LCD_Wake();
+				screenon = true;
+			}
+			lastTouch = now;
+		}
+		
+		if (now > (lastTouch + SCREEN_OFF_AFTER)) {
+			if (screenon) {
+				LCD_Sleep();
+				led_off();
+				screenon = false;
+			}			
+		}
 		
 		Scene ns;
 		switch(scene) {
@@ -245,17 +255,9 @@ int32_t spi_m_sync_io_readwrite(struct io_descriptor *io, uint8_t *rxbuf, uint8_
 	return spi_m_sync_transfer(spi, &xfer);
 }
 
-bool led_toggle=false;
-
 static void back_button_pressed(void)
 {
 	back_event = true;
-	led_toggle = !led_toggle;
-	if(led_toggle){
-		//led_off();
-	} else {
-		//led_set_color(LED_COLOR_WHITE);
-	}
 }
 
 volatile uint32_t MS_Timer = 0;

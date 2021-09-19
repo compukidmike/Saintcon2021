@@ -13,6 +13,7 @@
 
 #include <hpl_rtc_base.h>
 
+struct aes_sync_descriptor   CRYPTOGRAPHY_0;
 struct timer_descriptor      Timer;
 struct spi_m_sync_descriptor SPI_1;
 
@@ -21,6 +22,8 @@ struct qspi_sync_descriptor QUAD_SPI_0;
 struct i2c_m_sync_desc I2C_0;
 
 struct pwm_descriptor PWM_0;
+
+struct rand_sync_desc RAND_0;
 
 /**
  * \brief PTC initialization function
@@ -31,6 +34,17 @@ static void PTC_0_clock_init(void)
 {
 	hri_mclk_set_APBDMASK_ADC0_bit(MCLK);
 	hri_gclk_write_PCHCTRL_reg(GCLK, ADC0_GCLK_ID, CONF_GCLK_ADC0_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+}
+
+/**
+ * \brief AES initialization function
+ *
+ * Enables AES peripheral, clocks and initializes AES driver
+ */
+void CRYPTOGRAPHY_0_init(void)
+{
+	hri_mclk_set_APBCMASK_AES_bit(MCLK);
+	aes_sync_init(&CRYPTOGRAPHY_0, AES);
 }
 
 void EXTERNAL_IRQ_0_init(void)
@@ -408,6 +422,17 @@ void PWM_0_init(void)
 	pwm_init(&PWM_0, TCC0, _tcc_get_pwm());
 }
 
+void RAND_0_CLOCK_init(void)
+{
+	hri_mclk_set_APBCMASK_TRNG_bit(MCLK);
+}
+
+void RAND_0_init(void)
+{
+	RAND_0_CLOCK_init();
+	rand_sync_init(&RAND_0, TRNG);
+}
+
 void USB_0_PORT_init(void)
 {
 
@@ -528,6 +553,7 @@ void system_init(void)
 	init_mcu();
 
 	PTC_0_clock_init();
+	CRYPTOGRAPHY_0_init();
 
 	EXTERNAL_IRQ_0_init();
 
@@ -540,6 +566,8 @@ void system_init(void)
 	SPI_1_init();
 
 	PWM_0_init();
+
+	RAND_0_init();
 
 	USB_0_init();
 }

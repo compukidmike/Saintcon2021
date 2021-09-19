@@ -242,11 +242,13 @@ void LCD_Reset(){
 }
 
 void LCD_Sleep(){
-
+	gpio_setlow(LCD_BL);
+	LCD_Select();LCD_WriteCommand(0x0010);LCD_WriteData(0x1692);LCD_Deselect();        // SAP, BT[3:0], AP, DSTB, SLP, STB
 }
 
 void LCD_Wake(){
-
+	gpio_sethigh(LCD_BL);
+	LCD_Select();LCD_WriteCommand(0x0010);LCD_WriteData(0x1690);LCD_Deselect();        // SAP, BT[3:0], AP, DSTB, SLP, STB
 }
 
 

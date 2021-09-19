@@ -12,6 +12,8 @@
 extern "C" {
 #endif
 
+void CRYPTOGRAPHY_0_example(void);
+
 void EXTERNAL_IRQ_0_example(void);
 
 void QUAD_SPI_0_example(void);
@@ -21,6 +23,8 @@ void Timer_example(void);
 void I2C_0_example(void);
 
 void PWM_0_example(void);
+
+void RAND_0_example(void);
 
 #ifdef __cplusplus
 }

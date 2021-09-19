@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
+#include "main.h"
 
 #define MAZE_WIDTH		60
 #define MAZE_HEIGHT		40
@@ -193,21 +194,21 @@ void initMaze(int level) {
     }
     
     //Add Key
-    int k = rand()%connected_size;
+    int k = rand_sync_read32(&RAND_0)%connected_size;
     r = connected[k];
-    setCell(r.x+rand()%r.w, r.y+rand()%r.h, KEY_TILE);
+    setCell(r.x+rand_sync_read32(&RAND_0)%r.w, r.y+rand_sync_read32(&RAND_0)%r.h, KEY_TILE);
 
     enemy_count = connected_size;
     
     for (int i=0; i<connected_size; ++i) {
         r = connected[i];
-        switch(rand()%3) {
+        switch(rand_sync_read32(&RAND_0)%3) {
             case 0:
             case 1:
-            	enemies[i] = (struct Enemy){ENEMY_GUARD, 0, r.x+rand()%r.w, r.y+rand()%r.h, rand()%4+1,false,false};
+            	enemies[i] = (struct Enemy){ENEMY_GUARD, 0, r.x+rand_sync_read32(&RAND_0)%r.w, r.y+rand_sync_read32(&RAND_0)%r.h, rand_sync_read32(&RAND_0)%4+1,false,false};
                 break;
             case 2:
-                switch(rand()%4) {
+                switch(rand_sync_read32(&RAND_0)%4) {
                     case 0:
                     	enemies[i] = (struct Enemy){ENEMY_CAMERA, 0, r.x, r.y, DIR_DOWN,false,false};
                         break;
@@ -279,12 +280,12 @@ void carveYTunnel(uint8_t y1, uint8_t y2, uint8_t x) {
 }
 
 void connectRooms(struct Room r1, struct Room r2) {
-    uint8_t x1 = r1.x + (rand()%2) * (r1.w-1);
-    uint8_t y1 = r1.y + (rand()%2) * (r1.h-1);
-    uint8_t x2 = r2.x + (rand()%2) * (r2.w-1);
-    uint8_t y2 = r2.y + (rand()%2) * (r2.h-1);
+    uint8_t x1 = r1.x + (rand_sync_read32(&RAND_0)%2) * (r1.w-1);
+    uint8_t y1 = r1.y + (rand_sync_read32(&RAND_0)%2) * (r1.h-1);
+    uint8_t x2 = r2.x + (rand_sync_read32(&RAND_0)%2) * (r2.w-1);
+    uint8_t y2 = r2.y + (rand_sync_read32(&RAND_0)%2) * (r2.h-1);
     
-    uint8_t w = rand()%2;
+    uint8_t w = rand_sync_read32(&RAND_0)%2;
     carveXTunnel(x1, x2, w?y1:y2);
     carveYTunnel(y1, y2, w?x2:x1);
 }
@@ -294,10 +295,10 @@ struct Room carveRandomRoom(uint8_t width, uint8_t height) {
     int i=0;
     do
     {
-        r.w = rand()%(ROOM_MAX_WIDTH-ROOM_MIN_WIDTH) + ROOM_MIN_WIDTH;
-        r.h = rand()%(ROOM_MAX_WIDTH-ROOM_MIN_WIDTH) + ROOM_MIN_WIDTH;
-        r.x = rand()%(width-2-r.w)+1;
-        r.y = rand()%(height-2-r.h)+1;
+        r.w = rand_sync_read32(&RAND_0)%(ROOM_MAX_WIDTH-ROOM_MIN_WIDTH) + ROOM_MIN_WIDTH;
+        r.h = rand_sync_read32(&RAND_0)%(ROOM_MAX_WIDTH-ROOM_MIN_WIDTH) + ROOM_MIN_WIDTH;
+        r.x = rand_sync_read32(&RAND_0)%(width-2-r.w)+1;
+        r.y = rand_sync_read32(&RAND_0)%(height-2-r.h)+1;
         i++;
     } while(!isValidRoom(r));
         
