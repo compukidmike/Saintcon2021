@@ -24,7 +24,6 @@ bool claspopen = false;
 extern uint16_t bird_raw[];
 
 static void back_button_pressed(void);
-
 static struct timer_task Timer_task1;
 
 static void Timer_task1_cb(const struct timer_task *const timer_task)
@@ -113,6 +112,8 @@ int main(void)
 	Scene scene = TEST;
 	bool changed = true;
 	bool lastclasp = false;
+	bool screenon = true;
+	uint32_t lastTouch = millis();
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
@@ -172,6 +173,23 @@ int main(void)
 
 		scroller_status   = get_scroller_state(0);
 		scroller_position = get_scroller_position(0);
+		
+		uint32_t now = millis();
+		if (scroller_status) {
+			if (!screenon) {
+				LCD_Wake();
+				screenon = true;
+			}
+			lastTouch = now;
+		}
+		
+		if (now > (lastTouch + SCREEN_OFF_AFTER)) {
+			if (screenon) {
+				LCD_Sleep();
+				led_off();
+				screenon = false;
+			}			
+		}
 		
 		Scene ns;
 		switch(scene) {
