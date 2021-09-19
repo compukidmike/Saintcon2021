@@ -13,6 +13,7 @@
 
 #include <hpl_rtc_base.h>
 
+struct aes_sync_descriptor   CRYPTOGRAPHY_0;
 struct timer_descriptor      Timer;
 struct spi_m_sync_descriptor SPI_1;
 
@@ -33,6 +34,17 @@ static void PTC_0_clock_init(void)
 {
 	hri_mclk_set_APBDMASK_ADC0_bit(MCLK);
 	hri_gclk_write_PCHCTRL_reg(GCLK, ADC0_GCLK_ID, CONF_GCLK_ADC0_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+}
+
+/**
+ * \brief AES initialization function
+ *
+ * Enables AES peripheral, clocks and initializes AES driver
+ */
+void CRYPTOGRAPHY_0_init(void)
+{
+	hri_mclk_set_APBCMASK_AES_bit(MCLK);
+	aes_sync_init(&CRYPTOGRAPHY_0, AES);
 }
 
 void EXTERNAL_IRQ_0_init(void)
@@ -541,6 +553,7 @@ void system_init(void)
 	init_mcu();
 
 	PTC_0_clock_init();
+	CRYPTOGRAPHY_0_init();
 
 	EXTERNAL_IRQ_0_init();
 
