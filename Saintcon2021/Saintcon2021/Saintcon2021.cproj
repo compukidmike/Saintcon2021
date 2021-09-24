@@ -1372,6 +1372,9 @@
     <Compile Include="Scenes\messageScene.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Scenes\nfcScene.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Scenes\rewardScene.c">
       <SubType>compile</SubType>
     </Compile>

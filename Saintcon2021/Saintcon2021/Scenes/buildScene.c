@@ -8,17 +8,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "main.h"
 #include "flash.h"
 #include "machine_common.h"
 #include "FrameBuffer.h"
 
-#define BUILDTIME   3000
-
 int build_index;
 bool build_touching;
-int build_lastTouch;
-uint32_t build_touchStart, build_holdtime;
+int build_scroll, build_lastTouch;
 
 bool build_hasParts() {
 	const module *mod = &module_info[build_index];
@@ -43,7 +41,7 @@ void build_draw() {
 	
 	if (build_metPreReqs()) {
 		int x = 120-(int)strlen(mod->name)*4;
-		canvas_drawText(x, 102, mod->name, RGB(200,200,200));
+		canvas_drawText(x, 100, mod->name, RGB(200,200,200));
 		int rx = mod->src_x;
 		int rw = mod->src_w;
 		if (rw > 78)
@@ -66,17 +64,18 @@ void build_draw() {
 					canvas_drawText(50, 132 + i * 16, line, color);
 					int px = (mod->reqparts[i].part % 4)*16;
 					int py = (mod->reqparts[i].part / 4)*16;
-					canvas_drawImage_FromFlash_pt(90, 132 + i * 16, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+					canvas_drawImage_FromFlash_pt(90, 129 + i * 16, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 				}
 			}
-			if (!build_hasParts()) {
-				canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
+			if (build_hasParts()) {
+				//draw unlock
 			}
 		}
 		else {
 			canvas_drawText(90, 146, "Already", RGB(200,200,200));
 			canvas_drawText(98, 162, "Built", RGB(200,200,200));
-			canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
+			//draw check mark
+			//canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
 		}
 		
 		
@@ -86,17 +85,10 @@ void build_draw() {
 		canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 244, 240);
 	}
 	
-	if (build_touching) {
-		if (build_lastTouch == 2)
-		canvas_drawImage_FromFlash_p(208, 88, 32, 64, BUILD_IMG, 208, 240, 240);
-		else if (build_lastTouch == 6)
-		canvas_drawImage_FromFlash_p(0, 88, 32, 64, BUILD_IMG, 0, 240, 240);
-		else if ((build_lastTouch == 4) && build_holdtime) {
-			canvas_drawImage_FromFlash_p(80, 210, 81, 30, BUILD_IMG, 80, 274, 240);
-			int h = build_holdtime * 68 / BUILDTIME;
-			canvas_fillRect(86, 218, h, 2, RGB(180,180,255));
-		}
-	}
+	float angle = build_scroll * M_PI / 180.0;
+	int bx = 114*sin(angle)+114;
+	int by = 114*cos(angle)+114;
+	canvas_drawImage_FromFlash_pt(bx, by, 12, 12,BALL_IMG, 0, 0, 12, RGB(242, 170, 206));
 	
 	canvas_blt();
 }
@@ -110,50 +102,47 @@ Scene build_scene_loop(bool init) {
 	if (init) {
 		build_index=0;
 		build_touching = false;
-		build_holdtime = 0;
+		build_scroll = 0;
 		build_draw();
 	}
-	if (scroller_status) {
-		int xx = getTouchLocation();
-		build_lastTouch = ((xx+ 22) / 45)%8;
-		if (build_touching) {
-			uint32_t now = millis();
-			const module *mod = &module_info[build_index];
-			if (build_hasParts() && ((g_state.modules_bitmask & mod->id) == 0 ) && (build_lastTouch == 4)) {
-				if ((now - build_touchStart) > BUILDTIME) { //build it!
-					for (int i=0; i<4; ++i) {
-						if (mod->reqparts[i].part != none) {
-							g_state.part_count[mod->reqparts[i].part] -= mod->reqparts[i].count;
-						}
-					}
-					g_state.modules_bitmask |= (1<<build_index);
-					build_touchStart = now;
-				}
-				build_holdtime = now - build_touchStart;
+	
+	const module *mod = &module_info[build_index];
+	if (unlock_event && build_hasParts() && ((g_state.modules_bitmask & mod->id) == 0 )) {
+		for (int i=0; i<4; ++i) {
+			if (mod->reqparts[i].part != none) {
+				g_state.part_count[mod->reqparts[i].part] -= mod->reqparts[i].count;
 			}
 		}
-		if (!build_touching) {
-			const module *mod = &module_info[build_index];
-			build_holdtime = 0;
-			if (build_hasParts() && ((g_state.modules_bitmask & mod->id) == 0 ) && (build_lastTouch == 4))
-			build_touchStart = millis();
+		g_state.modules_bitmask |= (1<<build_index);
+		build_draw();
+	}
+	
+	if (scroller_status) {
+		int touchAt = getTouchLocation();
+		if (build_touching) {
+			int diff = build_lastTouch - touchAt;
+			while (diff < -180) diff+=360;
+			while (diff > 180) diff-=360;
+			build_scroll += diff;
+			if (build_scroll > 47) {
+				do {
+					if (++build_index == MODULE_COUNT) build_index = 0;
+				} while (!build_metPreReqs());
+				build_scroll -= 90;
+			}
+			if (build_scroll < -47) {
+				do {
+					if (--build_index < 0) build_index = MODULE_COUNT - 1;
+				} while (!build_metPreReqs());
+				build_scroll += 90;
+			}
 		}
+		build_lastTouch = touchAt;
 		build_touching = true;
 		build_draw();
 	}
 	else if (build_touching) {
 		build_touching = false;
-		if (build_lastTouch == 2) {//next
-			do {
-				if (++build_index == MODULE_COUNT) build_index = 0;
-			} while (!build_metPreReqs());
-		}
-		else if (build_lastTouch == 6) {//prev
-			do {
-				if (--build_index < 0) build_index = MODULE_COUNT - 1;
-			} while (!build_metPreReqs());
-		}
-		build_draw();
 	}
 	return BUILD;
 }

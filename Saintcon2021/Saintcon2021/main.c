@@ -64,7 +64,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
-	memset((uint8_t*)&g_state, 0, sizeof(g_state)); //For testing always start over
+	memset((uint8_t*)&g_state, 0x55, sizeof(g_state)); //For testing always start over
 
 	
 	flash_init();
@@ -214,6 +214,10 @@ int main(void)
 		case MESSAGE:
 			ns = message_scene_loop(changed);
 			break;
+		case NFCREADER:
+			ns = nfc_scene_loop(changed);
+			break;
+		case TRADING:
 		case MENU:
 		default:
 			ns = menu_scene_loop(changed);

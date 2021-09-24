@@ -35,10 +35,18 @@ typedef enum {
 	TEST,
 	MACHINE,
 	INVENTORY,
-	VCARD,
+	NFCREADER,
 	REWARD,
 	MESSAGE
 } Scene;
+
+#define REWARD_SHIM			(1<<0)
+#define REWARD_GAME1		(1<<1)
+#define REWARD_GAME2		(1<<2)
+#define REWARD_MINIBADGE	(1<<3)
+#define REWARD_VENDOR		(1<<4)
+#define REWARD_HC			(1<<5)
+#define REWARD_TRADE		(1<<6)
 
 //NOTE: if you modify this update the eeprom save/load functions
 typedef struct _badgestate {
@@ -71,6 +79,7 @@ Scene machine_scene_loop(bool init);
 Scene build_scene_loop(bool init);
 Scene reward_scene_loop(bool init);
 Scene message_scene_loop(bool init);
+Scene nfc_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
 void setMessage(const char* msg);
