@@ -45,6 +45,28 @@ void EXTERNAL_IRQ_0_example(void)
 	ext_irq_register(PIN_PA27, button_on_PA27_pressed);
 }
 
+COMPILER_ALIGNED(128)
+struct sha_context context;
+COMPILER_PACK_RESET();
+
+/**
+ * Example of using HASH_ALGORITHM_0 to generate SHA digest message.
+ */
+void HASH_ALGORITHM_0_example(void)
+{
+	const uint8_t sha1_digest[]  = {0xA9, 0x99, 0x3E, 0x36, 0x47, 0x06, 0x81, 0x6A, 0xBA, 0x3E,
+                                   0x25, 0x71, 0x78, 0x50, 0xC2, 0x6C, 0x9C, 0xD0, 0xD8, 0x9D};
+	uint8_t       sha_output[20] = {0x00};
+	int32_t       i;
+
+	sha_sync_enable(&HASH_ALGORITHM_0);
+	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, "abc", 3, sha_output);
+	for (i = 0; i < 20; i++) {
+		while (sha_output[i] != sha1_digest[i])
+			;
+	}
+}
+
 /**
  * Example of using QUAD_SPI_0 to get N25Q256A status value,
  * and check bit 0 which indicate embedded operation is busy or not.

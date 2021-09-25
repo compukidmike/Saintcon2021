@@ -14,6 +14,7 @@
 #include <hpl_rtc_base.h>
 
 struct aes_sync_descriptor   CRYPTOGRAPHY_0;
+struct sha_sync_descriptor   HASH_ALGORITHM_0;
 struct timer_descriptor      Timer;
 struct spi_m_sync_descriptor SPI_1;
 
@@ -66,6 +67,23 @@ void EXTERNAL_IRQ_0_init(void)
 	gpio_set_pin_function(PA27, PINMUX_PA27A_EIC_EXTINT11);
 
 	ext_irq_init();
+}
+
+void HASH_ALGORITHM_0_CLOCK_init(void)
+{
+	hri_mclk_set_AHBMASK_ICM_bit(MCLK);
+	hri_mclk_set_APBCMASK_ICM_bit(MCLK);
+}
+
+/**
+ * \brief SHA initialization function
+ *
+ * Enables SHA peripheral, clocks and initializes SHA driver
+ */
+void HASH_ALGORITHM_0_init(void)
+{
+	HASH_ALGORITHM_0_CLOCK_init();
+	sha_sync_init(&HASH_ALGORITHM_0, ICM);
 }
 
 void QUAD_SPI_0_PORT_init(void)
@@ -556,6 +574,8 @@ void system_init(void)
 	CRYPTOGRAPHY_0_init();
 
 	EXTERNAL_IRQ_0_init();
+
+	HASH_ALGORITHM_0_init();
 
 	QUAD_SPI_0_init();
 
