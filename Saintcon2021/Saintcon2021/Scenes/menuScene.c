@@ -104,7 +104,7 @@ Scene menu_scene_loop(bool init) {
 	}
 	else {
 		if (menu_selected)
-		return menu_selected;
+			return menu_selected;
 		menu_scrolling = false;
 	}
 	return MENU;

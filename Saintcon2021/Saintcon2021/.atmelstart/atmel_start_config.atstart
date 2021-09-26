@@ -467,6 +467,17 @@ drivers:
           external_frequency: 0
         configuration:
           adc_gclk_selection: Generic clock generator 0
+  CRYPTOGRAPHY_0:
+    user_label: CRYPTOGRAPHY_0
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::AES::driver_config_definition::AES::HAL:Driver:AES.Sync
+    functionality: Cryptography
+    api: HAL:Driver:AES_Sync
+    configuration:
+      aes_dbgctrl: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group: null
   CMCC:
     user_label: CMCC
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::CMCC::driver_config_definition::CMCC::HAL:HPL:CMCC
@@ -1295,6 +1306,16 @@ drivers:
     variant: null
     clocks:
       domain_group: null
+  HASH_ALGORITHM_0:
+    user_label: HASH_ALGORITHM_0
+    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::ICM::driver_config_definition::SHA::HAL:Driver:SHA.Sync
+    functionality: Hash_Algorithm
+    api: HAL:Driver:SHA_Sync
+    configuration: {}
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group: null
   MCLK:
     user_label: MCLK
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::MCLK::driver_config_definition::MCLK::HAL:HPL:MCLK
@@ -1791,18 +1812,7 @@ drivers:
     variant: null
     clocks:
       domain_group: null
-  CRYPTOGRAPHY_0:
-    user_label: CRYPTOGRAPHY_0
-    definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::AES::driver_config_definition::AES::HAL:Driver:AES.Sync
-    functionality: Cryptography
-    api: HAL:Driver:AES_Sync
-    configuration:
-      aes_dbgctrl: false
-    optional_signals: []
-    variant: null
-    clocks:
-      domain_group: null
-USB_0:
+  USB_0:
     user_label: USB_0
     definition: Atmel:SAME53_Drivers:0.0.1::SAME53J18A-MF::USB::driver_config_definition::USB.Device::HAL:Driver:USB.Device
     functionality: USB

@@ -56,8 +56,11 @@ void flash_read_vcard(char* vcard);
 #define MACHINE_BKG_IMG      	 ((uint32_t)0X006400)
 #define MACHINE_IMG          	 ((uint32_t)0X022800)
 #define BUILD_IMG            	 ((uint32_t)0X255000)
-#define PARTS_IMG            	 ((uint32_t)0X278C00)
-#define MENU_IMG             	 ((uint32_t)0X27AC00)
-#define CRATE_IMG            	 ((uint32_t)0X2B0000)
+#define PARTS_IMG            	 ((uint32_t)0X271400)
+#define MENU_IMG             	 ((uint32_t)0X273400)
+#define CRATE_IMG            	 ((uint32_t)0X2A8800)
+#define NFC_IMG              	 ((uint32_t)0X2D7800)
+#define BALL_IMG             	 ((uint32_t)0X348000)
+#define INVENTORY_IMG        	 ((uint32_t)0X348400)
 
 #endif /* FLASH_H_ */

@@ -6,7 +6,7 @@ import struct, os, sys
 ##
 if __name__ == '__main__':
     with open('flash.bin', 'wb') as outf:
-        for filename in ['bird.png', 'machine_bkg.png', 'machine.png', 'build.png', 'parts.png', 'menu.png', 'crate.png']:
+        for filename in ['bird.png', 'machine_bkg.png', 'machine.png', 'build.png', 'parts.png', 'menu.png', 'crate.png', 'nfc.png', 'ball.png', 'inventory.png']:
             if os.path.exists(filename) == False: 
                 error('not exists: ' + filename)
             body, _ = os.path.splitext(filename)
@@ -27,8 +27,8 @@ if __name__ == '__main__':
             while (outf.tell() %1024):
                 outf.write(b'\xFF')
 
-        outf.write(b'\0'*124)
-        outf.write(b'38- 8-18')
-        outf.write(b'\0'*124)
+        outf.write(b'\0'*118)
+        outf.write(b'Lock Combo: 38-8-18 ')
+        outf.write(b'\0'*118)
         print()
         print("%dKB used"%(outf.tell()/1024))

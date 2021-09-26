@@ -25,6 +25,8 @@ extern "C" {
 
 #include <hal_ext_irq.h>
 
+#include <hal_sha_sync.h>
+
 #include <hal_qspi_sync.h>
 
 #include <hal_timer.h>
@@ -40,6 +42,7 @@ extern "C" {
 #include "hal_usb_device.h"
 
 extern struct aes_sync_descriptor CRYPTOGRAPHY_0;
+extern struct sha_sync_descriptor HASH_ALGORITHM_0;
 
 extern struct qspi_sync_descriptor QUAD_SPI_0;
 extern struct timer_descriptor     Timer;
