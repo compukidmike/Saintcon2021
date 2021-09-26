@@ -34,21 +34,25 @@ bool nfc_init(void){
 // 	uint8_t cmd;
 	bool validFrame = false;
 	
+	//Card emulation mode
 	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x0a", 5, true);
 
-	nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);
+	// Boost sensitivity
+	nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);	
 	nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x68\x01\x04\x2f", 7, true);
 
 	//nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x3A\x00\x58\x04", 7, true);
 	//nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);
 	//nfc_comm(rxbuff, txbuff, "\x00\x08\x03\x69\x01\x00", 6, true);
+	
+	// Setup chip to handle collision commands
 	nfc_comm(rxbuff, txbuff, "\0\xd\xB\x44\0\0\0SAINTCN", 14, true);
-	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x84", 4, true);
+	//nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x84", 4, true);
 	//nfc_comm(rxbuff, txbuff, "\0\x0d\0", 3, true);
 
 	//nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x03\x20\x88\x02\x51\x74\x4A\xEF\x22\x80", 14, true);
 	
-	nfc_comm(rxbuff, txbuff, "\x00\x0D\x02\0\0", 5, true);
+	//nfc_comm(rxbuff, txbuff, "\x00\x0D\x02\0\0", 5, true);
 
 
 	
