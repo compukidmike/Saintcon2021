@@ -62,5 +62,7 @@ void flash_read_vcard(char* vcard);
 #define NFC_IMG              	 ((uint32_t)0X2D7800)
 #define BALL_IMG             	 ((uint32_t)0X348000)
 #define INVENTORY_IMG        	 ((uint32_t)0X348400)
+#define SHIP_IMG             	 ((uint32_t)0X364800)
+#define EXPLODE_IMG          	 ((uint32_t)0X391800)
 
 #endif /* FLASH_H_ */
