@@ -217,6 +217,9 @@ int main(void)
 		case NFCREADER:
 			ns = nfc_scene_loop(changed);
 			break;
+		case GAME:
+			ns = game_scene_loop(changed);
+			break;
 		case TRADING:
 		case MENU:
 		default:

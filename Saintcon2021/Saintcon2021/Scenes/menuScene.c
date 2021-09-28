@@ -16,7 +16,7 @@ static int menu_rotation, menu_selected, menu_lastLocation;
 static uint8_t menu_frame;
 static bool menu_scrolling, vcard_enabled;
 
-const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Testing", "The Machine", "Inventory", "Read Tag"};
+const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Game", "The Machine", "Inventory", "Read Tag"};
 
 uint32_t menu_last;
 void menu_draw() {
@@ -39,8 +39,8 @@ void menu_draw() {
 		float rad = ang * M_PI / 180.0;
 		int p1x = 81*sinf(rad);
 		int p1y = -81*cosf(rad);
-		int p2x = p1x*1.5f;
-		int p2y = p1y*1.5f;
+		int p2x = p1x*1.469f;
+		int p2y = p1y*1.469f;
 
 		canvas_drawLine(p1x+120, p1y+120, p2x+120, p2y+120, 0x8a52);
 	}

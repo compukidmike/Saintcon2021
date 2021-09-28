@@ -32,12 +32,13 @@ typedef enum {
 	BUILD,
 	TRADING,
 	COMBO,
-	TEST,
+	GAME,
 	MACHINE,
 	INVENTORY,
 	NFCREADER,
 	REWARD,
-	MESSAGE
+	MESSAGE,
+	TEST
 } Scene;
 
 #define REWARD_SHIM			(1<<0)
@@ -80,6 +81,7 @@ Scene build_scene_loop(bool init);
 Scene reward_scene_loop(bool init);
 Scene message_scene_loop(bool init);
 Scene nfc_scene_loop(bool init);
+Scene game_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
 void setMessage(const char* msg);
