@@ -12,10 +12,14 @@
 
 #define ST25R95
 
+#define uc8 uint8_t
+
 #define ST25R95_N_IRQ_IN_PORT 1
 #define ST25R95_N_IRQ_IN_PIN PIN_PB08
 #define ST25R95_N_IRQ_OUT_PORT 1
 #define ST25R95_N_IRQ_OUT_PIN PIN_PB09
+#define ST25R95_N_SCK_PORT 0
+#define ST25R95_N_SCK_PIN PIN_PA13
 
 #define RFAL_FEATURE_NFCA                       true                    /*!< Enable/Disable RFAL support for NFC-A (ISO14443A)                         */
 #define RFAL_FEATURE_NFCB                       true                    /*!< Enable/Disable RFAL support for NFC-B (ISO14443B)                         */
@@ -38,6 +42,7 @@
 #define RFAL_FEATURE_ISO_DEP_POLL				true
 
 //#define ST_MEMCPY memcpy
+
 
 
 void platformGpioSet(uint32_t inport, uint32_t inpin);

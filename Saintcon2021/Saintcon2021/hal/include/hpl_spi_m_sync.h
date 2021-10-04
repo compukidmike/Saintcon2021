@@ -158,6 +158,9 @@ int32_t _spi_m_sync_set_data_order(struct _spi_m_sync_dev *dev, const enum spi_d
 int32_t _spi_m_sync_trans(struct _spi_m_sync_dev *dev, const struct spi_msg *msg);
 //@}
 
+static int32_t _spi_m_sync_io_write(struct io_descriptor *const io, const uint8_t *const buf, const uint16_t length);
+static int32_t _spi_m_sync_io_read(struct io_descriptor *const io, uint8_t *const buf, const uint16_t length);
+
 #ifdef __cplusplus
 }
 #endif

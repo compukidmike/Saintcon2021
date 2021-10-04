@@ -17,14 +17,53 @@ bool back_event = false;
 bool unlock_event = false;
 bool claspopen = false;
 
+volatile bool uDataReady = false;
+volatile bool RF_DataExpected = false;
+volatile bool RF_DataReady = false;
+
 #include "FrameBuffer.h"
 #include "flash.h"
 #include "eeprom.h"
+#include "lib_ConfigManager.h"
+#include "platform.h"
 
 extern uint16_t bird_raw[];
 
 static void back_button_pressed(void);
 static struct timer_task Timer_task1;
+
+/* PCD/PICC global memory space */
+
+/* TT1 (PCD only)*/
+uint8_t TT1Tag[NFCT1_MAX_TAGMEMORY];
+
+/* TT2 */
+uint8_t TT2Tag[NFCT2_MAX_TAGMEMORY];
+
+/* TT3 */
+uint8_t TT3Tag[NFCT3_MAX_TAGMEMORY];
+uint8_t *TT3AttribInfo = TT3Tag, *TT3NDEFfile = &TT3Tag[NFCT3_ATTRIB_INFO_SIZE];
+
+/* TT4 */
+uint8_t CardCCfile [NFCT4_MAX_CCMEMORY];
+uint8_t CardNDEFfileT4A [NFCT4_MAX_NDEFMEMORY];
+uint8_t CardNDEFfileT4B [NFCT4_MAX_NDEFMEMORY];
+
+/* TT5 (PCD only)*/
+uint8_t TT5Tag[NFCT5_MAX_TAGMEMORY];
+
+extern uint8_t TagUID[16];
+
+const char lookup[]="0123456789ABCDEF";
+
+void my_itoa(uint8_t sn, char* outbuf) {
+	//for (int i=0; i<4; ++i) {
+	//char c = (sn >> ((3-i)*8)) & 0xff;
+	outbuf[0]=lookup[sn >> 4];
+	outbuf[1]=lookup[sn & 0xF];
+	//}
+}
+
 
 static void Timer_task1_cb(const struct timer_task *const timer_task)
 {
@@ -93,8 +132,16 @@ int main(void)
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	//NFC Test - Remove in final code
-	/*st25r95Initialize();
+	st25r95Initialize();
 	delay_ms(1);
+	uint8_t respBuffer[20] = {0};
+	uint8_t command[2] = {1,0};
+	drv95HF_InitConfigStructure();
+	//drv95HF_SendReceive(command, respBuffer);
+	//canvas_fillRect(80,120,100,20,RGB(10,10,200));
+	//canvas_drawText(80,120,(char*)respBuffer+2,RGB(255,255,255));
+	//canvas_blt();
+	//while(1);
 	if(st25r95CheckChipID()){
 		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
 		canvas_blt();
@@ -104,7 +151,7 @@ int main(void)
 	}
 	//End NFC Test
 	
-	NFC_init();*/
+	//NFC_init();
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
@@ -117,6 +164,28 @@ int main(void)
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
+	
+	while (1){
+		uint8_t data = 0;
+		//data = ConfigManager_TagHunting(0xFF);
+		data = ConfigManager_TagEmulation(PICCEMULATOR_TAG_TYPE_2,0,0);
+		if(data > 0){
+			char tagtype[20] = {0};
+				for(int x=0; x<8; x++){
+					my_itoa(TagUID[x],&tagtype[x*2]);
+				}
+			/*if(data == 1) tagtype[0] = '1';
+			if(data == 0x2) tagtype[0] = '2';
+			if(data == 0x4) tagtype[0] = '3';
+			if(data == 0x8) tagtype[0] = '4';
+			if(data == 0x10) tagtype[0] = '4';
+			if(data == 0x20) tagtype[0] = '5';*/
+			canvas_fillRect(30,140,150,20,RGB(10,10,200));
+			canvas_drawText(30,140,(char*)tagtype,RGB(255,255,255));
+			canvas_blt();
+			data = 0;
+		}
+	}
 	
 	
 	while (1) {
