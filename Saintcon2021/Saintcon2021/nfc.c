@@ -5,7 +5,7 @@
 #include "platform.h"
 #include "stdlib.h"
 
-
+char UID[] = "SAINTCN";
 
 bool nfc_init(void){
 	
@@ -47,15 +47,17 @@ bool nfc_init(void){
 
 	// Setup chip to handle collision commands
 	//nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88\x02\x80\x74\x4A\xEF\x22\x80", 14, true);
-	nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88SAINTCN", 14, true);
+	char cmd[14] = {0,0x0D,0x0B,0x44,0x00,0x00,0x88};
+	memcpy(&cmd[7], UID, strlen(UID));
+	nfc_comm(rxbuff, txbuff, cmd, sizeof(cmd), true);
 
 	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x1", 4, true);
 	char tag_buff[200] = {0};
 	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
 
 	ndef_vcard(tag_buff, "test", "test@example.com");
-	//memset(tag_buff, 0, sizeof(tag_buff));
-	//ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
+	memset(tag_buff, 0, sizeof(tag_buff));
+	ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
 	
 	
 	while(!validFrame){ 
@@ -68,8 +70,8 @@ bool nfc_init(void){
 			if(rxbuff[1] == 0x80){
 				if(rxbuff[3] == 0x30){
 					char buff[] = {0,6,5,0,0,0,0,0x28};
-					if(rxbuff[4] > 3 && rxbuff[4] < (sizeof(tag_buff)/4) + 4){
-						memcpy(&buff[3], &tag_buff[(rxbuff[4]-4)*4], 4);
+					if(rxbuff[4] < (sizeof(tag_buff)/4)){
+						memcpy(&buff[3], &tag_buff[(rxbuff[4])*4], 4);
 						//buff[3] = sizeof(ndef_buff)
 // 					}else if(rxbuff[4] == (ndef_size/4)+4){
 // 						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], ndef_size%4);
@@ -97,9 +99,20 @@ bool nfc_init(void){
 
 }
 
-void ndef_vcard(char * buff, char * fn, char* email){
+void init_tag(char * buff){
+	memcpy(buff, UID, 3);
+	memcpy(&buff[4], &UID[3], 4);
+	buff[3] = 0x88^UID[0] ^UID[1]^UID[2];
+	buff[8] = UID[3]^UID[4]^UID[5]^UID[6];
+	buff[10] = 0xFF;
+	buff[11] = 0xFF;
+}
+
+void ndef_vcard(char * tag_buff, char * fn, char* email){
+	init_tag(tag_buff);
 	uint8_t header_len = strlen(VCARD_TYPE);
 	uint8_t data_len = strlen(VCARD_HEAD) + strlen(VCARD_FN) + strlen(fn) + strlen(VCARD_EMAIL) + strlen(email) + strlen(VCARD_END);
+	char * buff = &tag_buff[12];
 
 	buff[0] = '\x03';
 	buff[1] = header_len+data_len+3;
@@ -116,8 +129,9 @@ void ndef_vcard(char * buff, char * fn, char* email){
 	buff[5+header_len+data_len] = NDEF_MSG_END;
 }
 
-void ndef_well_known(char * buff, char * tag_data, uint8_t size){
-	uint8_t ndef_size = size+6;
+void ndef_well_known(char * tag_buff, char * tag_data, uint8_t size){
+	init_tag(tag_buff);
+	char * buff = &tag_buff[12];
 
 	buff[0] = NDEF_MSG_BLK;
 	buff[1] = size + 2;

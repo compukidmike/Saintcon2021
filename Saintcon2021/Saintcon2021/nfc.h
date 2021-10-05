@@ -48,7 +48,7 @@ void nfc_reset(void);
 void nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size, bool read);
 void nfc_reader(void);
 
-void ndef_vcard(char * buff, char*fn, char*email);
-void ndef_well_known(char* buff, char* tag_data, uint8_t size);
+void ndef_vcard(char * tag_buff, char*fn, char*email);
+void ndef_well_known(char* tag_buff, char* tag_data, uint8_t size);
 
 #endif
