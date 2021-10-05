@@ -3,9 +3,8 @@
 #include "main.h"
 #include "string.h"
 #include "platform.h"
-#include <stdlib.h>
+#include "stdlib.h"
 
-char ndef_data[] = {NDEF_URL, URL_HTTPS, 'm','i','k','e','j','.','t','e','c','h'};
 
 
 bool nfc_init(void){
@@ -18,7 +17,9 @@ bool nfc_init(void){
 	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
+	
 	gpio_set_pin_level(NFC_CS_PIN, true);
+	delay_ms(1);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	
 	nfc_reset();
@@ -49,16 +50,12 @@ bool nfc_init(void){
 	nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88SAINTCN", 14, true);
 
 	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x1", 4, true);
-	
-	uint8_t ndef_size = sizeof(ndef_data)+6;
-	char * ndef_buff = (char *)malloc(ndef_size);
-	ndef_buff[0] = NDEF_MSG_BLK;
-	ndef_buff[1] = sizeof(ndef_data) + 2;
-	ndef_buff[2] = MB|SR|TNF_WELL_KNOWN;
-	ndef_buff[3] = NDEF_TYPE_LEN;
-	ndef_buff[4] = sizeof(ndef_data) - 1;
-	memcpy(&ndef_buff[5], ndef_data, sizeof(ndef_data));
-	ndef_buff[sizeof(ndef_data)+5] = NDEF_MSG_END;
+	char tag_buff[200] = {0};
+	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
+
+	ndef_vcard(tag_buff, "test", "test@example.com");
+	//memset(tag_buff, 0, sizeof(tag_buff));
+	//ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
 	
 	
 	while(!validFrame){ 
@@ -71,11 +68,11 @@ bool nfc_init(void){
 			if(rxbuff[1] == 0x80){
 				if(rxbuff[3] == 0x30){
 					char buff[] = {0,6,5,0,0,0,0,0x28};
-					if(rxbuff[4] > 3 && rxbuff[4] < (ndef_size/4)+4){
-						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], 4);
+					if(rxbuff[4] > 3 && rxbuff[4] < (sizeof(tag_buff)/4) + 4){
+						memcpy(&buff[3], &tag_buff[(rxbuff[4]-4)*4], 4);
 						//buff[3] = sizeof(ndef_buff)
-					}else if(rxbuff[4] == (ndef_size/4)+4){
-						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], ndef_size%4);
+// 					}else if(rxbuff[4] == (ndef_size/4)+4){
+// 						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], ndef_size%4);
 					}
 					
 					nfc_comm(&rxbuff[10], txbuff, buff, 8, true);
@@ -100,11 +97,56 @@ bool nfc_init(void){
 
 }
 
+void ndef_vcard(char * buff, char * fn, char* email){
+	uint8_t header_len = strlen(VCARD_TYPE);
+	uint8_t data_len = strlen(VCARD_HEAD) + strlen(VCARD_FN) + strlen(fn) + strlen(VCARD_EMAIL) + strlen(email) + strlen(VCARD_END);
+
+	buff[0] = '\x03';
+	buff[1] = header_len+data_len+3;
+	buff[2] = MB|ME|SR|TNF_MIME;
+	buff[3] = header_len;
+	buff[4] = data_len;
+	strcat(buff, VCARD_TYPE);
+	strcat(buff, VCARD_HEAD);
+	strcat(buff, VCARD_FN);
+	strcat(buff, fn);
+	strcat(buff, VCARD_EMAIL);
+	strcat(buff, email);
+	strcat(buff, VCARD_END);
+	buff[5+header_len+data_len] = NDEF_MSG_END;
+}
+
+void ndef_well_known(char * buff, char * tag_data, uint8_t size){
+	uint8_t ndef_size = size+6;
+
+	buff[0] = NDEF_MSG_BLK;
+	buff[1] = size + 2;
+	buff[2] = MB|SR|TNF_WELL_KNOWN;
+	buff[3] = NDEF_TYPE_LEN;
+	buff[4] = size - 1;
+	memcpy(&buff[5], tag_data, size);
+	buff[size+5] = NDEF_MSG_END;
+}
+
 void nfc_reader(){
 	nfc_reset();
 	uint8_t rxbuff[20] = {};
 	uint8_t txbuff[20] = {};
 	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x02\0", 5, true);
+	
+	nfc_comm(rxbuff, txbuff, "\0\x04\x02\x26\x07", 5, true);
+	if(rxbuff[1] == 0x80 || rxbuff[1] == 0x90){
+		char data[20] = {0};
+		for(int i = 0; i < (rxbuff[2]+1); i++){
+			if((rxbuff[2+i] & 0x0F) == rxbuff[2+i]){
+				data[i*2] = '0';
+				itoa(rxbuff[2+i],&data[1+(2*i)],16);
+				}else{
+				itoa(rxbuff[2+i],&data[2*i],16);
+			}
+		}
+		platformLog(data);
+	}
 
 	
 }
