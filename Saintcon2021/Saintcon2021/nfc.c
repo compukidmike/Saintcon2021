@@ -5,6 +5,9 @@
 #include "platform.h"
 #include <stdlib.h>
 
+char ndef_data[] = {NDEF_URL, URL_HTTPS, 'm','i','k','e','j','.','t','e','c','h'};
+
+
 bool nfc_init(void){
 	
 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
@@ -35,26 +38,28 @@ bool nfc_init(void){
 	bool validFrame = false;
 	
 	//Card emulation mode
-	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x0a", 5, true);
+	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5, true);
 
 	// Boost sensitivity
 	nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);	
-	nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x68\x01\x04\x2f", 7, true);
+	nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x68\x01\x04\x15", 7, true);
 
-	//nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x3A\x00\x58\x04", 7, true);
-	//nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);
-	//nfc_comm(rxbuff, txbuff, "\x00\x08\x03\x69\x01\x00", 6, true);
-	
 	// Setup chip to handle collision commands
-	nfc_comm(rxbuff, txbuff, "\0\xd\xB\x44\0\0\0SAINTCN", 14, true);
-	//nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x84", 4, true);
-	//nfc_comm(rxbuff, txbuff, "\0\x0d\0", 3, true);
+	//nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88\x02\x80\x74\x4A\xEF\x22\x80", 14, true);
+	nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88SAINTCN", 14, true);
 
-	//nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x03\x20\x88\x02\x51\x74\x4A\xEF\x22\x80", 14, true);
+	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x1", 4, true);
 	
-	//nfc_comm(rxbuff, txbuff, "\x00\x0D\x02\0\0", 5, true);
-
-
+	uint8_t ndef_size = sizeof(ndef_data)+6;
+	char * ndef_buff = (char *)malloc(ndef_size);
+	ndef_buff[0] = NDEF_MSG_BLK;
+	ndef_buff[1] = sizeof(ndef_data) + 2;
+	ndef_buff[2] = MB|SR|TNF_WELL_KNOWN;
+	ndef_buff[3] = NDEF_TYPE_LEN;
+	ndef_buff[4] = sizeof(ndef_data) - 1;
+	memcpy(&ndef_buff[5], ndef_data, sizeof(ndef_data));
+	ndef_buff[sizeof(ndef_data)+5] = NDEF_MSG_END;
+	
 	
 	while(!validFrame){ 
 
@@ -63,22 +68,29 @@ bool nfc_init(void){
 		if(rxbuff[1] == 0){
 			nfc_poll();
 			nfc_read(rxbuff);
-			if(rxbuff[1] ==0x80){
-				char data[20] = {0};
-				for(int i = 0; i < (rxbuff[2]+1); i++){
-					if((rxbuff[2+i] & 0x0F) == rxbuff[2+i]){
-						data[i*2] = '0';
-						itoa(rxbuff[2+i],&data[1+(2*i)],16);
-					}else{
-						itoa(rxbuff[2+i],&data[2*i],16);
+			if(rxbuff[1] == 0x80){
+				if(rxbuff[3] == 0x30){
+					char buff[] = {0,6,5,0,0,0,0,0x28};
+					if(rxbuff[4] > 3 && rxbuff[4] < (ndef_size/4)+4){
+						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], 4);
+						//buff[3] = sizeof(ndef_buff)
+					}else if(rxbuff[4] == (ndef_size/4)+4){
+						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], ndef_size%4);
 					}
+					
+					nfc_comm(&rxbuff[10], txbuff, buff, 8, true);
+				}else{
+					char data[20] = {0};
+					for(int i = 0; i < (rxbuff[2]+1); i++){
+						if((rxbuff[2+i] & 0x0F) == rxbuff[2+i]){
+							data[i*2] = '0';
+							itoa(rxbuff[2+i],&data[1+(2*i)],16);
+						}else{
+							itoa(rxbuff[2+i],&data[2*i],16);
+						}
+					}
+					platformLog(data);
 				}
-
-				platformLog(data);
-//  			if(rxbuff[1] == 0x80 && rxbuff[2] == 0x02 && rxbuff[3] == 0x26){
-//  				//nfc_comm(&rxbuff[15], txbuff, "\x00\x06\x0c\0\x1\x2\x3\x4\x5\x6\x7\x8\x9\xa\0", 16, true);
-//  				nfc_comm(&rxbuff[15], txbuff, "\0\x6\x3\0\x44\x8", 6, true);
-//  				rxbuff[0] = 0x50;
   			}
 			
 		}
@@ -86,6 +98,15 @@ bool nfc_init(void){
 	while(1);
 	
 
+}
+
+void nfc_reader(){
+	nfc_reset();
+	uint8_t rxbuff[20] = {};
+	uint8_t txbuff[20] = {};
+	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x02\0", 5, true);
+
+	
 }
 
 void nfc_poll(){
