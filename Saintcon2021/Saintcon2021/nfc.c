@@ -52,7 +52,8 @@ bool nfc_init(void){
 	nfc_comm(rxbuff, txbuff, cmd, sizeof(cmd), true);
 
 	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x1", 4, true);
-	char tag_buff[200] = {0};
+	char tag_buff[208] = {0};
+	char end_tag_buff[20] = {0xFF,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
 	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
 
 	ndef_vcard(tag_buff, "test", "test@example.com");
@@ -69,15 +70,18 @@ bool nfc_init(void){
 			nfc_read(rxbuff);
 			if(rxbuff[1] == 0x80){
 				if(rxbuff[3] == 0x30){
-					char buff[] = {0,6,5,0,0,0,0,0x28};
+					char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
 					if(rxbuff[4] < (sizeof(tag_buff)/4)){
-						memcpy(&buff[3], &tag_buff[(rxbuff[4])*4], 4);
-						//buff[3] = sizeof(ndef_buff)
-// 					}else if(rxbuff[4] == (ndef_size/4)+4){
-// 						memcpy(&buff[3], &ndef_buff[(rxbuff[4]-4)*4], ndef_size%4);
+						memcpy(&buff[3], &tag_buff[rxbuff[4]*4], 16);
+					}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){
+						uint8_t amnt = 0x87 - rxbuff[4];
+						if(amnt > 4){amnt = 4;}
+						memcpy(&buff[3], &end_tag_buff[(rxbuff[4]-0x82)*4], amnt);
+					}else{
+						rxbuff[1] = 0xff;
 					}
 					
-					nfc_comm(&rxbuff[10], txbuff, buff, 8, true);
+					nfc_comm(&rxbuff[10], txbuff, buff, sizeof(buff), true);
 				}else{
 					char data[20] = {0};
 					for(int i = 0; i < (rxbuff[2]+1); i++){
@@ -106,6 +110,9 @@ void init_tag(char * buff){
 	buff[8] = UID[3]^UID[4]^UID[5]^UID[6];
 	buff[10] = 0xFF;
 	buff[11] = 0xFF;
+	buff[12] = 0xE1;
+	buff[13] = 0x10;
+	buff[14] = 0x3E;
 }
 
 void ndef_vcard(char * tag_buff, char * fn, char* email){
