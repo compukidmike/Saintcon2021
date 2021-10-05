@@ -112,7 +112,7 @@ void ndef_vcard(char * tag_buff, char * fn, char* email){
 	init_tag(tag_buff);
 	uint8_t header_len = strlen(VCARD_TYPE);
 	uint8_t data_len = strlen(VCARD_HEAD) + strlen(VCARD_FN) + strlen(fn) + strlen(VCARD_EMAIL) + strlen(email) + strlen(VCARD_END);
-	char * buff = &tag_buff[12];
+	char * buff = &tag_buff[16];
 
 	buff[0] = '\x03';
 	buff[1] = header_len+data_len+3;
@@ -131,7 +131,7 @@ void ndef_vcard(char * tag_buff, char * fn, char* email){
 
 void ndef_well_known(char * tag_buff, char * tag_data, uint8_t size){
 	init_tag(tag_buff);
-	char * buff = &tag_buff[12];
+	char * buff = &tag_buff[16];
 
 	buff[0] = NDEF_MSG_BLK;
 	buff[1] = size + 2;
