@@ -31,8 +31,8 @@
 
 #define NDEF_TYPE_LEN 0x01
 
-#define NDEF_TEXT 0x54
-#define NDEF_URL 0x55
+#define NDEF_TEXT 'T'
+#define NDEF_URL 'U'
 
 #define URL_HTTP 0x3
 #define URL_HTTPS 0x4

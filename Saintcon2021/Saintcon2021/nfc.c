@@ -56,8 +56,8 @@ bool nfc_init(void){
 	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
 
 	ndef_vcard(tag_buff, "test", "test@example.com");
-	memset(tag_buff, 0, sizeof(tag_buff));
-	ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
+	//memset(tag_buff, 0, sizeof(tag_buff));
+	//ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
 	
 	
 	while(!validFrame){ 
