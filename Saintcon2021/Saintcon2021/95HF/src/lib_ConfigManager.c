@@ -370,11 +370,16 @@ uint8_t ConfigManager_TagHunting ( uint8_t tagsToFind )
 		{			
 			if(ISO14443A_Anticollision() == RESULTOK)
 			{	
-				if (((ISO14443A_Card.SAK&0x60) == 0x00) && tagsToFind&TRACK_NFCTYPE2) /* TT2 */
+				if (((ISO14443A_Card.SAK&0x60) == 0x00) && tagsToFind&TRACK_NFCTYPE2){ /* TT2 */
+					led_set_color(LED_COLOR_GREEN);
 					return TRACK_NFCTYPE2;
-				else if (((ISO14443A_Card.SAK&0x20) != 0x00) && tagsToFind&TRACK_NFCTYPE4A)/* TT4A */
+				}
+				else if (((ISO14443A_Card.SAK&0x20) != 0x00) && tagsToFind&TRACK_NFCTYPE4A){/* TT4A */
 					return TRACK_NFCTYPE4A;
+				}
 			}
+		} else {
+			led_set_color(LED_COLOR_OFF);
 		}
 	}
 

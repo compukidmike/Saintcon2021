@@ -167,24 +167,28 @@ int main(void)
 	
 	while (1){
 		uint8_t data = 0;
-		//data = ConfigManager_TagHunting(0xFF);
-		data = ConfigManager_TagEmulation(PICCEMULATOR_TAG_TYPE_2,0,0);
+		data = ConfigManager_TagHunting(TRACK_NFCTYPE2); //Only looking for type 2 tags since that's what the badge can emulate
+		if(data == TRACK_NFCTYPE2){
+			uint8_t retval = PCDNFCT2_ReadNDEF();
+			char rethex[3] = {0};
+			my_itoa(retval,rethex);
+			canvas_fillRect(30,140,150,20,RGB(10,10,200));
+			canvas_drawText(30,140,rethex,RGB(255,255,255));
+			canvas_fillRect(30,160,150,20,RGB(10,10,200));
+			canvas_drawText(30,160,(char*)&TT2Tag[16],RGB(255,255,255));
+			canvas_blt();
+		}
+		/*data = ConfigManager_TagEmulation(PICCEMULATOR_TAG_TYPE_2,0,0);
 		if(data > 0){
 			char tagtype[20] = {0};
 				for(int x=0; x<8; x++){
 					my_itoa(TagUID[x],&tagtype[x*2]);
 				}
-			/*if(data == 1) tagtype[0] = '1';
-			if(data == 0x2) tagtype[0] = '2';
-			if(data == 0x4) tagtype[0] = '3';
-			if(data == 0x8) tagtype[0] = '4';
-			if(data == 0x10) tagtype[0] = '4';
-			if(data == 0x20) tagtype[0] = '5';*/
 			canvas_fillRect(30,140,150,20,RGB(10,10,200));
 			canvas_drawText(30,140,(char*)tagtype,RGB(255,255,255));
 			canvas_blt();
 			data = 0;
-		}
+		}*/
 	}
 	
 	

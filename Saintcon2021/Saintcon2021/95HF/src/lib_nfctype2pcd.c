@@ -164,6 +164,7 @@ uint8_t PCDNFCT2_ReadNDEF( void )
 	// Read the whole memory
 	for (i=0;i<size/4;i+=4)
 	{
+		delay_ms(1);
 		errchk(PCDNFCT2_Read(i,bufferRead));
 		memcpy(&buffer[i*4],&bufferRead[2],PCDNFCT2_READ_SIZE);
 	}
