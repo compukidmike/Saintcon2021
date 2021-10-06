@@ -45,8 +45,11 @@ void nfc_poll(void);
 bool nfc_test(void);
 uint8_t nfc_read(uint8_t* buffer);
 void nfc_reset(void);
-void nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size, bool read);
+void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read);
+void nfc_comm(uint8_t * rx, char * command, bool read);
+
 void nfc_reader(void);
+bool nfc_select_card(char * buffer);
 
 void ndef_vcard(char * tag_buff, char*fn, char*email);
 void ndef_well_known(char* tag_buff, char* tag_data, uint8_t size);

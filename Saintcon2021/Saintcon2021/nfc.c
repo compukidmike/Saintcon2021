@@ -19,15 +19,11 @@ bool nfc_init(void){
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	gpio_set_pin_level(NFC_CS_PIN, true);
+	
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
+
 	
 	nfc_reset();
-	
-	delay_ms(1);
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
-	delay_ms(1);
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
-	delay_ms(10);
 
 	while(!nfc_test());
 	
@@ -40,19 +36,20 @@ bool nfc_init(void){
 	bool validFrame = false;
 	
 	//Card emulation mode
-	nfc_comm(rxbuff, txbuff, "\x00\x02\x02\x12\x08", 5, true);
+	nfc_comm(rxbuff, "\x00\x02\x02\x12\x08", true);
 
 	// Boost sensitivity
-	nfc_comm(rxbuff, txbuff, "\x00\x09\x03\x68\x00\x04", 6, true);	
-	nfc_comm(rxbuff, txbuff, "\x00\x09\x04\x68\x01\x04\x15", 7, true);
+	nfc_comm(rxbuff, "\x00\x09\x03\x68\x00\x04", true);	
+	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x15", true);
 
 	// Setup chip to handle collision commands
-	//nfc_comm(rxbuff, txbuff, "\0\x0D\x0B\x44\x00\x00\x88\x02\x80\x74\x4A\xEF\x22\x80", 14, true);
+	//nfc_comm(rxbuff, "\0\x0D\x0B\x44\x00\x00\x88\x02\x80\x74\x4A\xEF\x22\x80", 14, true);
 	char cmd[14] = {0,0x0D,0x0B,0x44,0x00,0x00,0x88};
 	memcpy(&cmd[7], UID, strlen(UID));
-	nfc_comm(rxbuff, txbuff, cmd, sizeof(cmd), true);
+	nfc_comm(rxbuff, cmd, true);
 
-	nfc_comm(rxbuff, txbuff, "\0\x0d\x1\x1", 4, true);
+	//Set ac state
+	//nfc_comm(rxbuff, "\0\x0d\x1\x1", true);
 	char tag_buff[208] = {0};
 	char end_tag_buff[20] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
 	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
@@ -64,37 +61,26 @@ bool nfc_init(void){
 	
 	while(!validFrame){ 
 
-		nfc_comm(rxbuff, txbuff, "\x00\x05\x00", 3, true);
+		nfc_comm(rxbuff, "\x00\x05\x00", true);
 
 		if(rxbuff[1] == 0){
 			nfc_poll();
 			nfc_read(rxbuff);
 			if(rxbuff[1] == 0x80){
-				if(rxbuff[3] == 0x30){
+				if(rxbuff[3] == 0x30){ // A write request command
 					char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
-					if(rxbuff[4] < (sizeof(tag_buff)/4)){
+					if(rxbuff[4] < (sizeof(tag_buff)/4)){ // Tag buffer from memory
 						memcpy(&buff[3], &tag_buff[rxbuff[4]*4], 16);
-					}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){
+					}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){ // Tail memory locations
 						uint8_t amnt = 0x87 - rxbuff[4];
 						if(amnt > 4){amnt = 4;}
 						memcpy(&buff[3], &end_tag_buff[(rxbuff[4]-0x82)*4], amnt);
-					}
-					
-					nfc_comm(&rxbuff[10], txbuff, buff, sizeof(buff), true);
-// 				}else{
-// 					char data[20] = {0};
-// 					for(int i = 0; i < (rxbuff[2]+1); i++){
-// 						if((rxbuff[2+i] & 0x0F) == rxbuff[2+i]){
-// 							data[i*2] = '0';
-// 							itoa(rxbuff[2+i],&data[1+(2*i)],16);
-// 						}else{
-// 							itoa(rxbuff[2+i],&data[2*i],16);
-// 						}
-// 					}
-// 					platformLog(data);
+					}					
+					nfc_comm(&rxbuff[10], buff, true);
+				}else if(rxbuff[3] == 0x60){ // Tell the reader this is a NTAG215
+					nfc_comm(&rxbuff[10], "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true); 
 				}
   			}
-			
 		}
 	}
 	while(1);
@@ -150,62 +136,89 @@ void ndef_well_known(char * tag_buff, char * tag_data, uint8_t size){
 
 void nfc_reader(){
 	//nfc_reset();
-	uint8_t rxbuff[20] = {};
-	uint8_t txbuff[20] = {};
-	char buff[20] = {};
-	uint8_t size = 0;
-	nfc_comm(rxbuff, txbuff, "\0\x02\x02\x02\0", 5, false);
+	char uid[7] = {};
+	uint8_t rxbuff[30] = {0};
+	char cmd[20] = {0};
 
-	size = 5;
-	memcpy(buff, "\0\x04\x02\x26\x07", size);
-	
-	for(uint8_t i = 0; i < 15; i++){
-		nfc_comm(rxbuff, txbuff, buff, size, true);
+	uint8_t ndef[100] = {0};
+	nfc_comm(rxbuff, "\0\x02\x02\x02\0", false);
+
+	if(nfc_select_card(uid)){
+		memcpy(cmd, "\0\x4\x3\x30\x04\x28", 6);
+		uint8_t counter = 0;
+		while(1){
+		nfc_comm(rxbuff, cmd, true);
+		if(rxbuff[1] == 0x80 && rxbuff[2] == 0x15 && rxbuff[21] == 0x08 && (rxbuff[3] == 0x03 || ndef[0] != 0)){
+			if(rxbuff[3] == 0x03 && ndef[0] == 0){
+				ndef[0] = rxbuff[4] + 2;
+			}else{
+				ndef[0] -= 16;
+			}
+			memcpy(&ndef[1+(counter*16)], &rxbuff[3], 16);
+			if(ndef[0] <= 16)
+				break;
+			cmd[4] += 4;
+		}else{break;}
+		counter++;
+		}
+		ndef[0] = 0xff;
+		platformLog("Selected");
+
+	}else{
+		platformLog("No NTAG2xx");
+	}
+} 
+
+bool nfc_select_card(char * buffer){
+	uint8_t rxbuff[20] = {};
+	char cmd[20] = {};
+
+	memcpy(cmd, "\0\x04\x02\x26\x07", 5);
+
+	for(uint8_t i = 0; i < 10; i++){
+		nfc_comm(rxbuff, cmd, true);
 		if(rxbuff[1] == 0x80 ){
 			if(memcmp(&rxbuff[2], "\x05\x44\x00\x28\0\0", 6) == 0){
-				size = 6;
-				memcpy(buff, "\0\x04\x03\x93\x20\x08", size);
+				memcpy(cmd, "\0\x04\x03\x93\x20\x08", 6);
+			}else if(cmd[4] == 0x20 && rxbuff[8] == 0x28 && ((cmd[3] == 0x93 && rxbuff[3] == 0x88 )|| cmd[3] == 0x95)){
+				cmd[2] = 8;
+				cmd[4] = 0x70;
+				memcpy(&cmd[5], &rxbuff[3], 5);
+				cmd[10] = 0x28;
+			}else if(memcmp(&cmd[3], "\x93\x70", 2) == 0 && rxbuff[6] == 0x08 && (rxbuff[3] & 0x04) == 0x04){
+				memcpy(buffer, &cmd[6],3);
+				memcpy(cmd, "\0\x04\x03\x95\x20\x08", 6);
+			}else if(memcmp(&cmd[3], "\x95\x70", 2) == 0 && (rxbuff[3] & 0x04) == 0){
+				memcpy(&buffer[3], &cmd[5], 4);
+				return true;
 			}else{
-				rxbuff[1] = 0xff;
 				break;
 			}
 			i = 0;
 		}
 	}
-	platformLog("Unsuccessful");
-	while(1);
+	nfc_comm(rxbuff, "\0\x04\x1\0", false);
+	return false;
 }
 
 void nfc_poll(){
-
-// 	uint8_t rbuff = 0;
-// 	uint8_t tbuff = 3;
-// 	gpio_set_pin_level(NFC_CS_PIN, false);
-// 	
-// 	while( (rbuff & 0xf8) != 8){
-// 		delay_ms(1);
-// 		spi_m_sync_io_readwrite(io, &rbuff, &tbuff, 1);	
-// 	}
-// 	gpio_set_pin_level(NFC_CS_PIN, true);
 	while(gpio_get_pin_level(NFC_IRQ_OUT_PIN));
 }
 
 bool nfc_test(){
 	uint8_t rxbuff[20] = {0};
-	uint8_t txbuff[3] = {};
 		
-	nfc_comm(rxbuff, txbuff, "\0\x55", 2, true);
+	nfc_raw_comm(rxbuff, "\0\x55", 2, true);
 	if(rxbuff[1] != 0x55 ){
 		return false;
 	}
 			
-	nfc_comm(rxbuff, txbuff, "\x00\x01\x00", 3, true);
+	nfc_comm(rxbuff, "\x00\x01\x00", true);
 	if (rxbuff[2] != 15){
 		return false;
 	}
 	platformLog((char*)rxbuff+3);
 	return true;
-	
 }
 
 uint8_t nfc_read(uint8_t* rxbuff){
@@ -216,46 +229,42 @@ uint8_t nfc_read(uint8_t* rxbuff){
 	gpio_set_pin_level(NFC_CS_PIN, false);
 	spi_m_sync_io_readwrite(io, rxbuff, txbuff, 3);
 	//if(rxbuff[1] == 0){
-		size = rxbuff[2];
-		for(uint8_t i = 0; i < size; i++){
-			spi_m_sync_io_readwrite(io, &buff, txbuff, 1);
-			rxbuff[3+i] = buff;
-		}
+	size = rxbuff[2];
+	for(uint8_t i = 0; i < size; i++){
+		spi_m_sync_io_readwrite(io, &buff, txbuff, 1);
+		rxbuff[3+i] = buff;
+	}
 	//}
 	gpio_set_pin_level(NFC_CS_PIN, true);
 	return size;
 }
 
 void nfc_reset(){
-
-
-	
-	
-	uint8_t tx[4] = {};
 	uint8_t buff[4] = {};
 	
 	// send echo just to make sure card emulation has exited
-//  	memcpy(tx, "\x00\x55", 2);
-//  	gpio_set_pin_level(NFC_CS_PIN, false);
-//  	spi_m_sync_io_readwrite(io, buff, tx, 2);
-//  	gpio_set_pin_level(NFC_CS_PIN, true);
-// 	
-// 	//send reset control bit
-// 	memcpy(tx, "\x01", 1);
-// 	gpio_set_pin_level(NFC_CS_PIN, false);
-// 	spi_m_sync_io_readwrite(io, buff, tx, 1);
-// 	gpio_set_pin_level(NFC_CS_PIN, true);
-nfc_comm(buff, tx, "\x1", 1, false);
-nfc_comm(buff, tx, "\0\x55", 2, false);
+	nfc_raw_comm(buff, "\0\x55", 2, false);
+
+	//send reset control bit
+	nfc_raw_comm(buff, "\x1", 1, false);
 	
-	//nfc_comm(buff, tx, "\0\x2\x1\0", 4, true);
+	//nfc_comm(buff, "\0\x2\x1\0", true);
 	
+	// Pulse the IRQ pin to make sure the chip is initialized from power off or idle	
+	delay_ms(2);
+	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
+	delay_ms(2);
+	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
+	delay_ms(12);
 }
 
-void nfc_comm(uint8_t * rx, uint8_t * tx, char * command, uint8_t size, bool read){
-	memcpy(tx, command, size);
+void nfc_comm(uint8_t * rx, char * command, bool read){
+	uint8_t size = 3 + command[2];
+	nfc_raw_comm(rx, command, size, read);
+}
+void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read){
 	gpio_set_pin_level(NFC_CS_PIN, false);
-	spi_m_sync_io_readwrite(io, rx, tx, size);
+	spi_m_sync_io_readwrite(io, rx, command, size);
 	gpio_set_pin_level(NFC_CS_PIN, true);
 	
 	if(read){
