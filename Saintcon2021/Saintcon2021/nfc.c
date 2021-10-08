@@ -4,10 +4,13 @@
 #include "string.h"
 #include "platform.h"
 #include "stdlib.h"
+#include "hal_ext_irq.h"
 
-char UID[] = "SAINTCN";
+const char UID[] = "SAINTCN";
+char tag_buff[TAG_BUFF_LEN] = {0};
 
-bool nfc_init(void){
+
+void nfc_init(){
 	
 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
@@ -15,119 +18,128 @@ bool nfc_init(void){
 
 	gpio_set_pin_direction(NFC_CS_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
-	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
+// 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
+// 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	gpio_set_pin_level(NFC_CS_PIN, true);
-	
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 
-	
 	nfc_reset();
-
-	while(!nfc_test());
+}
 	
-	nfc_reader();
-
-	
+void start_nfc_tag_emulation(){	
 	uint8_t rxbuff[20] = {};
-	uint8_t txbuff[20] = {};
-// 	uint8_t cmd;
+
 	bool validFrame = false;
 	
 	//Card emulation mode
 	nfc_comm(rxbuff, "\x00\x02\x02\x12\x08", true);
 
-	// Boost sensitivity
+	// Set modulation
 	nfc_comm(rxbuff, "\x00\x09\x03\x68\x00\x04", true);	
 	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x15", true);
 
 	// Setup chip to handle collision commands
-	//nfc_comm(rxbuff, "\0\x0D\x0B\x44\x00\x00\x88\x02\x80\x74\x4A\xEF\x22\x80", 14, true);
 	char cmd[14] = {0,0x0D,0x0B,0x44,0x00,0x00,0x88};
 	memcpy(&cmd[7], UID, strlen(UID));
 	nfc_comm(rxbuff, cmd, true);
 
-	//Set ac state
-	//nfc_comm(rxbuff, "\0\x0d\x1\x1", true);
-	char tag_buff[208] = {0};
-	char end_tag_buff[20] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
-	char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
 
-	ndef_vcard(tag_buff, "test", "test@example.com");
-	//memset(tag_buff, 0, sizeof(tag_buff));
-	//ndef_well_known(tag_buff, ndef_data, sizeof(ndef_data));
+	//char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
+
+	ndef_vcard("test", "test@example.com");
+	//ndef_well_known(ndef_data, sizeof(ndef_data));
+	
+	nfc_comm(rxbuff, "\x00\x05\x00", true);
+	ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
+
+	//ext_irq_enable(NFC_IRQ_OUT_PIN);
+}
 	
 	
-	while(!validFrame){ 
+static void nfc_tag_emulation_irq(){
+	uint8_t rxbuff[25] = {0};
+	char end_tag_buff[] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
+			uint8_t pin = gpio_get_pin_level(NFC_IRQ_OUT_PIN);
 
-		nfc_comm(rxbuff, "\x00\x05\x00", true);
-
-		if(rxbuff[1] == 0){
-			nfc_poll();
-			nfc_read(rxbuff);
-			if(rxbuff[1] == 0x80){
-				if(rxbuff[3] == 0x30){ // A write request command
-					char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
-					if(rxbuff[4] < (sizeof(tag_buff)/4)){ // Tag buffer from memory
-						memcpy(&buff[3], &tag_buff[rxbuff[4]*4], 16);
-					}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){ // Tail memory locations
-						uint8_t amnt = 0x87 - rxbuff[4];
-						if(amnt > 4){amnt = 4;}
-						memcpy(&buff[3], &end_tag_buff[(rxbuff[4]-0x82)*4], amnt);
-					}					
-					nfc_comm(&rxbuff[10], buff, true);
-				}else if(rxbuff[3] == 0x60){ // Tell the reader this is a NTAG215
-					nfc_comm(&rxbuff[10], "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true); 
-				}
-  			}
+ 	ext_irq_disable(NFC_IRQ_OUT_PIN);
+	rxbuff[0] = pin;
+	nfc_read(rxbuff);
+	
+	if(rxbuff[1] == 0x80){
+		if(rxbuff[3] == 0x30){ // A write request command
+			char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
+			if(rxbuff[4] < (sizeof(tag_buff)/4)){ // Tag buffer from memory
+				memcpy(&buff[3], &tag_buff[rxbuff[4]*4], 16);
+			}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){ // Tail memory locations
+				uint8_t amnt = 0x87 - rxbuff[4];
+				if(amnt > 4){amnt = 4;}
+				memcpy(&buff[3], &end_tag_buff[(rxbuff[4]-0x82)*4], amnt);
+			}					
+			nfc_comm(rxbuff, buff, true);
+		}else if(rxbuff[3] == 0x60){ // Tell the reader this is a NTAG215
+			nfc_comm(&rxbuff[10], "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true); 
 		}
-	}
-	while(1);
-	
+  	}	
 
+  	nfc_comm(rxbuff, "\x00\x05\x00", true);
+	pin = gpio_get_pin_level(NFC_IRQ_OUT_PIN);
+	rxbuff[0] = pin;
+	rxbuff[1] = 0xff;
+
+
+	ext_irq_enable(NFC_IRQ_OUT_PIN);
 }
 
-void init_tag(char * buff){
-	memcpy(buff, UID, 3);
-	memcpy(&buff[4], &UID[3], 4);
-	buff[3] = 0x88^UID[0] ^UID[1]^UID[2];
-	buff[8] = UID[3]^UID[4]^UID[5]^UID[6];
+void init_tag(){
+	memset(tag_buff, 0, TAG_BUFF_LEN);
+	memcpy(tag_buff, UID, 3);
+	memcpy(&tag_buff[4], &UID[3], 4);
+	tag_buff[3] = 0x88^UID[0] ^UID[1]^UID[2];
+	tag_buff[8] = UID[3]^UID[4]^UID[5]^UID[6];
 // 	buff[10] = 0xFF;
 // 	buff[11] = 0xFF;
-	buff[12] = 0xE1;
-	buff[13] = 0x10;
-	buff[14] = 0x3E;
+	tag_buff[12] = 0xE1;
+	tag_buff[13] = 0x10;
+	tag_buff[14] = 0x3E;
 }
 
-void ndef_vcard(char * tag_buff, char * fn, char* email){
-	init_tag(tag_buff);
+void ndef_vcard(char * fn, char* email){
+	init_tag();
 	uint8_t header_len = strlen(VCARD_TYPE);
-	uint8_t data_len = strlen(VCARD_HEAD) + strlen(VCARD_FN) + strlen(fn) + strlen(VCARD_EMAIL) + strlen(email) + strlen(VCARD_END);
+	uint8_t data_len = strlen(VCARD_HEAD) + strlen(VCARD_END);
 	char * buff = &tag_buff[16];
 
-	buff[0] = '\x03';
-	buff[1] = header_len+data_len+3;
+	buff[0] = 0x03;
+	buff[1] = 1; //This needs to be not zero for strcat to work;
 	buff[2] = MB|ME|SR|TNF_MIME;
 	buff[3] = header_len;
-	buff[4] = data_len;
+	buff[4] = 1; //This needs to be not zero for strcat to work;
 	strcat(buff, VCARD_TYPE);
 	strcat(buff, VCARD_HEAD);
-	strcat(buff, VCARD_FN);
-	strcat(buff, fn);
-	strcat(buff, VCARD_EMAIL);
-	strcat(buff, email);
+	if(fn != NULL){
+		data_len += strlen(VCARD_FN) + strlen(fn);
+		strcat(buff, VCARD_FN);
+		strcat(buff, fn);
+	}
+	if(email != NULL){
+		data_len += strlen(VCARD_EMAIL) + strlen(email);
+		strcat(buff, VCARD_EMAIL);
+		strcat(buff, email);
+	}
 	strcat(buff, VCARD_END);
+	buff[1] = header_len+data_len+3;
+	buff[4] = data_len;
 	buff[5+header_len+data_len] = NDEF_MSG_END;
 }
 
-void ndef_well_known(char * tag_buff, char * tag_data, uint8_t size){
-	init_tag(tag_buff);
+void ndef_well_known(char * tag_data, uint8_t size){
+	init_tag();
 	char * buff = &tag_buff[16];
 
 	buff[0] = NDEF_MSG_BLK;
-	buff[1] = size + 2;
-	buff[2] = MB|SR|TNF_WELL_KNOWN;
+	buff[1] = size + 3;
+	buff[2] = MB|ME|SR|TNF_WELL_KNOWN;
 	buff[3] = NDEF_TYPE_LEN;
 	buff[4] = size - 1;
 	memcpy(&buff[5], tag_data, size);
@@ -135,7 +147,7 @@ void ndef_well_known(char * tag_buff, char * tag_data, uint8_t size){
 }
 
 void nfc_reader(){
-	//nfc_reset();
+	nfc_reset();
 	char uid[7] = {};
 	uint8_t rxbuff[30] = {0};
 	char cmd[20] = {0};
@@ -221,7 +233,7 @@ bool nfc_test(){
 	return true;
 }
 
-uint8_t nfc_read(uint8_t* rxbuff){
+void nfc_read(uint8_t* rxbuff){
 	uint8_t txbuff[3] = {2};
 	uint8_t size = 0;
 	uint8_t buff = 0;
@@ -236,7 +248,6 @@ uint8_t nfc_read(uint8_t* rxbuff){
 	}
 	//}
 	gpio_set_pin_level(NFC_CS_PIN, true);
-	return size;
 }
 
 void nfc_reset(){
@@ -256,6 +267,8 @@ void nfc_reset(){
 	delay_ms(2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	delay_ms(12);
+	
+	//ext_irq_disable(NFC_IRQ_OUT_PIN);
 }
 
 void nfc_comm(uint8_t * rx, char * command, bool read){

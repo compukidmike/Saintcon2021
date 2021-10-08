@@ -10,6 +10,10 @@
 #include "driver_init.h"
 #include "utils.h"
 
+static void button_on_PB09_pressed(void)
+{
+}
+
 static void button_on_PA27_pressed(void)
 {
 }
@@ -20,6 +24,7 @@ static void button_on_PA27_pressed(void)
 void EXTERNAL_IRQ_0_example(void)
 {
 
+	ext_irq_register(PIN_PB09, button_on_PB09_pressed);
 	ext_irq_register(PIN_PA27, button_on_PA27_pressed);
 }
 

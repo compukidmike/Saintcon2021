@@ -39,6 +39,19 @@ void EXTERNAL_IRQ_0_init(void)
 	hri_mclk_set_APBAMASK_EIC_bit(MCLK);
 
 	// Set pin direction to input
+	gpio_set_pin_direction(PB09, GPIO_DIRECTION_IN);
+
+	gpio_set_pin_pull_mode(PB09,
+	                       // <y> Pull configuration
+	                       // <id> pad_pull_config
+	                       // <GPIO_PULL_OFF"> Off
+	                       // <GPIO_PULL_UP"> Pull-up
+	                       // <GPIO_PULL_DOWN"> Pull-down
+	                       GPIO_PULL_UP);
+
+	gpio_set_pin_function(PB09, PINMUX_PB09A_EIC_EXTINT9);
+
+	// Set pin direction to input
 	gpio_set_pin_direction(PA27, GPIO_DIRECTION_IN);
 
 	gpio_set_pin_pull_mode(PA27,
