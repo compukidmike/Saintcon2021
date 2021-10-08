@@ -94,21 +94,8 @@ int main(void)
 	canvas_drawText(80,100, "Magic", RGB(255,255,255));
 	canvas_blt();
 	
-	//gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
-	
-	
-// 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
-// 
-// 	spi_m_sync_enable(&SPI_1);
-
-	/*
-	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
-	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
-	
-	//NFC Test - Remove in final code
-	/*st25r95Initialize();
-	delay_ms(1);
-	if(st25r95CheckChipID()){
+	nfc_init();
+	if(nfc_test()){
 		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
 		canvas_blt();
 	} else {
@@ -117,9 +104,8 @@ int main(void)
 	}
 	//End NFC Test
 	
-	NFC_init();*/
+	nfc_tag_emulation();
 	
-	nfc_init();
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();

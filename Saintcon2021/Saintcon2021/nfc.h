@@ -40,18 +40,28 @@
 #define URL_EMAIL 0x6
 
 
-bool nfc_init(void);
-void nfc_poll(void);
+#define TAG_BUFF_LEN 208 // Must be divisible by 16
+
+extern const char UID[];
+extern char tag_buff[];
+
+void nfc_init(void);
 bool nfc_test(void);
-uint8_t nfc_read(uint8_t* buffer);
-void nfc_reset(void);
-void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read);
-void nfc_comm(uint8_t * rx, char * command, bool read);
 
 void nfc_reader(void);
-bool nfc_select_card(char * buffer);
 
-void ndef_vcard(char * tag_buff, char*fn, char*email);
-void ndef_well_known(char* tag_buff, char* tag_data, uint8_t size);
+void nfc_tag_emulation(void);
+void ndef_vcard(char*fn, char*email);
+void ndef_well_known(char* tag_data, uint8_t size);
+
+void init_tag(void);
+bool nfc_select_card(char * buffer);
+void nfc_reset(void);
+void nfc_poll(void);
+void nfc_read(uint8_t* buffer);
+void nfc_comm(uint8_t * rx, char * command, bool read);
+void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read);
+
+
 
 #endif
