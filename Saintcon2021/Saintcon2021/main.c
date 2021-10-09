@@ -221,6 +221,8 @@ int main(void)
 			ns = game_scene_loop(changed);
 			break;
 		case TRADING:
+			ns = trade_scene_loop(changed);
+			break;
 		case MENU:
 		default:
 			ns = menu_scene_loop(changed);

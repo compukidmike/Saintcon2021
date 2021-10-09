@@ -6,7 +6,8 @@ import struct, os, sys
 ##
 if __name__ == '__main__':
     with open('flash.bin', 'wb') as outf:
-        for filename in ['bird.png', 'machine_bkg.png', 'machine.png', 'build.png', 'parts.png', 'menu.png', 'crate.png', 'nfc.png', 'ball.png', 'inventory.png', 'ship.png', 'explode.png']:
+        for filename in ['bird.png', 'machine_bkg.png', 'machine.png', 'build.png', 'parts.png', 'menu.png', 'crate.png', 
+            'nfc.png', 'ball.png', 'inventory.png', 'ship.png', 'explode.png', 'trade.png', 'trade2.png']:
             if os.path.exists(filename) == False: 
                 error('not exists: ' + filename)
             body, _ = os.path.splitext(filename)
