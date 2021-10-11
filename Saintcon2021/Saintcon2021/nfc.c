@@ -9,6 +9,7 @@
 const char UID[] = "SAINTCN";
 char tag_buff[TAG_BUFF_LEN] = {0};
 
+uint8_t no_field_overflow = 0;
 
 void nfc_init(){
 	
@@ -27,7 +28,7 @@ void nfc_init(){
 	nfc_reset();
 }
 	
-void start_nfc_tag_emulation(){	
+void start_nfc_tag_emulation(bool setup_irq){	
 	uint8_t rxbuff[20] = {};
 
 	bool validFrame = false;
@@ -47,13 +48,14 @@ void start_nfc_tag_emulation(){
 
 	//char ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g','/'};
 
-	ndef_vcard("test", "test@example.com");
+	//ndef_vcard("test", "test@example.com");
 	//ndef_well_known(ndef_data, sizeof(ndef_data));
 	
-	nfc_comm(rxbuff, "\x00\x05\x00", true);
-	ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
-
-	//ext_irq_enable(NFC_IRQ_OUT_PIN);
+	if(setup_irq){
+		nfc_comm(rxbuff, "\x00\x05\x00", true);
+		ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
+		ext_irq_enable(NFC_IRQ_OUT_PIN);
+	}
 }
 	
 	
@@ -62,11 +64,14 @@ static void nfc_tag_emulation_irq(){
 	char end_tag_buff[] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
 			uint8_t pin = gpio_get_pin_level(NFC_IRQ_OUT_PIN);
 
+	if(gpio_get_pin_level(NFC_IRQ_OUT_PIN))
+		return;
  	ext_irq_disable(NFC_IRQ_OUT_PIN);
 	rxbuff[0] = pin;
 	nfc_read(rxbuff);
 	
 	if(rxbuff[1] == 0x80){
+		bool valid_cmd = true;
 		if(rxbuff[3] == 0x30){ // A write request command
 			char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
 			if(rxbuff[4] < (sizeof(tag_buff)/4)){ // Tag buffer from memory
@@ -79,14 +84,22 @@ static void nfc_tag_emulation_irq(){
 			nfc_comm(rxbuff, buff, true);
 		}else if(rxbuff[3] == 0x60){ // Tell the reader this is a NTAG215
 			nfc_comm(&rxbuff[10], "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true); 
+			
+		}else{
+			valid_cmd = false;
 		}
-  	}	
+		if(valid_cmd)
+			no_field_overflow = 0;
+	}else{
+		no_field_overflow++;
+		if(no_field_overflow > RESTART_NO_FIELD_CMD){
+			nfc_reset();
+			start_nfc_tag_emulation(false);
+			no_field_overflow = 0;
+		}
+	}
 
   	nfc_comm(rxbuff, "\x00\x05\x00", true);
-	pin = gpio_get_pin_level(NFC_IRQ_OUT_PIN);
-	rxbuff[0] = pin;
-	rxbuff[1] = 0xff;
-
 
 	ext_irq_enable(NFC_IRQ_OUT_PIN);
 }
@@ -229,7 +242,7 @@ bool nfc_test(){
 	if (rxbuff[2] != 15){
 		return false;
 	}
-	platformLog((char*)rxbuff+3);
+	//platformLog((char*)rxbuff+3);
 	return true;
 }
 
@@ -268,7 +281,7 @@ void nfc_reset(){
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	delay_ms(12);
 	
-	//ext_irq_disable(NFC_IRQ_OUT_PIN);
+	ext_irq_disable(NFC_IRQ_OUT_PIN);
 }
 
 void nfc_comm(uint8_t * rx, char * command, bool read){

@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <atmel_start.h>
 
+#define RESTART_NO_FIELD_CMD 10
+
 #define NFC_IRQ_IN_PIN PIN_PB08
 #define NFC_IRQ_OUT_PIN PIN_PB09
 #define NFC_CS_PIN PIN_PA14
@@ -50,7 +52,7 @@ bool nfc_test(void);
 
 void nfc_reader(void);
 
-void start_nfc_tag_emulation(void);
+void start_nfc_tag_emulation(bool setup_irq);
 void ndef_vcard(char*fn, char*email);
 void ndef_well_known(char* tag_data, uint8_t size);
 

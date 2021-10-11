@@ -103,12 +103,10 @@ int main(void)
 		canvas_blt();
 	}
 	//End NFC Test
-	
-	start_nfc_tag_emulation();
+	ndef_vcard("Testing", "test@test.com");
+	start_nfc_tag_emulation(true);
 
 	//ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
-	while(gpio_get_pin_level(PIN_PA27));
-	nfc_init();
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();

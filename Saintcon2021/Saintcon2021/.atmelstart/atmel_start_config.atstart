@@ -1057,7 +1057,7 @@ drivers:
       eic_arch_debounce_enable6: false
       eic_arch_debounce_enable7: false
       eic_arch_debounce_enable8: false
-      eic_arch_debounce_enable9: false
+      eic_arch_debounce_enable9: true
       eic_arch_enable_irq_setting0: false
       eic_arch_enable_irq_setting1: false
       eic_arch_enable_irq_setting10: false
@@ -1105,7 +1105,7 @@ drivers:
       eic_arch_filten6: false
       eic_arch_filten7: false
       eic_arch_filten8: false
-      eic_arch_filten9: false
+      eic_arch_filten9: true
       eic_arch_nmi_ctrl: false
       eic_arch_nmiasynch: false
       eic_arch_nmifilten: false

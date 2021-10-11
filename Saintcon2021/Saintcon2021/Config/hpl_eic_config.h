@@ -511,14 +511,14 @@
 // <i> Indicates whether the external interrupt 9 filter is enabled or not
 // <id> eic_arch_filten9
 #ifndef CONF_EIC_FILTEN9
-#define CONF_EIC_FILTEN9 0
+#define CONF_EIC_FILTEN9 1
 #endif
 
 // <q> External Interrupt 9 Debounce Enable
 // <i> Indicates whether the external interrupt 9 debounce is enabled or not
 // <id> eic_arch_debounce_enable9
 #ifndef CONF_EIC_DEBOUNCE_ENABLE9
-#define CONF_EIC_DEBOUNCE_ENABLE9 0
+#define CONF_EIC_DEBOUNCE_ENABLE9 1
 #endif
 
 // <q> External Interrupt 9 Event Output Enable
