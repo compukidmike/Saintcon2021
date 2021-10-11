@@ -87,6 +87,7 @@ Scene trade_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
 void setMessage(const char* msg);
+void minibagde_holder_init();
 
 void led_set_color(uint8_t color[3]);
 void led_off(void);

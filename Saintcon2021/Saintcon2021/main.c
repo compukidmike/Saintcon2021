@@ -24,6 +24,7 @@ bool rouge_event = false;
 #include "machine_common.h"
 
 extern uint16_t bird_raw[];
+extern uint32_t minibadge_delay;
 
 static void back_button_pressed(void);
 static struct timer_task Timer_task1;
@@ -119,6 +120,7 @@ int main(void)
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
 	
+	minibagde_holder_init();
 	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking

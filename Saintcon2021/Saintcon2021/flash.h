@@ -66,5 +66,6 @@ void flash_read_vcard(char* vcard);
 #define EXPLODE_IMG          	 ((uint32_t)0X391800)
 #define TRADE_IMG            	 ((uint32_t)0X39A800)
 #define TRADE2_IMG           	 ((uint32_t)0X3BC800)
+#define WHAMMY_IMG           	 ((uint32_t)0X3D8C00)
 
 #endif /* FLASH_H_ */

@@ -152,7 +152,7 @@ void trade_scene_draw() {
 		}
 	}
 	int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
-	canvas_drawBitmask(160, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
+	canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
 	canvas_blt();
 }
 
