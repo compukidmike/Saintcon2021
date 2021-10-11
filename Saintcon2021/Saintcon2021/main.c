@@ -16,10 +16,12 @@ badgestate g_state;
 bool back_event = false;
 bool unlock_event = false;
 bool claspopen = false;
+bool rouge_event = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
 #include "eeprom.h"
+#include "machine_common.h"
 
 extern uint16_t bird_raw[];
 
@@ -64,8 +66,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
-	memset((uint8_t*)&g_state, 0x55, sizeof(g_state)); //For testing always start over
-
+	
 	
 	flash_init();
 	uint8_t id[4];
@@ -109,7 +110,7 @@ int main(void)
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
 	
-	Scene scene = TEST;
+	Scene scene = MENU;
 	bool changed = true;
 	bool lastclasp = false;
 	bool screenon = true;
@@ -168,6 +169,16 @@ int main(void)
 		else if (!keys[0] && keys[1] && !keys[2]) {
 			claspopen = false;
 			lastclasp = false;
+		}
+		
+		if (keys[3] && newUnlock(UNLOCK_SHIM)) {
+			scene = REWARD;
+			changed = true;
+		}
+		
+		if (rouge_event && newUnlock(UNLOCK_ROUGE)) {
+			scene = REWARD;
+			changed = true;
 		}
 		
 
@@ -295,4 +306,12 @@ void led_off(void){
 	hri_tcc_write_CC_reg(TCC0, 2, 255);
 	hri_tcc_write_CC_reg(TCC0, 1, 255);
 	hri_tcc_write_CC_reg(TCC0, 3, 255);
+}
+
+
+bool newUnlock(uint16_t unlockflag) {
+	if (g_state.badge_bitmask & unlockflag)
+	return false;
+	g_state.badge_bitmask |= unlockflag;
+	return true;
 }

@@ -62,6 +62,7 @@ extern bool back_event, unlock_event, claspopen;
 extern badgestate g_state;
 extern uint8_t  scroller_status;
 extern uint16_t scroller_position;
+extern bool rouge_event;
 
 void touch_status_display(void);
 int getTouchLocation(void);
@@ -90,4 +91,5 @@ void setMessage(const char* msg);
 void led_set_color(uint8_t color[3]);
 void led_off(void);
 
+bool newUnlock(uint16_t unlockflag);
 #endif /* MAIN_H_ */

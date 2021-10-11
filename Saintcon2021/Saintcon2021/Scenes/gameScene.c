@@ -14,8 +14,9 @@
 #include "main.h"
 #include "flash.h"
 #include "FrameBuffer.h"
+#include "machine_common.h"
 
-enum Curve { none, left, right, up, down };
+enum Curve { cnone, left, right, up, down };
 enum TObject { POWERUP, VIRUS, DUST};
 
 #define TUNNEL_LENGTH   10
@@ -168,7 +169,7 @@ void tunnel_generate_path() {
 		path[i] = down;
 		break;
 		default:
-		path[i] = none;
+		path[i] = cnone;
 	}
 	
 	for(int i=0; i<(TUNNEL_LENGTH-1); ++i) {
@@ -397,7 +398,8 @@ Scene game_scene_loop(bool init) {
 	if (back_event) {
 		back_event=false;
 		if ((player.dead) && (player.score > 500)) {
-			//TODO reward
+			if (newUnlock(UNLOCK_TUNNEL))
+				return REWARD;
 		}
 		return MENU;
 	}
