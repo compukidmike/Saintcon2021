@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "st25r95.h"
+#include "nfc.h"
 #include <stdlib.h>
 
 volatile uint8_t measurement_done_touch;
@@ -54,10 +54,6 @@ int main(void)
 	pwm_enable(&PWM_0);
 	pwm_set_parameters(&PWM_0,255,100);
 	
-	gpio_set_pin_direction(NFC_CS_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_CS_PIN, true);
-	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	
 	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(PIN_PB17,true);
@@ -94,10 +90,14 @@ int main(void)
 	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
 	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
-	//NFC Test - Remove in final code
-	/*st25r95Initialize();
-	delay_ms(1);
-	if(st25r95CheckChipID()){
+	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
+
+	canvas_clearScreen(RGB(10,10,200));
+	canvas_drawText(80,100, "Magic", RGB(255,255,255));
+	canvas_blt();
+	
+	nfc_init();
+	if(nfc_test()){
 		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
 		canvas_blt();
 	} else {
@@ -105,8 +105,10 @@ int main(void)
 		canvas_blt();
 	}
 	//End NFC Test
-	
-	NFC_init();*/
+	ndef_vcard("Testing", "test@test.com");
+	start_nfc_tag_emulation(true);
+
+	//ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
