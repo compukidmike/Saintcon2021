@@ -16,12 +16,15 @@ badgestate g_state;
 bool back_event = false;
 bool unlock_event = false;
 bool claspopen = false;
+bool rouge_event = false;
 
 #include "FrameBuffer.h"
 #include "flash.h"
 #include "eeprom.h"
+#include "machine_common.h"
 
 extern uint16_t bird_raw[];
+extern uint32_t minibadge_delay;
 
 static void back_button_pressed(void);
 static struct timer_task Timer_task1;
@@ -64,8 +67,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
-	memset((uint8_t*)&g_state, 0x55, sizeof(g_state)); //For testing always start over
-
+	
 	
 	flash_init();
 	uint8_t id[4];
@@ -109,7 +111,7 @@ int main(void)
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
 	
-	Scene scene = TEST;
+	Scene scene = MENU;
 	bool changed = true;
 	bool lastclasp = false;
 	bool screenon = true;
@@ -118,6 +120,7 @@ int main(void)
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
 	
+	minibagde_holder_init();
 	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
@@ -168,6 +171,16 @@ int main(void)
 		else if (!keys[0] && keys[1] && !keys[2]) {
 			claspopen = false;
 			lastclasp = false;
+		}
+		
+		if (keys[3] && newUnlock(UNLOCK_SHIM)) {
+			scene = REWARD;
+			changed = true;
+		}
+		
+		if (rouge_event && newUnlock(UNLOCK_ROUGE)) {
+			scene = REWARD;
+			changed = true;
 		}
 		
 
@@ -221,6 +234,8 @@ int main(void)
 			ns = game_scene_loop(changed);
 			break;
 		case TRADING:
+			ns = trade_scene_loop(changed);
+			break;
 		case MENU:
 		default:
 			ns = menu_scene_loop(changed);
@@ -293,4 +308,12 @@ void led_off(void){
 	hri_tcc_write_CC_reg(TCC0, 2, 255);
 	hri_tcc_write_CC_reg(TCC0, 1, 255);
 	hri_tcc_write_CC_reg(TCC0, 3, 255);
+}
+
+
+bool newUnlock(uint16_t unlockflag) {
+	if (g_state.badge_bitmask & unlockflag)
+	return false;
+	g_state.badge_bitmask |= unlockflag;
+	return true;
 }

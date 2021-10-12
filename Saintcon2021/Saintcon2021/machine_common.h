@@ -38,6 +38,13 @@
 
 #define MODULE_COUNT    24
 
+#define UNLOCK_SHIM		(1<<0)
+#define UNLOCK_TUNNEL	(1<<1)
+#define UNLOCK_ROUGE	(1<<2)
+#define UNLOCK_CONTACT	(1<<3)
+#define UNLOCK_MINI		(1<<4)
+#define UNLOCK_TRADE	(1<<5)
+
 typedef enum {
 	wire,
 	gear,
@@ -69,5 +76,6 @@ typedef struct module {
 
 extern const module module_info[MODULE_COUNT];
 extern const char *part_names[12];
+
 
 #endif /* MACHINE_COMMON_H_ */

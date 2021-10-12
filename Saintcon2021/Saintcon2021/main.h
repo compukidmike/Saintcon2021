@@ -62,6 +62,7 @@ extern bool back_event, unlock_event, claspopen;
 extern badgestate g_state;
 extern uint8_t  scroller_status;
 extern uint16_t scroller_position;
+extern bool rouge_event;
 
 void touch_status_display(void);
 int getTouchLocation(void);
@@ -82,11 +83,14 @@ Scene reward_scene_loop(bool init);
 Scene message_scene_loop(bool init);
 Scene nfc_scene_loop(bool init);
 Scene game_scene_loop(bool init);
+Scene trade_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
 void setMessage(const char* msg);
+void minibagde_holder_init();
 
 void led_set_color(uint8_t color[3]);
 void led_off(void);
 
+bool newUnlock(uint16_t unlockflag);
 #endif /* MAIN_H_ */
