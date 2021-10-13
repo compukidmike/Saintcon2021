@@ -41,11 +41,13 @@
 #define URL_PHONE 0x5
 #define URL_EMAIL 0x6
 
+#define NFC_NAK 0x00
+#define NFC_ACK 0xAA
 
 #define TAG_BUFF_LEN 208 // Must be divisible by 16
 
 extern const char UID[];
-extern char tag_buff[];
+extern volatile char tag_buff[];
 
 void nfc_init(void);
 bool nfc_test(void);
