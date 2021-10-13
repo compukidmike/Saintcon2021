@@ -8,7 +8,8 @@
 
 volatile char TAG_BUFF[TAG_BUFF_LEN] = {0};
 volatile bool NFC_BADGE_READ = false;
-volatile uint8_t NFC_BADGE_WRITE = NWRITE_IDLE;
+volatile uint8_t NFC_BADGE_WRITE[2] = {NWRITE_IDLE, 0};
+ext_irq_cb_t nfc_write_callback = NULL;
 
 
 uint8_t no_field_overflow = 0;
@@ -29,10 +30,8 @@ void nfc_init(){
 	nfc_reset();
 }
 
-void start_nfc_tag_emulation(bool setup_irq){
+void start_nfc_tag_emulation(bool setup_irq, ext_irq_cb_t cb){
 	uint8_t rxbuff[20] = {};
-
-	bool validFrame = false;
 
 	//Card emulation mode
 	nfc_comm(rxbuff, "\x00\x02\x02\x12\x08", true);
@@ -50,8 +49,11 @@ void start_nfc_tag_emulation(bool setup_irq){
 		nfc_comm(rxbuff, "\x00\x05\x00", true);
 		ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
 		ext_irq_enable(NFC_IRQ_OUT_PIN);
+		nfc_write_callback = cb;
 	}
-	NFC_BADGE_WRITE = NWRITE_IDLE;
+	NFC_BADGE_WRITE[0] = NWRITE_IDLE;
+	NFC_BADGE_WRITE[1] = 0;
+	
 }
 
 
@@ -83,14 +85,16 @@ static void nfc_tag_emulation_irq(){
 			nfc_comm(rxbuff, "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true);
 
 		}else if(rxbuff[3] == 0xA2 && rxbuff[2] == 9 && (rxbuff[11] & 0x3F) == 0x08){// A write request command of proper length without errors
-			unsigned char buff[] = {0,6,2, NFC_NAK,0x14};
+			char buff[] = {0,6,2, NFC_NAK,0x14};
 			if(rxbuff[4] < TAG_BUFF_LEN/4 && rxbuff[4] >= 0x04){
 
 				// Keep track of NDEF writes
-				if(rxbuff[4] == 0x04 && rxbuff[5] == 0x03){
-					NFC_BADGE_WRITE = NWRITE_END;
-				}else if(rxbuff[4] > 0x04){
-					NFC_BADGE_WRITE = NWRITE_ACTIVE;
+				if(rxbuff[4] == 0x04 && rxbuff[5] == 0x03 && rxbuff[6] != 0){
+					NFC_BADGE_WRITE[1] = (rxbuff[6]/4) + (rxbuff[6]%4 > 0) + 4;
+				}else if(rxbuff[4] == NFC_BADGE_WRITE[1] && NFC_BADGE_WRITE[0] == NWRITE_ACTIVE){
+					NFC_BADGE_WRITE[0] = NWRITE_END;
+				}else if(NFC_BADGE_WRITE[0] != NWRITE_ACTIVE){
+					NFC_BADGE_WRITE[0] = NWRITE_ACTIVE;
 				}
 
 				for(uint8_t i = 0; i < 4; i++)
@@ -98,6 +102,13 @@ static void nfc_tag_emulation_irq(){
 				buff[3] = NFC_ACK;
 			}
 			nfc_comm(rxbuff, buff, true);
+ 			if(NFC_BADGE_WRITE[0] == NWRITE_END){
+				NFC_BADGE_WRITE[0] = NWRITE_IDLE;
+				NFC_BADGE_WRITE[1] = 0;
+				if(nfc_write_callback != NULL){
+					nfc_write_callback();
+				}
+			}
 		}else{
 			valid_cmd = false;
 		}
@@ -107,7 +118,7 @@ static void nfc_tag_emulation_irq(){
 		no_field_overflow++;
 		if(no_field_overflow > RESTART_NO_FIELD_CMD){
 			nfc_reset();
-			start_nfc_tag_emulation(false);
+			start_nfc_tag_emulation(false, NULL);
 			no_field_overflow = 0;
 		}
 	}
@@ -169,12 +180,12 @@ bool nfc_ndef_tag_writer(char * ndef_buff){
 	char uid[7] = {};
 	uint8_t rxbuff[10] = {0};
 	uint8_t num_bytes = ndef_buff[1] + 3;
-	uint8_t page_cnt = num_bytes/4;
+	uint8_t page_cnt = (num_bytes/4) + (num_bytes%4 > 0);
 
 	nfc_comm(rxbuff, "\0\x02\x02\x02\x00", true);
 	if(nfc_select_card(uid)){
 		nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x08", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x08
-		for(int8_t page = page_cnt; page >= 0; page--){
+		for(uint8_t page = 0; page < page_cnt; page++){
 			uint8_t cmd[] = {0, 0x04, 0x07,  0xA2, page+4, 0,0,0,0, 0x28};
 			for(uint8_t i = 0; i < 4; i++){
 				if(page+i < num_bytes){

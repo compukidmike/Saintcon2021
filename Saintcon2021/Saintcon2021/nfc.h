@@ -89,7 +89,7 @@
 
 extern volatile char TAG_BUFF[];
 extern volatile bool NFC_BADGE_READ;
-extern volatile uint8_t NFC_BADGE_WRITE;
+extern volatile uint8_t NFC_BADGE_WRITE[2];
 enum NFC_BADGE_WRITE_STATES {NWRITE_IDLE, NWRITE_ACTIVE, NWRITE_END};
 
 
@@ -97,9 +97,9 @@ void nfc_init(void);	// Setups the ST25R95
 bool nfc_test(void);	// Returns true if the ST25R95 responds correctly
 
 
-bool nfc_ndef_tag_writer(char * ndef_buff);		// Send the ndef record in the provided buffer to a tag. true on success
-bool nfc_reader(char * output_buffer);			// Attempt a read and save the NDEF record to the provided buffer. true on success
-void start_nfc_tag_emulation(bool setup_irq);	// Setup and nfc tag emulation. setup_irq will attach nfc_tag_emulation_irq
+bool nfc_ndef_tag_writer(char * ndef_buff);						// Send the ndef record in the provided buffer to a tag. true on success
+bool nfc_reader(char * output_buffer);							// Attempt a read and save the NDEF record to the provided buffer. true on success
+void start_nfc_tag_emulation(bool setup_irq, ext_irq_cb_t cb);	// Setup and nfc tag emulation. setup_irq will attach nfc_tag_emulation_irq and will set the cb to be called when end of transactions are called.
 
 
 void ndef_well_known(char* tag_data, uint8_t size);												// Populate TAG_BUFF with a NDEF well known record

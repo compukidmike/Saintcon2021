@@ -57,6 +57,11 @@ void vcard_write_callback(char* vcarddata) {
 	}
 }
 
+static void test_cb(void){
+	platformLog("Success");
+}
+
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
@@ -114,8 +119,7 @@ int main(void)
 	//End NFC Test
 	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
 	ndef_well_known(ndef_data, sizeof(ndef_data));
-	start_nfc_tag_emulation(true);
-	
+	start_nfc_tag_emulation(true, test_cb);	
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
