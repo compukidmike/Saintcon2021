@@ -1,4 +1,45 @@
 
+/*--NFC write NDEF to ntag--------------------------
+ *
+ *	uint8_t buffer[50] = {0};
+ *	ndef_mime_card("text/plain", "This is a text record", 21, buffer);
+ *	if( nfc_ndef_tag_writer(buffer) ){
+ *		...
+ */
+
+/*--NFC read NDEF to buffer-------------------------
+ *
+ *	uint8_t buffer[200] = {0};
+ *	if( nfc_reader(buffer) ){
+ *		...
+ */
+
+/*--NFC tag emulation-------------------------------
+ *
+ *	/////////////// Well Know load into TAG_BUFF ///////////////
+ *
+ *		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+ *		ndef_well_known(ndef_data, sizeof(ndef_data));
+ *
+ *	/////////////// Mime load into TAG_BUFF ///////////////
+ *
+ *		ndef_mime_card("text/plain", "This is a text record", 21, NULL);
+ *
+ *	/////////////// VCARD load into TAG_BUFF ///////////////
+ *
+ *		ndef_vcard( "BEGIN:VCARD....END:VCARD" );
+ *
+ *	/////////////// Start tag emulation ///////////////
+ *
+ *		start_nfc_tag_emulation(true);
+ *
+ *	///////////////
+ *
+ *		NFC_BADGE_WRITE is set to NWRITE_END after a NDEF record is written (end to beginning)
+ *		NFC_BADGE_READ	is set true after a read event
+ *		TAG_BUFF		this is the memory buffer for tag emulation data
+ *
+ */
 
 
 #ifndef NFC_H_
@@ -25,11 +66,8 @@
 #define TNF_WELL_KNOWN 0x01
 #define TNF_MIME 0x02
 
-#define VCARD_TYPE "text/vcard"
-#define VCARD_HEAD "BEGIN:VCARD\nVERSION:3.0"
-#define VCARD_FN "\nFN:"
-#define VCARD_EMAIL "\nEMAIL:"
-#define VCARD_END "\nEND:VCARD"
+#define NDEF_TYPE_VCARD "text/vcard"
+#define NDEF_TYPE_P2P "application/encrypted"
 
 #define NDEF_TYPE_LEN 0x01
 
@@ -44,29 +82,40 @@
 #define NFC_NAK 0x00
 #define NFC_ACK 0xAA
 
-#define TAG_BUFF_LEN 208 // Must be divisible by 16
+#define TAG_BUFF_LEN 304 // Must be divisible by 16
 
-extern const char UID[];
-extern volatile char tag_buff[];
+#define UID "SAINTCN" // UID for tag emulation. Must be exactly 7 characters long
 
-void nfc_init(void);
-bool nfc_test(void);
 
-void nfc_reader(void);
+extern volatile char TAG_BUFF[];
+extern volatile bool NFC_BADGE_READ;
+extern volatile uint8_t NFC_BADGE_WRITE;
+enum NFC_BADGE_WRITE_STATES {NWRITE_IDLE, NWRITE_ACTIVE, NWRITE_END};
 
-void start_nfc_tag_emulation(bool setup_irq);
-void ndef_vcard(char*fn, char*email);
-void ndef_well_known(char* tag_data, uint8_t size);
 
-static void nfc_tag_emulation_irq(void);
+void nfc_init(void);	// Setups the ST25R95
+bool nfc_test(void);	// Returns true if the ST25R95 responds correctly
 
-void init_tag(void);
-bool nfc_select_card(char * buffer);
+
+bool nfc_ndef_tag_writer(char * ndef_buff);		// Send the ndef record in the provided buffer to a tag. true on success
+bool nfc_reader(char * output_buffer);			// Attempt a read and save the NDEF record to the provided buffer. true on success
+void start_nfc_tag_emulation(bool setup_irq);	// Setup and nfc tag emulation. setup_irq will attach nfc_tag_emulation_irq
+
+
+void ndef_well_known(char* tag_data, uint8_t size);												// Populate TAG_BUFF with a NDEF well known record
+void ndef_vcard(char * vcard_data);																// Populate TAG_BUFF with a NDEF vcard record
+void ndef_mime_card(char * mime_type, char * mime_data, uint8_t data_len, char * save_buff);	// Populate TAG_BUFF with a NDEF mime record.  Set save_buff to NULL to use TAG_BUFF;
+
+static void nfc_tag_emulation_irq(void);// Interrupt function for tag emulation
+
 void nfc_reset(void);
-void nfc_poll(void);
-void nfc_read(uint8_t* buffer);
-void nfc_comm(uint8_t * rx, char * command, bool read);
-void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read);
+void init_tag(void);					// Init TAG_BUFF with ntag215 values
+bool nfc_select_card(char * buffer);	// Type 2 reader handshake
+
+void nfc_poll(void);														// Wait for NFC_IRQ_OUT_PIN to go low
+void nfc_read(uint8_t* buffer);												// Read from the ST25R95
+void nfc_comm(uint8_t * rx, char * command, bool read);						// Send command to ST25R95
+void nfc_raw_comm(uint8_t * rx, char * command, uint8_t size, bool read);	// Send raw data to ST25R95
 
 
 

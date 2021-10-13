@@ -91,17 +91,11 @@ int main(void)
 			uint32_t offset = i * 0x100;
 			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
 		}
-	}
-
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
-	
+	}	
 	
 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
 	spi_m_sync_enable(&SPI_1);
-
-	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
-	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
 	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
 
@@ -118,10 +112,10 @@ int main(void)
 		canvas_blt();
 	}
 	//End NFC Test
-	ndef_vcard("Testing", "test@test.com");
+	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+	ndef_well_known(ndef_data, sizeof(ndef_data));
 	start_nfc_tag_emulation(true);
-
-	//ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
+	
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
@@ -136,7 +130,6 @@ int main(void)
 	gpio_set_pin_level(MB_CLK_PIN, false);
 	
 	minibagde_holder_init();
-	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
 		//comment the following line if you're not working on the NFC
