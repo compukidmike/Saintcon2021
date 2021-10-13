@@ -7,7 +7,7 @@
 #include "hal_ext_irq.h"
 
 const char UID[] = "SAINTCN";
-char tag_buff[TAG_BUFF_LEN] = {0};
+volatile char tag_buff[TAG_BUFF_LEN] = {0};
 
 uint8_t no_field_overflow = 0;
 
@@ -61,22 +61,22 @@ void start_nfc_tag_emulation(bool setup_irq){
 	
 static void nfc_tag_emulation_irq(){
 	uint8_t rxbuff[25] = {0};
-	char end_tag_buff[] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
-			uint8_t pin = gpio_get_pin_level(NFC_IRQ_OUT_PIN);
 
 	if(gpio_get_pin_level(NFC_IRQ_OUT_PIN))
 		return;
  	ext_irq_disable(NFC_IRQ_OUT_PIN);
-	rxbuff[0] = pin;
 	nfc_read(rxbuff);
 	
 	if(rxbuff[1] == 0x80){
 		bool valid_cmd = true;
-		if(rxbuff[3] == 0x30){ // A write request command
+ 		if(rxbuff[3] == 0x30 && rxbuff[2] == 5 && (rxbuff[7] & 0x3F) == 0x08){ // A write request command
+// 		if(rxbuff[3] == 0x30 ){ // A write request command
+
 			char buff[] = {0,6,17, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0x28};
-			if(rxbuff[4] < (sizeof(tag_buff)/4)){ // Tag buffer from memory
+			if(rxbuff[4] < TAG_BUFF_LEN/4){ // Tag buffer from memory
 				memcpy(&buff[3], &tag_buff[rxbuff[4]*4], 16);
 			}else if(rxbuff[4] >= 0x82 && rxbuff[4] < 0x87){ // Tail memory locations
+				char end_tag_buff[] = {0,0,0,0xBD, 0x04,0,0,0xFF, 0,0x05,0,0, 0,0,0,0, 0,0,0,0};
 				uint8_t amnt = 0x87 - rxbuff[4];
 				if(amnt > 4){amnt = 4;}
 				memcpy(&buff[3], &end_tag_buff[(rxbuff[4]-0x82)*4], amnt);
@@ -84,7 +84,14 @@ static void nfc_tag_emulation_irq(){
 			nfc_comm(rxbuff, buff, true);
 		}else if(rxbuff[3] == 0x60){ // Tell the reader this is a NTAG215
 			nfc_comm(&rxbuff[10], "\0\x6\x9\x0\x4\x4\x2\x1\x0\x11\x3\x28", true); 
-			
+ 		}else if(rxbuff[3] == 0xA2 && rxbuff[2] == 9 && (rxbuff[11] & 0x3F) == 0x08){
+			unsigned char buff[] = {0,6,2, NFC_NAK,0x14};
+			if(rxbuff[4] < TAG_BUFF_LEN/4 && rxbuff[4] >= 0x04){
+				for(uint8_t i = 0; i < 4; i++)
+					tag_buff[(rxbuff[4]*4)+i] = rxbuff[5+i];
+				buff[3] = NFC_ACK;
+			}
+			nfc_comm(rxbuff, buff, true);
 		}else{
 			valid_cmd = false;
 		}
