@@ -44,6 +44,19 @@ void Timer_touch_init(void)
 	timer_start(&Timer);
 }
 
+void vcard_write_callback(char* vcarddata) {
+	const char* magic = "PRODID:-//saintcon_2021_magic";
+	size_t mlen = strlen(magic) +1;
+	size_t vlen = strlen(vcarddata);
+	char* dp = strstr(vcarddata, magic);
+	if (dp) {
+		vlen -= dp-vcarddata;
+		vlen -= mlen;
+		memmove(dp, dp+mlen, vlen+1);
+		flash_save_vcard(vcarddata);
+	}
+}
+
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */

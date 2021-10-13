@@ -46,7 +46,13 @@ int isValidCard(const char* str)
 				break;
 			}
 		}
-		if (match) return i;
+		if (match) {
+			uint16_t nfc_flag = (1<<i);
+			if (g_state.nfc_bitmask & nfc_flag)
+				return 0; // already found this one
+			g_state.badge_bitmask |= nfc_flag;
+			return 1;
+		}
 	}
 	return -1;
 }
@@ -60,16 +66,32 @@ void nfc_draw() {
 }
 
 Scene nfc_scene_loop(bool init) { 
+	char nfc_buffer[512]={0};
 	if (back_event) {
 		back_event=false;
-		//TODO: turn off NFC field
 		return MENU;
 	}
 	
 	if (init) {
 		nfc_frame = 0;
 		nfc_lastDraw = 0;
-		//TODO: turn on NFC field
+	}
+	
+	
+	if (false) //TODO: replace with function to read NDEF Text record 
+	{
+		int r = isValidCard(nfc_buffer);
+		if (r < 0) {
+			setMessage("Invalid NFC Unlock");
+			return MESSAGE;
+		}
+		else if (r==0) {
+			setMessage("NFC card already scanned");
+			return MESSAGE;
+		}
+		else {
+			return REWARD;
+		}
 	}
 	
 	uint32_t now = millis();

@@ -10,7 +10,7 @@
 #include <atmel_start.h>
 
 volatile uint32_t *EEPROM_STATE_BITMASKS	= (uint32_t*)(SEEPROM_ADDR + 0);
-volatile uint8_t  *EEPROM_STATE_PARTS		= (uint8_t*)(SEEPROM_ADDR + 32);
+volatile uint8_t  *EEPROM_STATE_PARTS		= (uint8_t*)(SEEPROM_ADDR + 64);
 #define EEPROM_WAIT		while(NVMCTRL->SEESTAT.bit.BUSY);
 
 volatile uint32_t *USER_PAGE = (uint32_t*)0x00804000;
