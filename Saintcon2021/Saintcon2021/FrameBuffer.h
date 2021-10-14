@@ -39,6 +39,8 @@ void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint32_t ad
 void canvas_drawText(int x, int y, const char* text, uint16_t color);
 void canvas_drawChar(int x, int y, char c, uint16_t color);
 
+void canvas_drawMiniWindow(int minx, int maxx, int y, char* str, int xoff, uint16_t color);
+
 void canvas_fillCircle(int x, int y, int radius, uint16_t color);
 
 void canvas_fillRect(int x, int y, int w, int h, uint16_t color);

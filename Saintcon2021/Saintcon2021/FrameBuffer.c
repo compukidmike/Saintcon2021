@@ -282,6 +282,24 @@ void canvas_drawChar(int x, int y, char c, uint16_t color) {
     }
 }
 
+void canvas_drawMiniWindow(int minx, int maxx, int y, char* str, int xoff, uint16_t color) {
+	int minilen = strlen(str);
+	for (int i=0; i+xoff < maxx; ++i) {
+		if ((i+xoff) < minx)
+			continue;
+		if ((i%6)==5)
+			continue;
+		if ((i/6) > minilen)
+			return;
+		uint8_t b = font5x7[ (str[i/6]-' ')*5 + i%6];
+		for (int j=0; j<7; ++j) {
+			if ((b>>j)&1)
+				canvas_drawPixel(xoff+i, y+j, color);
+		}
+		
+	}
+}
+
 void canvas_drawBitmask(int x, int y, int w, int h, const uint8_t *data, uint16_t color, float angle) {
 	int cx = w/2, cy = h/2;
     int wb = w/8;

@@ -112,12 +112,6 @@ int main(void)
 
 	spi_m_sync_enable(&SPI_1);
 	
-	LCD_FillRect(0, 0, 240, 240, RGB(10,10,200));
-
-	canvas_clearScreen(RGB(10,10,200));
-	canvas_drawText(80,100, "Magic", RGB(255,255,255));
-	canvas_blt();
-	
 	nfc_init();
 	if(nfc_test()){
 		//TODO: something

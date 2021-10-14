@@ -98,11 +98,15 @@ Scene nfc_scene_loop(bool init) {
 	}
 	
 	
-	if (nfc_reader(nfc_buffer) && parse_ndef_text_record(nfc_buffer)) 
+	if (nfc_reader(nfc_buffer))  
 	{
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		start_nfc_tag_emulation(true, nfc_write_cb);
+		if (!parse_ndef_text_record(nfc_buffer)) {
+			setMessage("Not Supported NFC tag");
+			return MESSAGE;
+		}
 		int r = isValidCard(nfc_buffer);
 		if (r < 0) {
 			setMessage("Invalid NFC Unlock");
