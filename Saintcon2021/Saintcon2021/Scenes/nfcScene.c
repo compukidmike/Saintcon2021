@@ -89,7 +89,6 @@ Scene nfc_scene_loop(bool init) {
 		back_event=false;
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
-		start_nfc_tag_emulation(true, nfc_write_cb);
 		return MENU;
 	}
 	

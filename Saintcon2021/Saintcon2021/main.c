@@ -90,6 +90,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
+	g_state.part_count[0] = 50;
 	
 	
 	flash_init();
@@ -119,11 +120,7 @@ int main(void)
 	
 	nfc_init();
 	if(nfc_test()){
-		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
-		canvas_blt();
-	} else {
-		canvas_drawText(80,120,"NFC: FAIL", RGB(255,0,0));
-		canvas_blt();
+		//TODO: something
 	}
 	//End NFC Test
 	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};

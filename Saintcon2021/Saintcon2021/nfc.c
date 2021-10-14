@@ -226,7 +226,9 @@ bool nfc_reader(char * output_buffer){
 				if(remaining_bytes <= 16)
 					break;
 				cmd[4] += 4;
-			}else{break;}
+			}else{
+				return false;
+			}
 			counter++;
 		}
 		return true;

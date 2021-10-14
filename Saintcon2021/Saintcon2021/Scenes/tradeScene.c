@@ -187,7 +187,13 @@ void update_trade_tag()
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
 	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, enc, (uint8_t*)&message);
 	
-	//TODO: set tag data to enc
+	memset(enc, 'W', 16);
+	
+	ndef_mime_card(NDEF_TYPE_P2P, enc, 16, NULL);
+	
+}
+
+void trade_tag_event() {
 	
 }
 
@@ -233,7 +239,7 @@ void nfc_trade_write_callback(uint8_t * enc) {
 }
 
 bool attempt_trade() {
-	uint8_t tag[512];
+	uint8_t tag[512]={0};
 	uint8_t enc[16], buf[32];
 	trade_message *message = (trade_message*)buf;
 	uint8_t       sha_output[20] = {0x00};
@@ -313,7 +319,9 @@ Scene trade_scene_loop(bool init) {
 		update_trade_tag(); 
 	}
 	if (back_event) {
-		//TODO: disable passive trade NFC
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
+		
 		back_event=false;
 		if (trade_complete && newUnlock(UNLOCK_TRADE))
 			return REWARD;
@@ -381,7 +389,8 @@ Scene trade_scene_loop(bool init) {
 
 	}
 	
-	if (trade_frame == 200) {
+	//*
+	if ((trade_frame) % 200 == 0) {
 		if (attempt_trade()) {
 			//TODO: disable passive trade
 			trade_complete = true;
@@ -392,7 +401,11 @@ Scene trade_scene_loop(bool init) {
 					g_state.part_count[outgoing[i].part] -= outgoing[i].count;
 			}
 		}
-	}
+		else {
+			update_trade_tag();
+			start_nfc_tag_emulation(true, nfc_write_cb);
+		}
+	}//*/
 	trade_scene_draw();
 	return TRADING;
 }
