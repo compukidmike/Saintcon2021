@@ -10,6 +10,7 @@
 #include "main.h"
 #include "FrameBuffer.h"
 #include "flash.h"
+#include "nfc.h"
 
 static uint32_t draw_ms=0, blt_ms=0, sys_ms=0, now, tsstep=0;
 static int test_x=0, test_y=0, test_dx=1,test_dy=1;
@@ -17,7 +18,7 @@ static int test_x=0, test_y=0, test_dx=1,test_dy=1;
 Scene test_scene_loop(bool init) {
 	if (back_event) {
 		back_event=false;
-		return MENU;
+		//no leaving the test screen jail!
 	}
 	
 			//touchWheel = getTouchWheelPostion();
@@ -43,10 +44,11 @@ Scene test_scene_loop(bool init) {
 	tsstep = now;
 	canvas_clearScreen(c);
 	canvas_drawImage_FromFlash(test_x, test_y, 160, 80, BIRD_IMG);
-	canvas_drawText(80, 85, lines[0], RGB(255,255,255));
-	canvas_drawText(80, 105, lines[1], RGB(255,255,255));
-	canvas_drawText(80, 125, lines[2], RGB(255,255,255));
-	canvas_drawText(90, 145, lines[3], RGB(255,255,255));
+	canvas_drawText(12, 115, "Ready for VCard Programming", RGB(255,255,255));
+	canvas_drawText(80, 135, lines[0], RGB(255,255,255));
+	canvas_drawText(80, 155, lines[1], RGB(255,255,255));
+	canvas_drawText(80, 175, lines[2], RGB(255,255,255));
+	canvas_drawText(90, 195, lines[3], RGB(255,255,255));
 	//canvas_fillRect(80,80,40,40,c);
 	canvas_drawLine(test_x1, test_y1, test_x2, test_y2, scroller_status?0xFFFF:0);
 	now = millis();

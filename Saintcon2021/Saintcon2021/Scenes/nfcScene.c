@@ -11,6 +11,7 @@
 #include "flash.h"
 #include "machine_common.h"
 #include "FrameBuffer.h"
+#include "nfc.h"
 
 int nfc_frame, nfc_lastDraw;
 
@@ -68,10 +69,27 @@ void nfc_draw() {
 	canvas_blt();
 }
 
+bool parse_ndef_text_record(uint8_t* buffer) {
+	ndef_header *ndef = (ndef_header*)buffer;
+	if ((ndef->flags & 0x3) != 1)
+		return false;
+	if (ndef->type_len != 1)
+		return false;
+	if (ndef->payload_type != 'T')
+		return false;
+	uint8_t len = ndef->payload_len;
+	memmove(buffer, &ndef->payload[3], ndef->payload_len);
+	buffer[len-3]='\0';
+	return true;
+}
+
 Scene nfc_scene_loop(bool init) { 
 	char nfc_buffer[512]={0};
 	if (back_event) {
 		back_event=false;
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
+		start_nfc_tag_emulation(true, nfc_write_cb);
 		return MENU;
 	}
 	
@@ -81,8 +99,11 @@ Scene nfc_scene_loop(bool init) {
 	}
 	
 	
-	if (false) //TODO: replace with function to read NDEF Text record 
+	if (nfc_reader(nfc_buffer) && parse_ndef_text_record(nfc_buffer)) 
 	{
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
+		start_nfc_tag_emulation(true, nfc_write_cb);
 		int r = isValidCard(nfc_buffer);
 		if (r < 0) {
 			setMessage("Invalid NFC Unlock");

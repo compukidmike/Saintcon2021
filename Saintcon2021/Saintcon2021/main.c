@@ -53,17 +53,26 @@ void vcard_write_callback(char* vcarddata) {
 		vlen -= dp-vcarddata;
 		vlen -= mlen;
 		memmove(dp, dp+mlen, vlen+1);
+		dp[strlen(dp)-1]='\0';
 		flash_save_vcard(vcarddata);
 	}
 }
 
-static void test_cb(void){
-	platformLog("Success");
+void nfc_write_cb() {
+	uint8_t lc[256];
+	memcpy(lc, TAG_BUFF, 256);
+	ndef_header *ndef = (ndef_header*)lc;
+	if (strncmp(&lc[0x15], "text/vcard", 10) == 0) { //Lazy hacks!
+		vcard_write_callback(&lc[0x15+10]);
+	}
+	else if (ndef->payload_type == 'D') {
+		
+	}
 }
-
 
 int main(void)
 {
+	char vcard[512];
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
 	SysTick_Config(48000000/1000);
@@ -119,7 +128,7 @@ int main(void)
 	//End NFC Test
 	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
 	ndef_well_known(ndef_data, sizeof(ndef_data));
-	start_nfc_tag_emulation(true, test_cb);	
+	start_nfc_tag_emulation(true, nfc_write_cb);	
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
@@ -129,6 +138,11 @@ int main(void)
 	bool lastclasp = false;
 	bool screenon = true;
 	uint32_t lastTouch = millis();
+	
+	if (!flash_read_vcard(vcard)) {
+		//scene = TEST;
+	}
+	
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);

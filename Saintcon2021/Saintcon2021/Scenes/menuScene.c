@@ -12,6 +12,7 @@
 #include "menu_icons.h"
 #include "flash.h"
 #include "machine_common.h"
+#include "nfc.h"
 
 #define MINIBADGE_DELAY	(30*1000)
 
@@ -128,7 +129,15 @@ Scene menu_scene_loop(bool init) {
 		minibadge_button = 0;
 	}
 	if (claspopen != vcard_enabled) {
-		//TODO: enable or disable NFC vcard
+		if (claspopen) {
+			char vcard[512];
+			flash_read_vcard(vcard);
+			ndef_vcard(vcard);
+		}
+		else {
+			uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+			ndef_well_known(ndef_data, sizeof(ndef_data));
+		}
 		vcard_enabled = claspopen;
 	}
 	if (scroller_status) {

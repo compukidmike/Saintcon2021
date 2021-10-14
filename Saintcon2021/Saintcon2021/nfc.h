@@ -91,6 +91,16 @@ extern volatile char TAG_BUFF[];
 extern volatile bool NFC_BADGE_READ;
 extern volatile uint8_t NFC_BADGE_WRITE[2];
 enum NFC_BADGE_WRITE_STATES {NWRITE_IDLE, NWRITE_ACTIVE, NWRITE_END};
+	
+#pragma pack(1)
+typedef struct ndef_header {
+	uint16_t unk;
+	uint8_t flags;
+	uint8_t type_len;
+	uint8_t payload_len;
+	char payload_type;
+	uint8_t payload[];
+} ndef_header;
 
 
 void nfc_init(void);	// Setups the ST25R95

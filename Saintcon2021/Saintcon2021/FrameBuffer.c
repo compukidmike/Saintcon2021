@@ -14,6 +14,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "font8x16.h"
+#include "font5x7.h"
 #include "ILI9331.h"
 #include "flash.h"
 

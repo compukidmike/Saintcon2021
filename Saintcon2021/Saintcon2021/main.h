@@ -67,6 +67,7 @@ extern bool rouge_event;
 void touch_status_display(void);
 int getTouchLocation(void);
 uint32_t millis();
+void nfc_write_cb();
 
 int32_t spi_m_sync_io_readwrite(struct io_descriptor *io, uint8_t *rxbuf, uint8_t *txbuf, const uint16_t length);
 

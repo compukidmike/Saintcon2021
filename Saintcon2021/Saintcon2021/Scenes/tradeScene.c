@@ -9,6 +9,7 @@
 #include "FrameBuffer.h"
 #include "flash.h"
 #include "machine_common.h"
+#include "nfc.h"
 #include <stdio.h>
 
 static requirement outgoing[4], received[4];
@@ -232,11 +233,15 @@ void nfc_trade_write_callback(uint8_t * enc) {
 }
 
 bool attempt_trade() {
+	uint8_t tag[512];
 	uint8_t enc[16], buf[32];
 	trade_message *message = (trade_message*)buf;
 	uint8_t       sha_output[20] = {0x00};
 	
-	//TODO: read tag into enc;
+	if (!nfc_reader(tag))
+		return false;
+		
+	//TODO: parse_tag
 	
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
@@ -259,7 +264,10 @@ bool attempt_trade() {
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
 	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, enc);
 	
-	//TODO: Write data tag enc
+	//TODO: build tag
+	
+	if(!nfc_ndef_tag_writer(tag))
+		return false;
 	
 	((uint16_t*)buf)[0] = message->nonce1;
 	((uint16_t*)buf)[1] = message->nonce2;
@@ -270,8 +278,11 @@ bool attempt_trade() {
 	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, buf, 20, sha_output);
 	delay_ms(2); // give other badge some time to prep
 	
-	//TODO: read tag into enc;
-	
+	if (!nfc_reader(tag))
+		return false;
+		
+	//TODO: parse_tag
+		
 	if (memcmp(enc, sha_output, 16))
 		return false;
 	

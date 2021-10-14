@@ -11,7 +11,7 @@
 #include "ILI9331.h"
 #include "FrameBuffer.h"
 
-const uint32_t FLASH_VCARD = 0x7ff000;
+const uint32_t FLASH_VCARD = 0x7f8000;
 
 void flash_init() {
 	qspi_sync_enable(&QUAD_SPI_0);
@@ -134,7 +134,7 @@ void flash_erase_all() {
 	while(flash_is_busy()) {
 		LCD_DrawPixel(30+c%180, 30+c/180, RGB(0,0,255));
 		c++;
-		delay_us(300);
+		delay_us(500);
 	}
 }
 
@@ -214,11 +214,12 @@ void flash_write(uint32_t addr, void *buf, size_t len) {
 }
 
 void flash_save_vcard(char* vcard) {
-	flash_erase_4k(FLASH_VCARD);
+	flash_erase_32k(FLASH_VCARD);
 	flash_write(FLASH_VCARD, vcard, 256);
-	flash_write(FLASH_VCARD, vcard+256, 256);
+	flash_write(FLASH_VCARD+256, vcard+256, 256);
 }
 
-void flash_read_vcard(char* vcard) {
+bool flash_read_vcard(char* vcard) {
 	flash_read(FLASH_VCARD, vcard, 512);
+	return vcard[0] != 0xFF;
 }
