@@ -11,6 +11,7 @@
 #include "machine_common.h"
 #include "nfc.h"
 #include <stdio.h>
+#include <string.h>
 
 static requirement outgoing[4], received[4];
 static uint8_t trade_idx, trade_slot;
@@ -185,9 +186,7 @@ void update_trade_tag()
 		
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, enc, (uint8_t*)&message);
-	
-	memset(enc, 'W', 16);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, (uint8_t*)&message, enc);
 	
 	ndef_mime_card(NDEF_TYPE_P2P, enc, 16, NULL);
 	
@@ -226,7 +225,7 @@ void nfc_trade_write_callback(uint8_t * enc) {
 	sha_sync_enable(&HASH_ALGORITHM_0);
 	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, buf, 20, sha_output);
 	
-	//TODO: set tag data to sha_output
+	ndef_mime_card(NDEF_TYPE_P2P, sha_output, 16, NULL);
 	
 	//We've seen enough, assume trade is good
 	trade_complete = true;
@@ -247,11 +246,15 @@ bool attempt_trade() {
 	if (!nfc_reader(tag))
 		return false;
 		
-	//TODO: parse_tag
+	char* tagptr = strstr(tag, "application/encrypted");
+	if (tagptr == NULL)
+		return false;
+		
+	tagptr += 21;
 	
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, enc, buf);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, tagptr, buf);
 	
 	if (message->magic != TRADEMAGIC)
 		return false;
@@ -267,10 +270,10 @@ bool attempt_trade() {
 	for (int i=0; i<4; ++i)
 		message->reqparts[i] = outgoing[i];
 		
+	//we're going to reuse the same tag struct that we recieved 
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, enc);
-	
-	//TODO: build tag
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, tagptr);
+
 	
 	if(!nfc_ndef_tag_writer(tag))
 		return false;
@@ -287,9 +290,11 @@ bool attempt_trade() {
 	if (!nfc_reader(tag))
 		return false;
 		
-	//TODO: parse_tag
+	tagptr = strstr(tag, "application/encrypted");
+	if (tagptr == NULL)
+		return false;
 		
-	if (memcmp(enc, sha_output, 16))
+	if (memcmp(tagptr, sha_output, 16))
 		return false;
 	
 	return true;
@@ -392,7 +397,6 @@ Scene trade_scene_loop(bool init) {
 	//*
 	if ((trade_frame) % 200 == 0) {
 		if (attempt_trade()) {
-			//TODO: disable passive trade
 			trade_complete = true;
 			for (int i=0; i<4; ++i) {
 				if (received[i].part != none)

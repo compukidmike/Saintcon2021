@@ -65,8 +65,8 @@ void nfc_write_cb() {
 	if (strncmp(&lc[0x15], "text/vcard", 10) == 0) { //Lazy hacks!
 		vcard_write_callback(&lc[0x15+10]);
 	}
-	else if (ndef->payload_type == 'D') {
-		
+	else if (strncmp(&lc[6], "application/encrypted", 21)==0){
+		nfc_trade_write_callback(&lc[6+21]);
 	}
 }
 
