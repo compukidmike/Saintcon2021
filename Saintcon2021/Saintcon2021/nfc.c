@@ -182,7 +182,8 @@ bool nfc_ndef_tag_writer(char * ndef_buff){
 	uint8_t num_bytes = ndef_buff[1] + 3;
 	uint8_t page_cnt = (num_bytes/4) + (num_bytes%4 > 0);
 
-	nfc_comm(rxbuff, "\0\x02\x02\x02\x00", true);
+	nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x03", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x03
+
 	if(nfc_select_card(uid)){
 		nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x08", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x08
 		for(uint8_t page = 0; page < page_cnt; page++){
@@ -209,7 +210,7 @@ bool nfc_reader(char * output_buffer){
 	uint8_t rxbuff[30] = {0};
 	char cmd[20] = {0};
 
-	nfc_comm(rxbuff, "\0\x02\x02\x02\0", false);
+	nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x03", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x03
 
 	if(nfc_select_card(uid)){
 		memcpy(cmd, "\0\x4\x3\x30\x04\x28", 6);
