@@ -51,6 +51,7 @@ END:VCARD
 
 void flash_save_vcard(char* vcard);
 bool flash_read_vcard(char* vcard);
+bool flash_has_vard();
 
 #define BIRD_IMG             	 ((uint32_t)0X000000)
 #define MACHINE_BKG_IMG      	 ((uint32_t)0X006400)

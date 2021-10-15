@@ -20,7 +20,12 @@ A strange game. The only winning move is not to play.
 Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.
 The only privacy that's left is the inside of your head.
 We must keep our faith in the Republic. The day we stop believing democracy can work is the day we lose it.
-Well, if droids could think, there'd be none of us here, would there?"""
+Well, if droids could think, there'd be none of us here, would there?
+One ring to rule them all, one ring to find them, one ring the bring them all, and in the darkness bind them.
+I'm sorry, Dave. I'm afraid I can't do that.
+If we knew what it was we were doing, it would not be called research, would it?
+What... is the air-speed velocity of an unladen swallow?
+I am a leaf on the wind. Watch how I soar."""
 
 
 print ("const uint8_t nfc_hashes[][20] = {")

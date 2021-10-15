@@ -11,6 +11,7 @@
 #include "machine_common.h"
 #include "nfc.h"
 #include <stdio.h>
+#include <string.h>
 
 static requirement outgoing[4], received[4];
 static uint8_t trade_idx, trade_slot;
@@ -117,7 +118,7 @@ void trade_scene_draw() {
 				canvas_drawText(36, 32 + 16*i, line, RGB(200,0,0));
 				int px = (outgoing[i].part % 4)*16;
 				int py = (outgoing[i].part / 4)*16;
-				canvas_drawImage_FromFlash_pt(68,  32 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(72,  32 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 			}
 		}
 		for (int i = 0; i<4; ++i) {
@@ -126,7 +127,7 @@ void trade_scene_draw() {
 				canvas_drawText(60, 146 + 16*i, line, RGB(0,200,0));
 				int px = (received[i].part % 4)*16;
 				int py = (received[i].part / 4)*16;
-				canvas_drawImage_FromFlash_pt(92,  146 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(96,  146 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 			}
 		}
 	}
@@ -165,9 +166,10 @@ void trade_scene_draw() {
 		if (trade_btn_dwn[3]) {
 			canvas_drawImage_FromFlash_p(216, 96, 24, 48, TRADE_IMG, 216, 240, 240);
 		}
+		int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
+		canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
+	
 	}
-	int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
-	canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
 	canvas_blt();
 }
 
@@ -185,9 +187,7 @@ void update_trade_tag()
 		
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, enc, (uint8_t*)&message);
-	
-	memset(enc, 'W', 16);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, (uint8_t*)&message, enc);
 	
 	ndef_mime_card(NDEF_TYPE_P2P, enc, 16, NULL);
 	
@@ -226,7 +226,7 @@ void nfc_trade_write_callback(uint8_t * enc) {
 	sha_sync_enable(&HASH_ALGORITHM_0);
 	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, buf, 20, sha_output);
 	
-	//TODO: set tag data to sha_output
+	ndef_mime_card(NDEF_TYPE_P2P, sha_output, 16, NULL);
 	
 	//We've seen enough, assume trade is good
 	trade_complete = true;
@@ -236,6 +236,9 @@ void nfc_trade_write_callback(uint8_t * enc) {
 		if (outgoing[i].part != none)
 		g_state.part_count[outgoing[i].part] -= outgoing[i].count;
 	}
+	eeprom_save_state();
+	uint8_t cc[]={0,255,0};
+	led_set_color(cc);
 }
 
 bool attempt_trade() {
@@ -247,11 +250,15 @@ bool attempt_trade() {
 	if (!nfc_reader(tag))
 		return false;
 		
-	//TODO: parse_tag
+	char* tagptr = strstr(tag, "application/encrypted");
+	if (tagptr == NULL)
+		return false;
+		
+	tagptr += 21;
 	
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, enc, buf);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, tagptr, buf);
 	
 	if (message->magic != TRADEMAGIC)
 		return false;
@@ -267,10 +274,10 @@ bool attempt_trade() {
 	for (int i=0; i<4; ++i)
 		message->reqparts[i] = outgoing[i];
 		
+	//we're going to reuse the same tag struct that we recieved 
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
-	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, enc);
-	
-	//TODO: build tag
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, tagptr);
+
 	
 	if(!nfc_ndef_tag_writer(tag))
 		return false;
@@ -287,11 +294,16 @@ bool attempt_trade() {
 	if (!nfc_reader(tag))
 		return false;
 		
-	//TODO: parse_tag
+	tagptr = strstr(tag, "application/encrypted");
+	if (tagptr == NULL)
+		return false;
+	tagptr += 21;
 		
-	if (memcmp(enc, sha_output, 16))
+	if (memcmp(tagptr, sha_output, 16))
 		return false;
 	
+	uint8_t cc[]={0,255,0};
+	led_set_color(cc);
 	return true;
 }
 
@@ -317,9 +329,10 @@ Scene trade_scene_loop(bool init) {
 		trade_frame = 0;
 		mynonce = rand_sync_read32(&RAND_0);
 		update_trade_tag(); 
+		led_off();
 	}
 	if (back_event) {
-		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		
 		back_event=false;
@@ -328,84 +341,86 @@ Scene trade_scene_loop(bool init) {
 		return MENU;
 	}
 	
-	bool touching = scroller_status != 0;
-	if (touching != trade_touching) {
-		if (touching) {
-			uint16_t v = ((scroller_position+8)%256)/16;
-			switch (v) {
-				case 15:
-				case 0:
-				case 1:
-					if (trade_more) {
-						outgoing[trade_slot].count++;
-						outgoing[trade_slot].part=trade_idx;
-						trade_btn_dwn[0] = true;
-						update_trade_tag();
-					}
-					break;
-				case 3:
-				case 4:
-				case 5:
-					do {
-						trade_idx++;
-						if (trade_idx>= 12)
-							trade_idx=0;
-					} while (g_state.part_count[trade_idx] == 0);
-					trade_btn_dwn[3] = true;
-					break;
-				case 7:
-				case 8:
-				case 9:
-					if (trade_less) {
-						outgoing[trade_slot].count--;
-						trade_btn_dwn[1] = true;
-						if (outgoing[trade_slot].count==0)
-							free_slot();
-						update_trade_tag();
-					}
-					break;
-				case 11:
-				case 12:
-				case 13:
-					do {
-						trade_idx--;
-						if (trade_idx>= 12)
-						trade_idx=11;
-					} while (g_state.part_count[trade_idx] == 0);
-					trade_btn_dwn[2] = true;
-					break;
-				default:
-					break;
+	if (!trade_complete) {
+		bool touching = scroller_status != 0;
+		if (touching != trade_touching) {
+			if (touching) {
+				uint16_t v = ((scroller_position+8)%256)/16;
+				switch (v) {
+					case 15:
+					case 0:
+					case 1:
+						if (trade_more) {
+							outgoing[trade_slot].count++;
+							outgoing[trade_slot].part=trade_idx;
+							trade_btn_dwn[0] = true;
+							update_trade_tag();
+						}
+						break;
+					case 3:
+					case 4:
+					case 5:
+						do {
+							trade_idx++;
+							if (trade_idx>= 12)
+								trade_idx=0;
+						} while (g_state.part_count[trade_idx] == 0);
+						trade_btn_dwn[3] = true;
+						break;
+					case 7:
+					case 8:
+					case 9:
+						if (trade_less) {
+							outgoing[trade_slot].count--;
+							trade_btn_dwn[1] = true;
+							if (outgoing[trade_slot].count==0)
+								free_slot();
+							update_trade_tag();
+						}
+						break;
+					case 11:
+					case 12:
+					case 13:
+						do {
+							trade_idx--;
+							if (trade_idx>= 12)
+							trade_idx=11;
+						} while (g_state.part_count[trade_idx] == 0);
+						trade_btn_dwn[2] = true;
+						break;
+					default:
+						break;
+				}
+				calc_trade_options();
 			}
-			calc_trade_options();
-		}
-		else {
-			trade_btn_dwn[0]=false;
-			trade_btn_dwn[1]=false;
-			trade_btn_dwn[2]=false;
-			trade_btn_dwn[3]=false;
-		}
-		trade_touching = touching;
+			else {
+				trade_btn_dwn[0]=false;
+				trade_btn_dwn[1]=false;
+				trade_btn_dwn[2]=false;
+				trade_btn_dwn[3]=false;
+			}
+			trade_touching = touching;
 
-	}
+		}
 	
-	//*
-	if ((trade_frame) % 200 == 0) {
-		if (attempt_trade()) {
-			//TODO: disable passive trade
-			trade_complete = true;
-			for (int i=0; i<4; ++i) {
-				if (received[i].part != none)
-					g_state.part_count[received[i].part] += received[i].count;
-				if (outgoing[i].part != none)
-					g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+		//*
+		if ((trade_frame) % 100 == 0) {
+			if (attempt_trade()) {
+				trade_complete = true;
+				eeprom_save_state();
+				for (int i=0; i<4; ++i) {
+					if (received[i].part != none)
+						g_state.part_count[received[i].part] += received[i].count;
+					if (outgoing[i].part != none)
+						g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+				}
 			}
-		}
-		else {
-			update_trade_tag();
-			start_nfc_tag_emulation(true, nfc_write_cb);
-		}
-	}//*/
+			else {
+				update_trade_tag();
+				start_nfc_tag_emulation(true, nfc_write_cb);
+			}
+		}//*/
+	}
 	trade_scene_draw();
 	return TRADING;
 }

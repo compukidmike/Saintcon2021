@@ -38,7 +38,7 @@ void start_nfc_tag_emulation(bool setup_irq, ext_irq_cb_t cb){
 
 	// Set modulation
 	nfc_comm(rxbuff, "\x00\x09\x03\x68\x00\x04", true);
-	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x15", true);
+	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x27", true);
 
 	// Setup chip to handle collision commands
 	char cmd[14] = {0,0x0D,0x0B,0x44,0x00,0x00,0x88};
@@ -182,10 +182,12 @@ bool nfc_ndef_tag_writer(char * ndef_buff){
 	uint8_t num_bytes = ndef_buff[1] + 3;
 	uint8_t page_cnt = (num_bytes/4) + (num_bytes%4 > 0);
 
-	nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x03", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x03
+	nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x08", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x08
+	//nfc_comm(rxbuff, "")
 
 	if(nfc_select_card(uid)){
-		nfc_comm(rxbuff, "\0\x02\x04\x02\x00\x02\x08", true); //Write commands need a longer FDT ( 2**PP)(MM+1)(DD+128)32/13.56 micro Seconds; PP = 0x02; MM = 0x08
+		nfc_comm(rxbuff, "\0\x09\x04\x68\x01\x01\xDf", true);
+
 		for(uint8_t page = 0; page < page_cnt; page++){
 			uint8_t cmd[] = {0, 0x04, 0x07,  0xA2, page+4, 0,0,0,0, 0x28};
 			for(uint8_t i = 0; i < 4; i++){
@@ -194,9 +196,13 @@ bool nfc_ndef_tag_writer(char * ndef_buff){
 				}
 			}
 			nfc_comm(rxbuff, cmd, true);
-			if(rxbuff[1] != 0x90 || rxbuff[3] != 0x0A || rxbuff[4] != 0x24){ // did not receive an ACK. Assume write failed.
-				return false;
+			if(rxbuff[1] == 0x90){
+				if( rxbuff[3] == 0x0A && (rxbuff[4] & 0x3F) == 0x24)
+					continue;
+				if (rxbuff[3] == 0x03 && rxbuff[4] == 0xA2) // The badge write is really weird
+					continue; 
 			}
+			return false;// did not receive an ACK. Assume write failed.
 		}
 		return true;
 	}
