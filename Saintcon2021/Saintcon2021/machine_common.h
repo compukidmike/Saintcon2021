@@ -61,6 +61,7 @@ typedef enum {
 	none
 } part_enum;
 
+#pragma pack(1)
 typedef struct requirement {
 	part_enum part;
 	uint8_t count;

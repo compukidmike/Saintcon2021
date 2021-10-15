@@ -11,6 +11,7 @@
 #include "flash.h"
 #include "machine_common.h"
 #include "FrameBuffer.h"
+#include "nfc.h"
 
 int nfc_frame, nfc_lastDraw;
 
@@ -30,7 +31,10 @@ const uint8_t nfc_hashes[][20] = {
 	{0xd3, 0x4b, 0x1a, 0x64, 0x87, 0x56, 0x07, 0xb6, 0xf5, 0x2a, 0x87, 0xd8, 0x2d, 0xfe, 0xbc, 0x92, 0xe2, 0x97, 0xd0, 0x9a}, //"b'A strange game. The only winning move is not to play.'"
 	{0x9b, 0x11, 0x1b, 0xbf, 0x8c, 0x1d, 0x07, 0x76, 0x52, 0x4d, 0xbd, 0x4f, 0x73, 0x62, 0xab, 0x16, 0x87, 0xa6, 0x0e, 0xf7}, //"b"Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.""
 	{0xe3, 0x95, 0x33, 0xc8, 0x85, 0x48, 0x82, 0xeb, 0x35, 0x0e, 0x71, 0x04, 0x96, 0xa9, 0xa8, 0x07, 0x55, 0xcf, 0x39, 0x7a}, //"b"The only privacy that's left is the inside of your head.""
+	{0xeb, 0x42, 0x57, 0xf3, 0x28, 0xb3, 0x5f, 0xf3, 0x78, 0x31, 0xc0, 0x05, 0xff, 0x8d, 0x1f, 0x57, 0x49, 0xaf, 0xb0, 0xa5}, //"b'We must keep our faith in the Republic. The day we stop believing democracy can work is the day we lose it.'"
+	{0xd7, 0xe4, 0x2d, 0x73, 0x6f, 0x4a, 0x76, 0xc8, 0x98, 0x4b, 0x17, 0x91, 0xab, 0xa6, 0x58, 0xae, 0x43, 0x3e, 0xdf, 0x73}, //"b"Well, if droids could think, there'd be none of us here, would there?""
 };
+
 
 
 int isValidCard(const char* str)
@@ -46,7 +50,13 @@ int isValidCard(const char* str)
 				break;
 			}
 		}
-		if (match) return i;
+		if (match) {
+			uint16_t nfc_flag = (1<<i);
+			if (g_state.nfc_bitmask & nfc_flag)
+				return 0; // already found this one
+			g_state.badge_bitmask |= nfc_flag;
+			return 1;
+		}
 	}
 	return -1;
 }
@@ -59,17 +69,56 @@ void nfc_draw() {
 	canvas_blt();
 }
 
+bool parse_ndef_text_record(uint8_t* buffer) {
+	ndef_header *ndef = (ndef_header*)buffer;
+	if ((ndef->flags & 0x3) != 1)
+		return false;
+	if (ndef->type_len != 1)
+		return false;
+	if (ndef->payload_type != 'T')
+		return false;
+	uint8_t len = ndef->payload_len;
+	memmove(buffer, &ndef->payload[3], ndef->payload_len);
+	buffer[len-3]='\0';
+	return true;
+}
+
 Scene nfc_scene_loop(bool init) { 
+	char nfc_buffer[512]={0};
 	if (back_event) {
 		back_event=false;
-		//TODO: turn off NFC field
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
 		return MENU;
 	}
 	
 	if (init) {
 		nfc_frame = 0;
 		nfc_lastDraw = 0;
-		//TODO: turn on NFC field
+	}
+	
+	
+	if (nfc_reader(nfc_buffer))  
+	{
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
+		start_nfc_tag_emulation(true, nfc_write_cb);
+		if (!parse_ndef_text_record(nfc_buffer)) {
+			setMessage("Not Supported NFC tag");
+			return MESSAGE;
+		}
+		int r = isValidCard(nfc_buffer);
+		if (r < 0) {
+			setMessage("Invalid NFC Unlock");
+			return MESSAGE;
+		}
+		else if (r==0) {
+			setMessage("NFC card already scanned");
+			return MESSAGE;
+		}
+		else {
+			return REWARD;
+		}
 	}
 	
 	uint32_t now = millis();

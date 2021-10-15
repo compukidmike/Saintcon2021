@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "st25r95.h"
+#include "nfc.h"
 #include <stdlib.h>
 
 volatile uint8_t measurement_done_touch;
@@ -44,8 +44,35 @@ void Timer_touch_init(void)
 	timer_start(&Timer);
 }
 
+void vcard_write_callback(char* vcarddata) {
+	const char* magic = "PRODID:-//saintcon_2021_magic";
+	size_t mlen = strlen(magic) +1;
+	size_t vlen = strlen(vcarddata);
+	char* dp = strstr(vcarddata, magic);
+	if (dp) {
+		vlen -= dp-vcarddata;
+		vlen -= mlen;
+		memmove(dp, dp+mlen, vlen+1);
+		dp[strlen(dp)-1]='\0';
+		flash_save_vcard(vcarddata);
+	}
+}
+
+void nfc_write_cb() {
+	uint8_t lc[256];
+	memcpy(lc, TAG_BUFF, 256);
+	ndef_header *ndef = (ndef_header*)lc;
+	if (strncmp(&lc[0x15], "text/vcard", 10) == 0) { //Lazy hacks!
+		vcard_write_callback(&lc[0x15+10]);
+	}
+	else if (ndef->payload_type == 'D') {
+		
+	}
+}
+
 int main(void)
 {
+	char vcard[512];
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
 	SysTick_Config(48000000/1000);
@@ -54,10 +81,6 @@ int main(void)
 	pwm_enable(&PWM_0);
 	pwm_set_parameters(&PWM_0,255,100);
 	
-	gpio_set_pin_direction(NFC_CS_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_CS_PIN, true);
-	gpio_set_pin_direction(NFC_IRQ_IN_PIN, GPIO_DIRECTION_OUT);
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	
 	gpio_set_pin_direction(PIN_PB17,GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(PIN_PB17,true);
@@ -67,6 +90,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
+	g_state.part_count[0] = 50;
 	
 	
 	flash_init();
@@ -82,31 +106,20 @@ int main(void)
 			uint32_t offset = i * 0x100;
 			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
 		}
-	}
-
-	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
-	
+	}	
 	
 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
 	spi_m_sync_enable(&SPI_1);
-
-	gpio_set_pin_direction(NFC_IRQ_OUT_PIN,GPIO_DIRECTION_IN);
-	gpio_set_pin_pull_mode(NFC_IRQ_OUT_PIN,GPIO_PULL_UP);
 	
-	//NFC Test - Remove in final code
-	/*st25r95Initialize();
-	delay_ms(1);
-	if(st25r95CheckChipID()){
-		canvas_drawText(80,120,"NFC: PASS",RGB(255,255,255));
-		canvas_blt();
-	} else {
-		canvas_drawText(80,120,"NFC: FAIL", RGB(255,0,0));
-		canvas_blt();
+	nfc_init();
+	if(nfc_test()){
+		//TODO: something
 	}
 	//End NFC Test
-	
-	NFC_init();*/
+	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+	ndef_well_known(ndef_data, sizeof(ndef_data));
+	start_nfc_tag_emulation(true, nfc_write_cb);	
 	
 	ext_irq_register(PIN_PA27, back_button_pressed);
 	Timer_touch_init();
@@ -117,11 +130,15 @@ int main(void)
 	bool screenon = true;
 	uint32_t lastTouch = millis();
 	
+	if (!flash_read_vcard(vcard)) {
+		//scene = TEST;
+	}
+	
+	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);
 	gpio_set_pin_level(MB_CLK_PIN, false);
 	
 	minibagde_holder_init();
-	
 	while (1) {
 		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
 		//comment the following line if you're not working on the NFC

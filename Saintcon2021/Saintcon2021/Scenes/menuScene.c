@@ -12,8 +12,9 @@
 #include "menu_icons.h"
 #include "flash.h"
 #include "machine_common.h"
+#include "nfc.h"
 
-#define MINIBADGE_DELAY	(30*1000)
+#define MINIBADGE_DELAY	(20*1000)
 
 static int menu_rotation, menu_selected, menu_lastLocation;
 static uint8_t menu_frame;
@@ -21,7 +22,7 @@ static bool menu_scrolling, vcard_enabled;
 static uint8_t minibadge_button;
 static char minibadge_message[256];
 uint32_t minibadge_delay;
-static uint8_t minibadge_addr;
+static uint8_t minibadge_addr=40;
 
 const char* menu_options[] = {"SAINTCON", "Build", "Trading", "Combo Lock", "Game", "The Machine", "Inventory", "Read Tag"};
 struct io_descriptor *I2C_0_io;
@@ -65,10 +66,17 @@ void menu_draw() {
 	else if(!vcard_enabled)
 		canvas_drawBitmask(138, 144, 32, 32, no_icon, RGB(200,0,0), 0);//rad);
 	
-	const char* str_line = menu_options[menu_selected];
-	int offset = (int)strlen(str_line) * 4;
+	int32_t mm = minibadge_delay - millis();
+	if (mm > 10000) {
+		mm/=20;
+		canvas_drawMiniWindow(76, 162, 60, minibadge_message, mm-(MINIBADGE_DELAY/20)+152, RGB(80,200,200));
+	}
+	else {
+		const char* str_line = menu_options[menu_selected];
+		int offset = (int)strlen(str_line) * 4;
 	
-	canvas_drawText(120-offset, 54, str_line, 0xFFFF);
+		canvas_drawText(120-offset, 54, str_line, 0xFFFF);
+	}
 	
 	char fps[10];
 	sprintf(fps, "%d", 1000/(now-menu_last));
@@ -128,7 +136,15 @@ Scene menu_scene_loop(bool init) {
 		minibadge_button = 0;
 	}
 	if (claspopen != vcard_enabled) {
-		//TODO: enable or disable NFC vcard
+		if (claspopen) {
+			char vcard[512];
+			flash_read_vcard(vcard);
+			ndef_vcard(vcard);
+		}
+		else {
+			uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+			ndef_well_known(ndef_data, sizeof(ndef_data));
+		}
 		vcard_enabled = claspopen;
 	}
 	if (scroller_status) {

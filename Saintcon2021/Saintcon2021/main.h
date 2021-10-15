@@ -6,9 +6,9 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#define NFC_IRQ_IN_PIN PIN_PB08
-#define NFC_IRQ_OUT_PIN PIN_PB09
-#define NFC_CS_PIN PIN_PA14
+// #define NFC_IRQ_IN_PIN PIN_PB08
+// #define NFC_IRQ_OUT_PIN PIN_PB09
+// #define NFC_CS_PIN PIN_PA14
 #define MB_CLK_PIN PIN_PB23
 
 #define SCREEN_OFF_AFTER	1000 * 60
@@ -67,10 +67,11 @@ extern bool rouge_event;
 void touch_status_display(void);
 int getTouchLocation(void);
 uint32_t millis();
+void nfc_write_cb();
 
 int32_t spi_m_sync_io_readwrite(struct io_descriptor *io, uint8_t *rxbuf, uint8_t *txbuf, const uint16_t length);
 
-void NFC_init(void);
+//void NFC_init(void);
 void exampleRfalPollerRun( void );
 void exampleNFCARun( void );
 Scene test_scene_loop(bool init);

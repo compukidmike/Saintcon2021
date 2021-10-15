@@ -18,7 +18,9 @@ Roads? Where we're going, we don't need roads
 Too Many Secrets
 A strange game. The only winning move is not to play.
 Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.
-The only privacy that's left is the inside of your head."""
+The only privacy that's left is the inside of your head.
+We must keep our faith in the Republic. The day we stop believing democracy can work is the day we lose it.
+Well, if droids could think, there'd be none of us here, would there?"""
 
 
 print ("const uint8_t nfc_hashes[][20] = {")

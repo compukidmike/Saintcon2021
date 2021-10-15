@@ -9,6 +9,7 @@
 #include "FrameBuffer.h"
 #include "flash.h"
 #include "machine_common.h"
+#include "nfc.h"
 #include <stdio.h>
 
 static requirement outgoing[4], received[4];
@@ -16,6 +17,20 @@ static uint8_t trade_idx, trade_slot;
 static bool trade_more, trade_less, trade_complete, trade_touching;
 static uint8_t trade_frame;
 static bool trade_btn_dwn[4];
+struct sha_context context;
+uint16_t mynonce;
+
+
+
+#define TRADEMAGIC	0x6575
+
+#pragma pack(1)
+typedef struct trade_message{
+	uint16_t magic, msg_id, nonce1, nonce2;
+	requirement reqparts[4];
+} trade_message;
+
+const uint8_t trade_key[16] = {0x19, 0x7d, 0x51, 0xdf, 0xcb, 0x0e, 0x47, 0x3b, 0x58, 0x01, 0xb5, 0x7c, 0x41, 0x22, 0x20, 0x25 };
 
 
 const uint8_t trade_bits[3][128] = {
@@ -156,6 +171,130 @@ void trade_scene_draw() {
 	canvas_blt();
 }
 
+void update_trade_tag()
+{
+	uint8_t enc[16];
+	trade_message message;
+	
+	message.magic = TRADEMAGIC;
+	message.msg_id = 1;
+	message.nonce1 = mynonce;
+	message.nonce2 = 0;
+	for (int i=0; i<4; ++i)
+		message.reqparts[i] = outgoing[i];
+		
+	aes_sync_enable(&CRYPTOGRAPHY_0);
+	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, enc, (uint8_t*)&message);
+	
+	memset(enc, 'W', 16);
+	
+	ndef_mime_card(NDEF_TYPE_P2P, enc, 16, NULL);
+	
+}
+
+void trade_tag_event() {
+	
+}
+
+void nfc_trade_write_callback(uint8_t * enc) {
+	uint8_t buf[32];
+	trade_message *message = (trade_message*)buf;
+	uint8_t       sha_output[20] = {0x00};
+	
+	aes_sync_enable(&CRYPTOGRAPHY_0);
+	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, enc, buf);
+	
+	if (message->magic != TRADEMAGIC)
+		return;
+	
+	if (message->msg_id != 2)
+		return;
+	
+	if (message->nonce1 != mynonce)
+		return;
+	
+	for (int i=0; i<4; ++i)
+		received[i] = message->reqparts[i];
+		
+	((uint16_t*)buf)[0] = message->nonce1;
+	((uint16_t*)buf)[1] = message->nonce2;
+	memcpy(&buf[4], outgoing, 8);
+	memcpy(&buf[12], received, 8);
+	
+	sha_sync_enable(&HASH_ALGORITHM_0);
+	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, buf, 20, sha_output);
+	
+	//TODO: set tag data to sha_output
+	
+	//We've seen enough, assume trade is good
+	trade_complete = true;
+	for (int i=0; i<4; ++i) {
+		if (received[i].part != none)
+		g_state.part_count[received[i].part] += received[i].count;
+		if (outgoing[i].part != none)
+		g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+	}
+}
+
+bool attempt_trade() {
+	uint8_t tag[512]={0};
+	uint8_t enc[16], buf[32];
+	trade_message *message = (trade_message*)buf;
+	uint8_t       sha_output[20] = {0x00};
+	
+	if (!nfc_reader(tag))
+		return false;
+		
+	//TODO: parse_tag
+	
+	aes_sync_enable(&CRYPTOGRAPHY_0);
+	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_DECRYPT, enc, buf);
+	
+	if (message->magic != TRADEMAGIC)
+		return false;
+		
+	if (message->msg_id != 1)
+		return false;
+		
+	for (int i=0; i<4; ++i)
+		received[i] = message->reqparts[i];	
+	
+	message->nonce2 = mynonce;
+	message->msg_id = 2;
+	for (int i=0; i<4; ++i)
+		message->reqparts[i] = outgoing[i];
+		
+	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
+	aes_sync_ecb_crypt(&CRYPTOGRAPHY_0, AES_ENCRYPT, buf, enc);
+	
+	//TODO: build tag
+	
+	if(!nfc_ndef_tag_writer(tag))
+		return false;
+	
+	((uint16_t*)buf)[0] = message->nonce1;
+	((uint16_t*)buf)[1] = message->nonce2;
+	memcpy(&buf[4], received, 8);
+	memcpy(&buf[12], outgoing, 8);
+	
+	sha_sync_enable(&HASH_ALGORITHM_0);
+	sha_sync_sha1_compute(&HASH_ALGORITHM_0, &context, buf, 20, sha_output);
+	delay_ms(2); // give other badge some time to prep
+	
+	if (!nfc_reader(tag))
+		return false;
+		
+	//TODO: parse_tag
+		
+	if (memcmp(enc, sha_output, 16))
+		return false;
+	
+	return true;
+}
+
 Scene trade_scene_loop(bool init) {
 	if (init) {
 		uint16_t goods=0;
@@ -176,10 +315,13 @@ Scene trade_scene_loop(bool init) {
 			calc_trade_options();
 		}
 		trade_frame = 0;
-		//TODO: enable trade NFC 
+		mynonce = rand_sync_read32(&RAND_0);
+		update_trade_tag(); 
 	}
 	if (back_event) {
-		//TODO: disable trade NFC
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		ndef_well_known(ndef_data, sizeof(ndef_data));
+		
 		back_event=false;
 		if (trade_complete && newUnlock(UNLOCK_TRADE))
 			return REWARD;
@@ -198,6 +340,7 @@ Scene trade_scene_loop(bool init) {
 						outgoing[trade_slot].count++;
 						outgoing[trade_slot].part=trade_idx;
 						trade_btn_dwn[0] = true;
+						update_trade_tag();
 					}
 					break;
 				case 3:
@@ -218,6 +361,7 @@ Scene trade_scene_loop(bool init) {
 						trade_btn_dwn[1] = true;
 						if (outgoing[trade_slot].count==0)
 							free_slot();
+						update_trade_tag();
 					}
 					break;
 				case 11:
@@ -245,9 +389,23 @@ Scene trade_scene_loop(bool init) {
 
 	}
 	
-	if (trade_frame == 200) {
-		//TODO: Try finding other badges
-	}
+	//*
+	if ((trade_frame) % 200 == 0) {
+		if (attempt_trade()) {
+			//TODO: disable passive trade
+			trade_complete = true;
+			for (int i=0; i<4; ++i) {
+				if (received[i].part != none)
+					g_state.part_count[received[i].part] += received[i].count;
+				if (outgoing[i].part != none)
+					g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+			}
+		}
+		else {
+			update_trade_tag();
+			start_nfc_tag_emulation(true, nfc_write_cb);
+		}
+	}//*/
 	trade_scene_draw();
 	return TRADING;
 }
