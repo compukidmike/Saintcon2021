@@ -307,14 +307,15 @@ void nfc_read(uint8_t* rxbuff){
 void nfc_reset(){
 	uint8_t buff[4] = {};
 	ext_irq_disable(NFC_IRQ_OUT_PIN);
+	ext_irq_register(NFC_IRQ_OUT_PIN, NULL);
 
 	// send echo just to make sure card emulation has exited
 	nfc_raw_comm(buff, "\0\x55", 2, false);
 
 	//send reset control bit
-	nfc_raw_comm(buff, "\x1", 1, false);
+	nfc_raw_comm(buff, "\x01", 1, false);
 
-	//nfc_comm(buff, "\0\x2\x1\0", true);
+	//nfc_comm(buff, "\0\x02\x01\0", true);
 
 	// Pulse the IRQ pin to make sure the chip is initialized from power off or idle
 	delay_ms(2);
