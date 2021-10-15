@@ -134,6 +134,7 @@ Scene menu_scene_loop(bool init) {
 		menu_scrolling = false;
 		vcard_enabled = false;
 		minibadge_button = 0;
+		NFC_BADGE_READ = false;
 	}
 	if (claspopen != vcard_enabled) {
 		if (claspopen) {
@@ -147,6 +148,9 @@ Scene menu_scene_loop(bool init) {
 		}
 		vcard_enabled = claspopen;
 	}
+	if (NFC_BADGE_READ)
+		if (newUnlock(UNLOCK_CONTACT))
+			return REWARD;
 	if (scroller_status) {
 		int touchAt = getTouchLocation();
 		if (menu_scrolling) {

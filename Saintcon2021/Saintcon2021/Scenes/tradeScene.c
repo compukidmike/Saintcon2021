@@ -20,6 +20,7 @@ static uint8_t trade_frame;
 static bool trade_btn_dwn[4];
 struct sha_context context;
 uint16_t mynonce;
+static bool waiting_for_fin;
 
 
 
@@ -228,20 +229,12 @@ void nfc_trade_write_callback(uint8_t * enc) {
 	
 	ndef_mime_card(NDEF_TYPE_P2P, sha_output, 16, NULL);
 	
-	//We've seen enough, assume trade is good
-	trade_complete = true;
-	for (int i=0; i<4; ++i) {
-		if (received[i].part != none)
-		g_state.part_count[received[i].part] += received[i].count;
-		if (outgoing[i].part != none)
-		g_state.part_count[outgoing[i].part] -= outgoing[i].count;
-	}
-	eeprom_save_state();
-	uint8_t cc[]={0,255,0};
-	led_set_color(cc);
+	NFC_BADGE_READ=false;
+	waiting_for_fin = true;
 }
 
 bool attempt_trade() {
+	waiting_for_fin = false;
 	uint8_t tag[512]={0};
 	uint8_t enc[16], buf[32];
 	trade_message *message = (trade_message*)buf;
@@ -420,6 +413,20 @@ Scene trade_scene_loop(bool init) {
 				start_nfc_tag_emulation(true, nfc_write_cb);
 			}
 		}//*/
+	}
+	
+	if (NFC_BADGE_READ && waiting_for_fin) {
+		waiting_for_fin = false;
+		trade_complete = true;
+		for (int i=0; i<4; ++i) {
+			if (received[i].part != none)
+			g_state.part_count[received[i].part] += received[i].count;
+			if (outgoing[i].part != none)
+			g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+		}
+		eeprom_save_state();
+		uint8_t cc[]={0,255,0};
+		led_set_color(cc);
 	}
 	trade_scene_draw();
 	return TRADING;
