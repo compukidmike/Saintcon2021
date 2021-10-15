@@ -2,10 +2,10 @@
 #define BOARD_CONFIG_H
 
 #define VENDOR_NAME "MK Factor"
-#define PRODUCT_NAME "DEF CON 29 Badge"
-#define VOLUME_LABEL "DC29Badge"
+#define PRODUCT_NAME "SC2021 Badge"
+#define VOLUME_LABEL "SC2021Badge"
 
-#define BOARD_ID "SAME53J18A-dc29-v0"
+#define BOARD_ID "SAME53J18A-sc2021-v0"
 
 #define INDEX_URL "https://www.defcon.org/"
 

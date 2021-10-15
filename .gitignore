@@ -4,4 +4,10 @@ Saintcon2021/Saintcon2021/*.log
 Saintcon2021/Saintcon2021/.atmel-start-backup/Saintcon2021_*.zip
 Saintcon2021/Saintcon2021/Saintcon2021.X/
 Saintcon2021/Saintcon2021/.atmel-start-backup/
+saintcon2021bootloader/dc29boot/Debug/
+saintcon2021bootloader/.vs
+saintcon2021bootloader/dc29boot/*.log
+saintcon2021bootloader/dc29boot/.atmel-start-backup/Saintcon2021_*.zip
+saintcon2021bootloader/dc29boot/Saintcon2021.X/
+saintcon2021bootloader/dc29boot/.atmel-start-backup/
 *.swp

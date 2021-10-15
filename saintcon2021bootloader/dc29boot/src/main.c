@@ -345,7 +345,7 @@ void hardware_test(void){
 	LCD_Wake();
 	LCD_Init();
 	LCD_FillRect(0,0,240,240,RGB(64,64,64));
-	LCD_DrawChar("BOOTLOADER V1.0",((240-(strlen("BOOTLOADER V1.1")*6))/2), 10, RGB(255,255,255));
+	LCD_DrawChar("BOOTLOADER V1.1",((240-(strlen("BOOTLOADER V1.1")*6))/2), 10, RGB(255,255,255));
 	LCD_DrawChar("HARDWARE TEST:",((240-(strlen("HARDWARE TEST:")*6))/2), 25, RGB(255,255,255));
 	//LCD_DrawChar("TOUCH: Test Touch Wheel",80, 50, RGB(0,255,255));
 	LCD_DrawChar("BUTTON: Press Button...",60, 55, RGB(255,255,0));
