@@ -118,7 +118,7 @@ void trade_scene_draw() {
 				canvas_drawText(36, 32 + 16*i, line, RGB(200,0,0));
 				int px = (outgoing[i].part % 4)*16;
 				int py = (outgoing[i].part / 4)*16;
-				canvas_drawImage_FromFlash_pt(68,  32 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(72,  32 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 			}
 		}
 		for (int i = 0; i<4; ++i) {
@@ -127,7 +127,7 @@ void trade_scene_draw() {
 				canvas_drawText(60, 146 + 16*i, line, RGB(0,200,0));
 				int px = (received[i].part % 4)*16;
 				int py = (received[i].part / 4)*16;
-				canvas_drawImage_FromFlash_pt(92,  146 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
+				canvas_drawImage_FromFlash_pt(96,  146 + 16*i, 16, 16, PARTS_IMG, px, py, 64, RGB(242, 170, 206));
 			}
 		}
 	}
@@ -166,9 +166,10 @@ void trade_scene_draw() {
 		if (trade_btn_dwn[3]) {
 			canvas_drawImage_FromFlash_p(216, 96, 24, 48, TRADE_IMG, 216, 240, 240);
 		}
+		int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
+		canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
+	
 	}
-	int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
-	canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
 	canvas_blt();
 }
 
@@ -235,6 +236,9 @@ void nfc_trade_write_callback(uint8_t * enc) {
 		if (outgoing[i].part != none)
 		g_state.part_count[outgoing[i].part] -= outgoing[i].count;
 	}
+	eeprom_save_state();
+	uint8_t cc[]={0,255,0};
+	led_set_color(cc);
 }
 
 bool attempt_trade() {
@@ -293,10 +297,13 @@ bool attempt_trade() {
 	tagptr = strstr(tag, "application/encrypted");
 	if (tagptr == NULL)
 		return false;
+	tagptr += 21;
 		
 	if (memcmp(tagptr, sha_output, 16))
 		return false;
 	
+	uint8_t cc[]={0,255,0};
+	led_set_color(cc);
 	return true;
 }
 
@@ -322,6 +329,7 @@ Scene trade_scene_loop(bool init) {
 		trade_frame = 0;
 		mynonce = rand_sync_read32(&RAND_0);
 		update_trade_tag(); 
+		led_off();
 	}
 	if (back_event) {
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
@@ -333,83 +341,86 @@ Scene trade_scene_loop(bool init) {
 		return MENU;
 	}
 	
-	bool touching = scroller_status != 0;
-	if (touching != trade_touching) {
-		if (touching) {
-			uint16_t v = ((scroller_position+8)%256)/16;
-			switch (v) {
-				case 15:
-				case 0:
-				case 1:
-					if (trade_more) {
-						outgoing[trade_slot].count++;
-						outgoing[trade_slot].part=trade_idx;
-						trade_btn_dwn[0] = true;
-						update_trade_tag();
-					}
-					break;
-				case 3:
-				case 4:
-				case 5:
-					do {
-						trade_idx++;
-						if (trade_idx>= 12)
-							trade_idx=0;
-					} while (g_state.part_count[trade_idx] == 0);
-					trade_btn_dwn[3] = true;
-					break;
-				case 7:
-				case 8:
-				case 9:
-					if (trade_less) {
-						outgoing[trade_slot].count--;
-						trade_btn_dwn[1] = true;
-						if (outgoing[trade_slot].count==0)
-							free_slot();
-						update_trade_tag();
-					}
-					break;
-				case 11:
-				case 12:
-				case 13:
-					do {
-						trade_idx--;
-						if (trade_idx>= 12)
-						trade_idx=11;
-					} while (g_state.part_count[trade_idx] == 0);
-					trade_btn_dwn[2] = true;
-					break;
-				default:
-					break;
+	if (!trade_complete) {
+		bool touching = scroller_status != 0;
+		if (touching != trade_touching) {
+			if (touching) {
+				uint16_t v = ((scroller_position+8)%256)/16;
+				switch (v) {
+					case 15:
+					case 0:
+					case 1:
+						if (trade_more) {
+							outgoing[trade_slot].count++;
+							outgoing[trade_slot].part=trade_idx;
+							trade_btn_dwn[0] = true;
+							update_trade_tag();
+						}
+						break;
+					case 3:
+					case 4:
+					case 5:
+						do {
+							trade_idx++;
+							if (trade_idx>= 12)
+								trade_idx=0;
+						} while (g_state.part_count[trade_idx] == 0);
+						trade_btn_dwn[3] = true;
+						break;
+					case 7:
+					case 8:
+					case 9:
+						if (trade_less) {
+							outgoing[trade_slot].count--;
+							trade_btn_dwn[1] = true;
+							if (outgoing[trade_slot].count==0)
+								free_slot();
+							update_trade_tag();
+						}
+						break;
+					case 11:
+					case 12:
+					case 13:
+						do {
+							trade_idx--;
+							if (trade_idx>= 12)
+							trade_idx=11;
+						} while (g_state.part_count[trade_idx] == 0);
+						trade_btn_dwn[2] = true;
+						break;
+					default:
+						break;
+				}
+				calc_trade_options();
 			}
-			calc_trade_options();
-		}
-		else {
-			trade_btn_dwn[0]=false;
-			trade_btn_dwn[1]=false;
-			trade_btn_dwn[2]=false;
-			trade_btn_dwn[3]=false;
-		}
-		trade_touching = touching;
+			else {
+				trade_btn_dwn[0]=false;
+				trade_btn_dwn[1]=false;
+				trade_btn_dwn[2]=false;
+				trade_btn_dwn[3]=false;
+			}
+			trade_touching = touching;
 
-	}
+		}
 	
-	//*
-	if ((trade_frame) % 200 == 0) {
-		if (attempt_trade()) {
-			trade_complete = true;
-			for (int i=0; i<4; ++i) {
-				if (received[i].part != none)
-					g_state.part_count[received[i].part] += received[i].count;
-				if (outgoing[i].part != none)
-					g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+		//*
+		if ((trade_frame) % 100 == 0) {
+			if (attempt_trade()) {
+				trade_complete = true;
+				eeprom_save_state();
+				for (int i=0; i<4; ++i) {
+					if (received[i].part != none)
+						g_state.part_count[received[i].part] += received[i].count;
+					if (outgoing[i].part != none)
+						g_state.part_count[outgoing[i].part] -= outgoing[i].count;
+				}
 			}
-		}
-		else {
-			update_trade_tag();
-			start_nfc_tag_emulation(true, nfc_write_cb);
-		}
-	}//*/
+			else {
+				update_trade_tag();
+				start_nfc_tag_emulation(true, nfc_write_cb);
+			}
+		}//*/
+	}
 	trade_scene_draw();
 	return TRADING;
 }

@@ -29,6 +29,8 @@ extern uint32_t minibadge_delay;
 static void back_button_pressed(void);
 static struct timer_task Timer_task1;
 
+//#define JAIL_DEVICE
+
 static void Timer_task1_cb(const struct timer_task *const timer_task)
 {
 	touch_process();
@@ -65,8 +67,8 @@ void nfc_write_cb() {
 	if (strncmp(&lc[0x15], "text/vcard", 10) == 0) { //Lazy hacks!
 		vcard_write_callback(&lc[0x15+10]);
 	}
-	else if (strncmp(&lc[6], "application/encrypted", 21)==0){
-		nfc_trade_write_callback(&lc[6+21]);
+	else if (strncmp(&lc[0x15], "application/encrypted", 21)==0){
+		nfc_trade_write_callback(&lc[0x15+21]);
 	}
 }
 
@@ -90,8 +92,7 @@ int main(void)
 	
 	eeprom_init();
 	eeprom_load_state();
-	g_state.part_count[0] = 50;
-	
+
 	
 	flash_init();
 	uint8_t id[4];
@@ -130,9 +131,11 @@ int main(void)
 	bool screenon = true;
 	uint32_t lastTouch = millis();
 	
-	if (!flash_read_vcard(vcard)) {
-		//scene = TEST;
+#ifdef JAIL_DEVICE
+	if (!flash_has_vard()) {
+		scene = TEST;
 	}
+#endif
 	
 	
 	gpio_set_pin_direction(MB_CLK_PIN, GPIO_DIRECTION_OUT);

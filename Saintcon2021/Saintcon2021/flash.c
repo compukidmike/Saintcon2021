@@ -223,3 +223,9 @@ bool flash_read_vcard(char* vcard) {
 	flash_read(FLASH_VCARD, vcard, 512);
 	return vcard[0] != 0xFF;
 }
+
+bool flash_has_vard() {
+	char vcard[16];
+	flash_read(FLASH_VCARD, vcard, 16);
+	return vcard[0] != 0xFF;
+}

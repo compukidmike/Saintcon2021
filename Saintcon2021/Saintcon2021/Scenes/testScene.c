@@ -18,7 +18,8 @@ static int test_x=0, test_y=0, test_dx=1,test_dy=1;
 Scene test_scene_loop(bool init) {
 	if (back_event) {
 		back_event=false;
-		//no leaving the test screen jail!
+		if (flash_has_vard() )
+			return MENU;
 	}
 	
 			//touchWheel = getTouchWheelPostion();
