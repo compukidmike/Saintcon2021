@@ -92,7 +92,7 @@ Scene nfc_scene_loop(bool init) {
 	char nfc_buffer[512]={0};
 	if (back_event) {
 		back_event=false;
-		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		start_nfc_tag_emulation(true, nfc_write_cb);
 		return MENU;
@@ -106,7 +106,7 @@ Scene nfc_scene_loop(bool init) {
 	
 	if (nfc_reader(nfc_buffer))  
 	{
-		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		start_nfc_tag_emulation(true, nfc_write_cb);
 		if (!parse_ndef_text_record(nfc_buffer)) {

@@ -324,7 +324,7 @@ Scene trade_scene_loop(bool init) {
 		update_trade_tag(); 
 	}
 	if (back_event) {
-		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','.','o','r','g'};
+		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		
 		back_event=false;
