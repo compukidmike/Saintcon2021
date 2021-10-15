@@ -170,6 +170,7 @@ Scene build_scene_loop(bool init) {
 			}
 		}
 		g_state.modules_bitmask |= (1<<build_index);
+		eeprom_save_state();
 	}
 	
 	if (scroller_status) {
