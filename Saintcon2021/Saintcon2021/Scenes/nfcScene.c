@@ -59,7 +59,7 @@ int isValidCard(const char* str)
 			uint16_t nfc_flag = (1<<i);
 			if (g_state.nfc_bitmask & nfc_flag)
 				return 0; // already found this one
-			g_state.badge_bitmask |= nfc_flag;
+			g_state.nfc_bitmask |= nfc_flag;
 			return 1;
 		}
 	}
@@ -89,6 +89,7 @@ bool parse_ndef_text_record(uint8_t* buffer) {
 }
 
 Scene nfc_scene_loop(bool init) { 
+	uint8_t cc[3] = {0,0,255};
 	char nfc_buffer[512]={0};
 	if (back_event) {
 		back_event=false;
@@ -103,9 +104,11 @@ Scene nfc_scene_loop(bool init) {
 		nfc_lastDraw = 0;
 	}
 	
-	
+	led_set_color(cc);
 	if (nfc_reader(nfc_buffer))  
 	{
+		cc[1] = 255;
+		led_set_color(cc);
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 		ndef_well_known(ndef_data, sizeof(ndef_data));
 		start_nfc_tag_emulation(true, nfc_write_cb);
@@ -126,6 +129,7 @@ Scene nfc_scene_loop(bool init) {
 			return REWARD;
 		}
 	}
+	led_off();
 	
 	uint32_t now = millis();
 	int dt = now - nfc_lastDraw;

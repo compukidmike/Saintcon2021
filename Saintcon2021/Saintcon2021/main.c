@@ -70,6 +70,8 @@ void vcard_write_callback(char* vcarddata) {
 		memmove(dp, dp+mlen, vlen+1);
 		dp[strlen(dp)-1]='\0';
 		flash_save_vcard(vcarddata);
+		uint8_t cc[] = {255,255,255};
+		led_set_color(cc);
 	}
 }
 

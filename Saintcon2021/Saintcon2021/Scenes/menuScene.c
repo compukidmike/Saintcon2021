@@ -135,6 +135,7 @@ Scene menu_scene_loop(bool init) {
 		vcard_enabled = !claspopen;
 		minibadge_button = 0;
 		NFC_BADGE_READ = false;
+		led_off();
 	}
 	if (claspopen != vcard_enabled) {
 		if (claspopen) {

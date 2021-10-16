@@ -22,6 +22,11 @@ Scene test_scene_loop(bool init) {
 			return MENU;
 	}
 	
+	if (init) {
+		uint8_t cc[]={255,0,0};
+		led_set_color(cc);
+	}
+	
 			//touchWheel = getTouchWheelPostion();
 	char lines[4][20];
 	static int test_x1=0,test_x2=0,test_y1=0,test_y2=0;
