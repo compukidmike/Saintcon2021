@@ -48,7 +48,7 @@
 #include <stdio.h>
 #include <atmel_start.h>
 
-#define RESTART_NO_FIELD_CMD 10
+#define RESTART_NO_FIELD_CMD 5
 
 #define NFC_IRQ_IN_PIN PIN_PB08
 #define NFC_IRQ_OUT_PIN PIN_PB09

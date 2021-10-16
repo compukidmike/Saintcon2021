@@ -42,7 +42,7 @@ const uint8_t touch_lut[256] = {
 	214, 216, 217, 219, 220, 222, 223, 225, 226, 228, 229, 231, 232, 234, 235, 236, 238, 239, 240, 241, 242,
 	244, 245, 246, 247, 248, 248, 249, 250, 251, 251, 252, 253, 253, 254, 254, 254, 255, 255, 255, 255, 255
 };
-//#define JAIL_DEVICE
+#define JAIL_DEVICE
 
 static void Timer_task1_cb(const struct timer_task *const timer_task)
 {
@@ -127,9 +127,12 @@ int main(void)
 	spi_m_sync_enable(&SPI_1);
 	
 	nfc_init();
-	if(nfc_test()){
-		//TODO: something
+	uint8_t cc[] = {0, 255, 0};
+	if(!nfc_test()){
+		cc[0] = 255;
+		cc[1] = 0;
 	}
+	led_set_color(cc);
 	//End NFC Test
 	uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
 	ndef_well_known(ndef_data, sizeof(ndef_data));
@@ -156,9 +159,6 @@ int main(void)
 	
 	minibagde_holder_init();
 	while (1) {
-		//NOTE: There is a 500ms delay in the NFC code that needs to be converted to non-blocking
-		//comment the following line if you're not working on the NFC
-		//exampleRfalPollerRun(); //NFC
 		
 		unlock_event = false;
 		

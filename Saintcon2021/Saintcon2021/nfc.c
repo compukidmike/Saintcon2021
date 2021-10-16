@@ -38,7 +38,7 @@ void start_nfc_tag_emulation(bool setup_irq, ext_irq_cb_t cb){
 
 	// Set modulation
 	nfc_comm(rxbuff, "\x00\x09\x03\x68\x00\x04", true);
-	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x27", true);
+	nfc_comm(rxbuff, "\x00\x09\x04\x68\x01\x04\x25", true);
 
 	// Setup chip to handle collision commands
 	char cmd[14] = {0,0x0D,0x0B,0x44,0x00,0x00,0x88};
@@ -119,6 +119,7 @@ static void nfc_tag_emulation_irq(){
 		if(no_field_overflow > RESTART_NO_FIELD_CMD){
 			nfc_reset();
 			start_nfc_tag_emulation(false, NULL);
+			ext_irq_register(NFC_IRQ_OUT_PIN, nfc_tag_emulation_irq);
 			no_field_overflow = 0;
 		}
 	}
@@ -314,21 +315,26 @@ void nfc_reset(){
 	uint8_t buff[4] = {};
 	ext_irq_disable(NFC_IRQ_OUT_PIN);
 	ext_irq_register(NFC_IRQ_OUT_PIN, NULL);
+	
+
 
 	// send echo just to make sure card emulation has exited
 	nfc_raw_comm(buff, "\0\x55", 2, false);
+	delay_ms(2);
 
 	//send reset control bit
 	nfc_raw_comm(buff, "\x01", 1, false);
-
-	//nfc_comm(buff, "\0\x02\x01\0", true);
-
+	delay_ms(2);
+	
 	// Pulse the IRQ pin to make sure the chip is initialized from power off or idle
 	delay_ms(2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, false);
 	delay_ms(2);
 	gpio_set_pin_level(NFC_IRQ_IN_PIN, true);
 	delay_ms(12);
+	
+	
+	//nfc_comm(buff, "\0\x02\x01\0", true);
 
 }
 

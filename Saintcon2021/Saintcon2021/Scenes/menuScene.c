@@ -132,7 +132,7 @@ Scene menu_scene_loop(bool init) {
 		menu_selected =0;
 		menu_lastLocation =0;
 		menu_scrolling = false;
-		vcard_enabled = false;
+		vcard_enabled = !claspopen;
 		minibadge_button = 0;
 		NFC_BADGE_READ = false;
 	}
