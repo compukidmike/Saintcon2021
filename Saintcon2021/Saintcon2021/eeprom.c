@@ -93,12 +93,24 @@ void eeprom_save_state() {
 
 
 void eeprom_erase() {
-	for ( int i=0; i<16; ++i) {
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[0] = EEPROM_MAGIC;
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[1] = 0;
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[2] = 0;
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[3] = 0;
+	EEPROM_WAIT;
+	EEPROM_STATE_BITMASKS[4] = 0;
+	
+	for (int i=0; i<12; ++i) {
 		EEPROM_WAIT;
-		EEPROM_STATE_BITMASKS[0] = 0;
+		EEPROM_STATE_PARTS[i] = 0;
 	}
-	memset((uint8_t*)&g_state, 0, sizeof(g_state));
+	
 	NVMCTRL->CTRLB.reg = NVMCTRL_CTRLB_CMD_SEEFLUSH | NVMCTRL_CTRLB_CMDEX_KEY;
+	memset((uint8_t*)&g_state, 0, sizeof(g_state));
 }
 
 void eeprom_load_state() {

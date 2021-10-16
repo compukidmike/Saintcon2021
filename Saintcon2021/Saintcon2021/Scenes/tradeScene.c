@@ -10,6 +10,7 @@
 #include "flash.h"
 #include "machine_common.h"
 #include "nfc.h"
+#include "eeprom.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -202,6 +203,9 @@ void nfc_trade_write_callback(uint8_t * enc) {
 	uint8_t buf[32];
 	trade_message *message = (trade_message*)buf;
 	uint8_t       sha_output[20] = {0x00};
+		
+	uint8_t cc[]={128,0,255};
+	led_set_color(cc);
 	
 	aes_sync_enable(&CRYPTOGRAPHY_0);
 	aes_sync_set_encrypt_key(&CRYPTOGRAPHY_0, trade_key, AES_KEY_128);
@@ -236,7 +240,7 @@ void nfc_trade_write_callback(uint8_t * enc) {
 bool attempt_trade() {
 	waiting_for_fin = false;
 	uint8_t tag[512]={0};
-	uint8_t enc[16], buf[32];
+	uint8_t buf[32];
 	trade_message *message = (trade_message*)buf;
 	uint8_t       sha_output[20] = {0x00};
 	
@@ -404,6 +408,8 @@ Scene trade_scene_loop(bool init) {
 	
 		//*
 		if ((trade_frame) % 100 == 0) {
+			uint8_t cc[]={255,0,255};
+			led_set_color(cc);
 			if (attempt_trade()) {
 				trade_complete = true;
 				for (int i=0; i<4; ++i) {
@@ -415,6 +421,7 @@ Scene trade_scene_loop(bool init) {
 				eeprom_save_state();
 			}
 			else {
+				led_off();
 				update_trade_tag();
 				start_nfc_tag_emulation(true, nfc_write_cb);
 			}
@@ -431,7 +438,7 @@ Scene trade_scene_loop(bool init) {
 			g_state.part_count[outgoing[i].part] -= outgoing[i].count;
 		}
 		eeprom_save_state();
-		uint8_t cc[]={0,255,0};
+		uint8_t cc[]={0,255,128};
 		led_set_color(cc);
 	}
 	trade_scene_draw();

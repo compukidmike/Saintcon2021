@@ -11,6 +11,8 @@
 #include "FrameBuffer.h"
 #include "ILI9331.h"
 #include "main.h"
+#include "eeprom.h"
+#include <stdio.h>
 
 #if CONF_USBD_HS_SP
 static uint8_t single_desc_bytes[] = {
@@ -129,8 +131,6 @@ void cdc_device_acm_init(void)
 
 void cdcResetProgress(void) {
 	uint8_t buf[256];
-	uint16_t buf_idx=0;
-	uint32_t offset=0;
 	
 	uint8_t ll = snprintf(buf, 255, "Machine:%06x Badge:%02x NFC:%05x Combo:%05x\r\n", g_state.modules_bitmask,  g_state.badge_bitmask, g_state.nfc_bitmask, g_state.combos_bitmask);
 	cdcWrite(buf, ll);
