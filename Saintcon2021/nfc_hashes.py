@@ -25,7 +25,11 @@ One ring to rule them all, one ring to find them, one ring the bring them all, a
 I'm sorry, Dave. I'm afraid I can't do that.
 If we knew what it was we were doing, it would not be called research, would it?
 What... is the air-speed velocity of an unladen swallow?
-I am a leaf on the wind. Watch how I soar."""
+I am a leaf on the wind. Watch how I soar.
+I only speak two languages: English and bad English.
+We have no names, man. No names. We are nameless!
+I aim to misbehave.
+Curse your sudden but inevitable betrayal!"""
 
 
 print ("const uint8_t nfc_hashes[][20] = {")
