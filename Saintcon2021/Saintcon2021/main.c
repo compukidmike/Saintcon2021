@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "nfc.h"
 #include <stdlib.h>
+#include "hal_sleep.h"
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
@@ -72,6 +73,7 @@ void vcard_write_callback(char* vcarddata) {
 		flash_save_vcard(vcarddata);
 		uint8_t cc[] = {255,255,255};
 		led_set_color(cc);
+		NVIC_SystemReset();
 	}
 }
 
@@ -231,6 +233,7 @@ int main(void)
 				LCD_Sleep();
 				led_off();
 				screenon = false;
+				//sleep(4); //Standby Mode
 			}			
 		}
 		
