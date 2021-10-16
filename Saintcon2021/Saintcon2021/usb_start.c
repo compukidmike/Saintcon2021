@@ -132,7 +132,8 @@ void cdcResetProgress(void) {
 	uint16_t buf_idx=0;
 	uint32_t offset=0;
 	
-	snprintf(buf, 255, "Machine:%06x Badge:%02x NFC:%05x Combo:%05x", g_state.modules_bitmask,  g_state.badge_bitmask, g_state.nfc_bitmask, g_state.combos_bitmask);
+	uint8_t ll = snprintf(buf, 255, "Machine:%06x Badge:%02x NFC:%05x Combo:%05x\r\n", g_state.modules_bitmask,  g_state.badge_bitmask, g_state.nfc_bitmask, g_state.combos_bitmask);
+	cdcWrite(buf, ll);
 	cdcWrite("Are you sure you want to erase the EEPROM?\r\n", 54);
 	
 	while (cdcTransferReadLen == 0)

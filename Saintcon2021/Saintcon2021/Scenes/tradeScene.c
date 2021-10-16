@@ -317,12 +317,18 @@ Scene trade_scene_loop(bool init) {
 			received[i].count = 0;
 			received[i].part = none;
 			trade_btn_dwn[i] = false;
-			calc_trade_options();
 		}
 		trade_frame = 0;
 		mynonce = rand_sync_read32(&RAND_0);
 		update_trade_tag(); 
 		led_off();
+		do {
+			trade_idx++;
+			if (trade_idx>= 12)
+				trade_idx=0;
+		} while (g_state.part_count[trade_idx] == 0);
+		calc_trade_options();
+		waiting_for_fin=false;
 	}
 	if (back_event) {
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
@@ -400,13 +406,13 @@ Scene trade_scene_loop(bool init) {
 		if ((trade_frame) % 100 == 0) {
 			if (attempt_trade()) {
 				trade_complete = true;
-				eeprom_save_state();
 				for (int i=0; i<4; ++i) {
 					if (received[i].part != none)
 						g_state.part_count[received[i].part] += received[i].count;
 					if (outgoing[i].part != none)
 						g_state.part_count[outgoing[i].part] -= outgoing[i].count;
 				}
+				eeprom_save_state();
 			}
 			else {
 				update_trade_tag();
