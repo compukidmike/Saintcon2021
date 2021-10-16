@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "nfc.h"
 #include <stdlib.h>
+#include "hal_sleep.h"
 
 volatile uint8_t measurement_done_touch;
 uint8_t  scroller_status   = 0;
@@ -72,6 +73,7 @@ void vcard_write_callback(char* vcarddata) {
 		flash_save_vcard(vcarddata);
 		uint8_t cc[] = {255,255,255};
 		led_set_color(cc);
+		NVIC_SystemReset();
 	}
 }
 
@@ -112,17 +114,6 @@ int main(void)
 	flash_init();
 	uint8_t id[4];
 	flash_read_id(id);
-	//Testing Flash
-	//(copy bird to flash if not already there)
-	uint16_t buf[80] = {0x80};
-	flash_read(BIRD_IMG, buf, 80*sizeof(uint16_t));
-	if (memcmp(buf, bird_raw, 80*sizeof(uint16_t))) {
-		flash_erase_32k(BIRD_IMG);
-		for (int i=0; i<100; ++i) {
-			uint32_t offset = i * 0x100;
-			flash_write(BIRD_IMG + offset, (uint8_t*)bird_raw + offset, 0x100);
-		}
-	}	
 	
 	spi_m_sync_get_io_descriptor(&SPI_1, &io);
 
@@ -242,6 +233,7 @@ int main(void)
 				LCD_Sleep();
 				led_off();
 				screenon = false;
+				//sleep(4); //Standby Mode
 			}			
 		}
 		

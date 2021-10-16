@@ -130,6 +130,7 @@ void flash_erase_all() {
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
 	LCD_FillRect(0,0,240,240,0);
+	
 	uint32_t c=0;
 	while(flash_is_busy()) {
 		LCD_DrawPixel(30+c%180, 30+c/180, RGB(0,0,255));
@@ -151,6 +152,7 @@ void flash_erase_32k(uint32_t addr) {
 		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
 		.instruction              = FLASH_ERASE_32K,
 		.address                  = addr,
+		.inst_frame.bits.addr_len = 1,
 	};
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
@@ -170,6 +172,7 @@ void flash_erase_4k(uint32_t addr) {
 		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
 		.instruction              = FLASH_ERASE_4K,
 		.address                  = addr,
+		.inst_frame.bits.addr_len = 1,
 	};
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
