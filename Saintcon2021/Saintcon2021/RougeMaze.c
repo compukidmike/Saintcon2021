@@ -205,7 +205,7 @@ void initMaze(int level) {
         switch(rand_sync_read32(&RAND_0)%3) {
             case 0:
             case 1:
-            	enemies[i] = (struct Enemy){ENEMY_GUARD, 0, r.x+rand_sync_read32(&RAND_0)%r.w, r.y+rand_sync_read32(&RAND_0)%r.h, rand_sync_read32(&RAND_0)%4+1,false,false};
+            	enemies[i] = (struct Enemy){ENEMY_GUARD, 0, r.x+rand_sync_read32(&RAND_0)%r.w, r.y+rand_sync_read32(&RAND_0)%r.h, (rand_sync_read32(&RAND_0)%4)+1,false,false};
                 break;
             case 2:
                 switch(rand_sync_read32(&RAND_0)%4) {
@@ -322,20 +322,20 @@ void clearVison() {
 			maze[x][y] &= 0x7F;
 }
 
-void visionLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
+void visionLine(int x1, int y1, int x2, int y2) {
 	int dx = abs(x2-x1), sx = x1<x2?1:-1;
     int dy = abs(y2-y1), sy = y1<y2?1:-1;
     
-    int err = (dx>dy?dx:-dy)/2, e2;
+    int err = dx-dy, e2;
     int x=x1, y=y1;
     for(;;){
       if ((maze[x][y] & 0x7F) != FLOOR_TILE)
           break;
       maze[x][y] |= SEEN_TILE;
       if (x==x2 && y==y2) break;
-      e2 = err;
-      if (e2 >-dx) { err -= dy; x += sx; }
-      if (e2 < dy) { err += dx; y += sy; }
+      e2 = 2*err;
+      if (e2 >-dy) { err -= dy; x += sx; }
+      if (e2 < dx) { err += dx; y += sy; }
     }
 }
 
@@ -537,6 +537,8 @@ void doStep() {
 	}
 	if (c & SEEN_TILE) {
 		printx("Game Over! Press R to restart\n");
+		if (level >= 5)
+			rouge_event = true;
 		level = 1;
 		game_over = true;
 	}

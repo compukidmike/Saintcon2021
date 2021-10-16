@@ -397,7 +397,7 @@ bool player_think() {
 Scene game_scene_loop(bool init) {
 	if (back_event) {
 		back_event=false;
-		if ((player.dead) && (player.score > 500)) {
+		if (player.score > 500) {
 			if (newUnlock(UNLOCK_TUNNEL))
 				return REWARD;
 		}
