@@ -328,6 +328,7 @@ Scene trade_scene_loop(bool init) {
 				trade_idx=0;
 		} while (g_state.part_count[trade_idx] == 0);
 		calc_trade_options();
+		waiting_for_fin=false;
 	}
 	if (back_event) {
 		uint8_t ndef_data[] = {NDEF_URL, URL_HTTPS, 's','a','i','n','t','c','o','n','2','0','2','1','.','s','c','h','e','d','.','c','o','m'};
