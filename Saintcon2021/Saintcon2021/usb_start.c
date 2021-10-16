@@ -10,6 +10,7 @@
 #include "flash.h"
 #include "FrameBuffer.h"
 #include "ILI9331.h"
+#include "main.h"
 
 #if CONF_USBD_HS_SP
 static uint8_t single_desc_bytes[] = {
@@ -126,6 +127,26 @@ void cdc_device_acm_init(void)
 	usbdc_attach();
 }
 
+void cdcResetProgress(void) {
+	uint8_t buf[256];
+	uint16_t buf_idx=0;
+	uint32_t offset=0;
+	
+	snprintf(buf, 255, "Machine:%06x Badge:%02x NFC:%05x Combo:%05x", g_state.modules_bitmask,  g_state.badge_bitmask, g_state.nfc_bitmask, g_state.combos_bitmask);
+	cdcWrite("Are you sure you want to erase the EEPROM?\r\n", 54);
+	
+	while (cdcTransferReadLen == 0)
+		if (!cdcConnected)
+			return; //lost connection
+		
+	//first read is from other routine, we'll steal control after that	
+	if (inBuf[0] != 'Y')
+		return;
+	
+	eeprom_erase();
+	cdcWrite("EEPROM reset\r\n", 9);
+}
+
 bool newConnection = true;
 void cdcd_loop(void) {
 	if (cdcdf_acm_is_enabled()) {
@@ -140,6 +161,9 @@ void cdcd_loop(void) {
 			if (len) {
 				if (input[0] == '`'){
 					cdcWriteFlash();
+				}
+				else if (input[0] == '0'){
+					cdcResetProgress();
 				}
 				else
 					handleInput(input, len);

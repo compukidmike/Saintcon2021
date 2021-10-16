@@ -213,9 +213,15 @@ int main(void)
 			changed = true;
 		}
 		
+		uint32_t now = millis();
 		if (rouge_event && newUnlock(UNLOCK_ROUGE)) {
 			scene = REWARD;
 			changed = true;
+			if (!screenon) {
+				LCD_Wake();
+				screenon = true;
+			}
+			lastTouch = now;
 		}
 		
 
@@ -223,7 +229,6 @@ int main(void)
 		//scroller_position = get_scroller_position(0);
 		scroller_position = touch_lut[get_scroller_position(0)];
 		
-		uint32_t now = millis();
 		if (scroller_status) {
 			if (!screenon) {
 				LCD_Wake();

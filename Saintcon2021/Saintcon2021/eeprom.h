@@ -10,6 +10,7 @@
 #define EEPROM_H_
 
 void eeprom_init();
+void eeprom_erase();
 void eeprom_load_state();
 void eeprom_save_state();
 

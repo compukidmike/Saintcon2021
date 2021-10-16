@@ -127,7 +127,7 @@ void build_draw() {
 			}
 			if (build_hasParts()) {
 				int fc[] = {0,0,1,2,2,2,2,2};
-				canvas_drawBitmask(28, 49, 32, 32, unlock_bits[fc[build_frame++ % 8]], RGB(200,200,200), 0);
+				canvas_drawBitmask(28, 49, 32, 32, unlock_bits[fc[(build_frame++)/2 % 8]], RGB(200,200,200), 0);
 			}
 		}
 		else {

@@ -565,6 +565,9 @@ void handleInput(char *c, uint8_t len) {
 		if (c[i] == ' ')  { 
 			act = true;
 		}
+		if (c[i] == '\r')  { 
+			act = true;
+		}
 		else if ((c[i] == '\E') && (i+2 < len) && (c[i+1] == '[')) {
 			i+=2;
 			switch (c[i]) {

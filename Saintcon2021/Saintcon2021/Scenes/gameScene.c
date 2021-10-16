@@ -373,9 +373,9 @@ bool player_think() {
 	if (abs(dr-player.xMomentum)<3)
 	player.xMomentum = dr;
 	else if (dr < player.xMomentum)
-	player.xMomentum-=2;
+	player.xMomentum-=4;
 	else if (dr > player.xMomentum)
-	player.xMomentum+=2;
+	player.xMomentum+=4;
 	
 	if (abs(player.xMomentum) > MAXMOMENTUM)
 	player.xMomentum = (player.xMomentum>0)?MAXMOMENTUM:-MAXMOMENTUM;

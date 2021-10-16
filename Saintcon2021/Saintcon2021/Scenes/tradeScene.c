@@ -167,8 +167,8 @@ void trade_scene_draw() {
 		if (trade_btn_dwn[3]) {
 			canvas_drawImage_FromFlash_p(216, 96, 24, 48, TRADE_IMG, 216, 240, 240);
 		}
-		int fc[] = {0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2};
-		canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[trade_frame++ % 16]], RGB(200,200,200), 0);
+		int fc[] = {0,0,1,2,2,2,2,2};
+		canvas_drawBitmask(164, 24, 32, 32, trade_bits[fc[(trade_frame++)/4 % 8]], RGB(200,200,200), 0);
 	
 	}
 	canvas_blt();

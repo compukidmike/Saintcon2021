@@ -67,7 +67,8 @@ void decideLoot() {
 					loot[i].count = 1;
 				break;
 		}
-		g_state.part_count[loot[i].part] += loot[i].count;
+		if (loot[i].part != none)
+			g_state.part_count[loot[i].part] += loot[i].count;
 	}
 	eeprom_save_state();
 }
