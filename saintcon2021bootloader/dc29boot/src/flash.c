@@ -130,12 +130,15 @@ void flash_erase_all() {
 	qspi_sync_serial_run_command(&QUAD_SPI_0, &cmd);
 	
 	LCD_FillRect(0,0,240,240,0);
+	LCD_DrawChar("Erasing...",90,10,RGB(255,255,255));
 	uint32_t c=0;
 	while(flash_is_busy()) {
 		LCD_DrawPixel(30+c%180, 30+c/180, RGB(0,0,255));
 		c++;
 		delay_us(300);
 	}
+	LCD_FillRect(0,0,240,30,0);
+	LCD_DrawChar("Writing...",90,10,RGB(255,255,255));
 }
 
 void flash_erase_32k(uint32_t addr) {

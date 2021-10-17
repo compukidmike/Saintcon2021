@@ -500,7 +500,7 @@ int main(void) {
     SUPC->BOD33.bit.ENABLE = 1;
 	
 	//If bootloader protection is not set, set it and reset
-	//set_fuses_and_bootprot(11); //32kB Bootloader //TODO - Re-enable this!!!!
+	set_fuses_and_bootprot(11); //32kB Bootloader //TODO - Re-enable this!!!!
 #endif
 
 #if USB_VID == 0x239a && USB_PID == 0x0013     // Adafruit Metro M0

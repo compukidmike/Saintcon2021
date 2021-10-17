@@ -49,7 +49,7 @@ Scene test_scene_loop(bool init) {
 	sys_ms = now - tsstep;
 	tsstep = now;
 	canvas_clearScreen(c);
-	canvas_drawImage_FromFlash(test_x, test_y, 160, 80, BIRD_IMG);
+	canvas_drawImage_FromFlash_pt(test_x, test_y, 103, 123, BIRD_IMG,0,0,103,RGB(255,255,255));
 	canvas_drawText(12, 115, "Ready for VCard Programming", RGB(255,255,255));
 	canvas_drawText(80, 135, lines[0], RGB(255,255,255));
 	canvas_drawText(80, 155, lines[1], RGB(255,255,255));
@@ -66,8 +66,8 @@ Scene test_scene_loop(bool init) {
 	tsstep = now;
 	
 	test_x+=test_dx; test_y+=test_dy;
-	if ((test_x<=0) || test_x>=80) test_dx*=-1;
-	if ((test_y<=0) || test_y>=160) test_dy*=-1;
+	if ((test_x<=0) || test_x>=240-103) test_dx*=-1;
+	if ((test_y<=0) || test_y>=240-123) test_dy*=-1;
 	
 	return TEST;
 }

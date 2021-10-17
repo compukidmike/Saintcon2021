@@ -35,7 +35,8 @@ typedef enum {
 	NFCREADER,
 	REWARD,
 	MESSAGE,
-	TEST
+	TEST,
+	RICK
 } Scene;
 
 #define REWARD_SHIM			(1<<0)
@@ -82,6 +83,7 @@ Scene message_scene_loop(bool init);
 Scene nfc_scene_loop(bool init);
 Scene game_scene_loop(bool init);
 Scene trade_scene_loop(bool init);
+Scene rick_scene_loop(bool init);
 
 int isValidCombo(uint8_t l1, uint8_t l2, uint8_t l3);
 void setMessage(const char* msg);

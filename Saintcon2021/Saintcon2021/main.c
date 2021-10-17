@@ -30,6 +30,8 @@ extern uint32_t minibadge_delay;
 static void back_button_pressed(void);
 static struct timer_task Timer_task1;
 
+#define MB_CLK_DELAY 500
+
 const uint8_t touch_lut[256] = {
 	0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23,
 	24, 26, 27, 29, 30, 32, 33, 35, 36, 38, 39, 41, 43, 44, 46, 47, 49, 50, 52, 53, 55, 56, 58, 59, 61, 62,
@@ -139,6 +141,7 @@ int main(void)
 	bool lastclasp = false;
 	bool screenon = true;
 	uint32_t lastTouch = millis();
+	uint32_t lastMinibadgeClk = 0;
 	
 #ifdef JAIL_DEVICE
 	if (!flash_has_vard()) {
@@ -199,9 +202,20 @@ int main(void)
 			lastclasp = false;
 		}
 		
-		if (keys[3] && newUnlock(UNLOCK_SHIM)) {
-			scene = REWARD;
-			changed = true;
+		if (keys[3]){
+			if(newUnlock(UNLOCK_SHIM)) {
+				scene = REWARD;
+				changed = true;
+			} else {
+				//Already unlocked
+				static bool shim_message = false;
+				if(shim_message == false){ //Only show this once per power cycle, in case the sensor gets messed up
+					setMessage("Shim already unlocked");
+					scene = MESSAGE;
+					changed = true;
+				}
+				shim_message = true;
+			}
 		}
 		
 		uint32_t now = millis();
@@ -213,6 +227,11 @@ int main(void)
 				screenon = true;
 			}
 			lastTouch = now;
+		}
+		
+		if((now - lastMinibadgeClk)>MB_CLK_DELAY){
+			lastMinibadgeClk = now;
+			gpio_toggle_pin_level(MB_CLK_PIN);
 		}
 		
 
@@ -268,6 +287,9 @@ int main(void)
 			break;
 		case TRADING:
 			ns = trade_scene_loop(changed);
+			break;
+		case RICK:
+			ns = rick_scene_loop(changed);
 			break;
 		case MENU:
 		default:

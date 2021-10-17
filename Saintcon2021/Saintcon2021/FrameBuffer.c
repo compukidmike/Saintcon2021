@@ -149,6 +149,23 @@ void canvas_drawImage_FromFlash_p(int x, int y, int w, int h, const uint32_t dat
 	}
 }
 
+void canvas_drawImage_FromFlash_p_double(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch){
+	if ((x+w) >= (WIDTH-1))
+	w = (WIDTH-1-x);
+	if ((y+h) >= (HEIGHT-1))
+	h = (HEIGHT-1-y);
+	for (int j=max(0, -y); j<h; ++j) {
+		flash_read(data+(pitch*(j+fy)+fx)*sizeof(uint16_t), &frame[(j*2+y)*WIDTH+x], w*sizeof(uint16_t));
+		for(int a=w-1; a>-1; a--){
+			frame[(j*2+y)*WIDTH+x+(a*2)] = frame[(j*2+y)*WIDTH+x+a];
+			frame[(j*2+y)*WIDTH+x+(a*2)-1] = frame[(j*2+y)*WIDTH+x+a];
+		}
+		for(int a=w*2; a>-2; a--){
+			frame[(j*2+y+1)*WIDTH+x+a] = frame[(j*2+y)*WIDTH+x+a];
+		}
+	}
+}
+
 void canvas_drawImage_FromFlash_pt(int x, int y, int w, int h, const uint32_t data, int fx, int fy, int pitch, uint16_t tansparent_color) {
 	if ((x+w) >= (WIDTH-1))
 	w = (WIDTH-1-x);
@@ -370,9 +387,9 @@ void canvas_blt() {
     
 #ifndef SDL
 
-	gpio_set_pin_level(MB_CLK_PIN, true);
+	//gpio_set_pin_level(MB_CLK_PIN, true);
     LCD_DrawImage(0, 0, 240, 240, frame);
-	gpio_set_pin_level(MB_CLK_PIN, false);
+	//gpio_set_pin_level(MB_CLK_PIN, false);
 
 
 #else

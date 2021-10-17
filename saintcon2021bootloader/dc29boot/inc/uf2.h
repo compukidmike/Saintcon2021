@@ -40,7 +40,7 @@
 //#include "uf2_version.h"
 
 // needs to be more than ~4200 (to force FAT16)
-#define NUM_FAT_BLOCKS 32000
+#define NUM_FAT_BLOCKS 40000 //~19MB, enough for a UF2 file that can fill the external flash
 
 // Logging to help debugging
 #define USE_LOGS 0

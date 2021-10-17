@@ -250,7 +250,7 @@
       </AcmeProjectConfig>
     </AcmeProjectConfig>
     <avrtool>com.atmel.avrdbg.tool.samice</avrtool>
-    <avrtoolserialnumber>801009411</avrtoolserialnumber>
+    <avrtoolserialnumber>260111452</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x61830306</avrdeviceexpectedsignature>
     <avrtoolinterface>SWD</avrtoolinterface>
     <com_atmel_avrdbg_tool_samice>
@@ -262,7 +262,7 @@
         <JlinkConfigFile>C:\Users\1110m\Documents\GitHub\saintcon2021dev\Saintcon2021\Saintcon2021\jlink.config</JlinkConfigFile>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.samice</ToolType>
-      <ToolNumber>801009411</ToolNumber>
+      <ToolNumber>260111452</ToolNumber>
       <ToolName>J-Link</ToolName>
     </com_atmel_avrdbg_tool_samice>
     <avrtoolinterfaceclock>4000000</avrtoolinterfaceclock>
@@ -1360,6 +1360,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Scenes\rewardScene.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Scenes\rickScene.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Scenes\tradeScene.c">
