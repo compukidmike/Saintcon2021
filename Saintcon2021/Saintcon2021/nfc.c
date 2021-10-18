@@ -90,7 +90,7 @@ static void nfc_tag_emulation_irq(){
 
 				// Keep track of NDEF writes
 				if(rxbuff[4] == 0x04 && rxbuff[5] == 0x03 && rxbuff[6] != 0){
-					NFC_BADGE_WRITE[1] = (rxbuff[6]/4) + (rxbuff[6]%4 > 0) + 4;
+					NFC_BADGE_WRITE[1] = (rxbuff[6]/4) + ((rxbuff[6]-1)%4 > 0) + 4;
 				}else if(rxbuff[4] == NFC_BADGE_WRITE[1] && NFC_BADGE_WRITE[0] == NWRITE_ACTIVE){
 					NFC_BADGE_WRITE[0] = NWRITE_END;
 				}else if(NFC_BADGE_WRITE[0] != NWRITE_ACTIVE){
