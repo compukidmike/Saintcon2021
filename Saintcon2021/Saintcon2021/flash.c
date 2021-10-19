@@ -149,7 +149,7 @@ void flash_erase_32k(uint32_t addr) {
 		.inst_frame.bits.inst_en  = 1,
 		.inst_frame.bits.addr_en  = 1,
 		.inst_frame.bits.tfr_type = QSPI_WRITEMEM_ACCESS,
-		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
+		.inst_frame.bits.width    = QSPI_INST4_ADDR4_DATA4,
 		.instruction              = FLASH_ERASE_32K,
 		.address                  = addr,
 		.inst_frame.bits.addr_len = 1,
@@ -169,7 +169,7 @@ void flash_erase_4k(uint32_t addr) {
 		.inst_frame.bits.inst_en  = 1,
 		.inst_frame.bits.addr_en  = 1,
 		.inst_frame.bits.tfr_type = QSPI_WRITEMEM_ACCESS,
-		.inst_frame.bits.width    = QSPI_INST1_ADDR1_DATA1,
+		.inst_frame.bits.width    = QSPI_INST4_ADDR4_DATA4,
 		.instruction              = FLASH_ERASE_4K,
 		.address                  = addr,
 		.inst_frame.bits.addr_len = 1,
@@ -217,7 +217,7 @@ void flash_write(uint32_t addr, void *buf, size_t len) {
 }
 
 void flash_save_vcard(char* vcard) {
-	flash_erase_32k(FLASH_VCARD);
+	flash_erase_4k(FLASH_VCARD);
 	flash_write(FLASH_VCARD, vcard, 256);
 	flash_write(FLASH_VCARD+256, vcard+256, 256);
 }

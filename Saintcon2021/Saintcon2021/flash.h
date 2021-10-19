@@ -70,4 +70,5 @@ bool flash_has_vard();
 #define WHAMMY_IMG           	 ((uint32_t)0X3D8C00)
 #define RICK_IMG				 ((uint32_t)0X3D9800)
 
+
 #endif /* FLASH_H_ */
