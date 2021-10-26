@@ -1,0 +1,5 @@
+(fp_lib_table
+  (lib (name Saintcon2020)(type KiCad)(uri ${KIPRJMOD}/Saintcon2020.pretty)(options "")(descr ""))
+  (lib (name Everlight-RGB-LED)(type KiCad)(uri C:/Users/compu/Documents/kicad/libraries/Everlight-RGB-LED.pretty)(options "")(descr ""))
+  (lib (name AdestoMemory)(type KiCad)(uri C:/Users/compu/Documents/kicad/libraries/AdestoMemory.pretty)(options "")(descr ""))
+)

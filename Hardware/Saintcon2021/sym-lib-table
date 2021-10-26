@@ -1,0 +1,13 @@
+(sym_lib_table
+  (lib (name Saintcon2019-rescue)(type Legacy)(uri C:/Users/compukidmike/Dropbox/kicad/Saintcon2019/Saintcon2019-rescue.lib)(options "")(descr ""))
+  (lib (name RoundLCD)(type Legacy)(uri ${KIPRJMOD}/RoundLCD.lib)(options "")(descr ""))
+  (lib (name Magnetometer)(type Legacy)(uri ${KIPRJMOD}/Magnetometer.lib)(options "")(descr ""))
+  (lib (name NFC)(type Legacy)(uri ${KIPRJMOD}/NFC.lib)(options "")(descr ""))
+  (lib (name CapTouch)(type Legacy)(uri ${KIPRJMOD}/CapTouch.lib)(options "")(descr ""))
+  (lib (name Saintcon2020-rescue)(type Legacy)(uri ${KIPRJMOD}/Saintcon2020-rescue.lib)(options "")(descr ""))
+  (lib (name Defcon29-rescue)(type Legacy)(uri C:/Users/compu/Documents/kicad/Defcon29/Defcon29-rescue.lib)(options "")(descr ""))
+  (lib (name AVX-Connectors-9159)(type Legacy)(uri C:/Users/compu/Documents/kicad/Defcon29/AVX-Connectors-9159.lib)(options "")(descr ""))
+  (lib (name Everlight-RGB-LED)(type Legacy)(uri C:/Users/compu/Documents/kicad/Defcon29/Everlight-RGB-LED.lib)(options "")(descr ""))
+  (lib (name Torex-TVS-Diode-Array)(type Legacy)(uri C:/Users/compu/Documents/kicad/Defcon29/Torex-TVS-Diode-Array.lib)(options "")(descr ""))
+  (lib (name AllegroMotorDriver)(type Legacy)(uri C:/Users/compu/Documents/kicad/libraries/AllegroMotorDriver.lib)(options "")(descr ""))
+)
