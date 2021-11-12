@@ -176,7 +176,7 @@ Scene menu_scene_loop(bool init) {
 			return menu_selected;
 		menu_scrolling = false;
 	}
-	if (true) {
+	if (now > minibadge_delay) {
 		if (menu_check_minibadge(minibadge_addr++))
 			if (newUnlock(UNLOCK_MINI))
 				return REWARD;
