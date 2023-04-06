@@ -1,0 +1,948 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	6500 6300 7050 6300
+Wire Wire Line
+	6000 6300 5300 6300
+Wire Wire Line
+	5550 5600 6000 5600
+$Comp
+L power:VCC #PWR031
+U 1 1 5D899E77
+P 5550 5600
+F 0 "#PWR031" H 5550 5450 50  0001 C CNN
+F 1 "VCC" H 5567 5773 50  0000 C CNN
+F 2 "" H 5550 5600 50  0001 C CNN
+F 3 "" H 5550 5600 50  0001 C CNN
+	1    5550 5600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 6500 6000 6500
+Wire Wire Line
+	6000 6400 5900 6400
+Wire Wire Line
+	6600 6500 6500 6500
+Wire Wire Line
+	6600 6400 6500 6400
+Wire Wire Line
+	6500 5600 6900 5600
+$Comp
+L power:VCC #PWR032
+U 1 1 5D899E67
+P 6900 5600
+F 0 "#PWR032" H 6900 5450 50  0001 C CNN
+F 1 "VCC" H 6917 5773 50  0000 C CNN
+F 2 "" H 6900 5600 50  0001 C CNN
+F 3 "" H 6900 5600 50  0001 C CNN
+	1    6900 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR033
+U 1 1 5D899E61
+P 5300 6300
+F 0 "#PWR033" H 5300 6150 50  0001 C CNN
+F 1 "+3V3" H 5315 6473 50  0000 C CNN
+F 2 "" H 5300 6300 50  0001 C CNN
+F 3 "" H 5300 6300 50  0001 C CNN
+	1    5300 6300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR035
+U 1 1 5D899E5B
+P 5900 6500
+F 0 "#PWR035" H 5900 6250 50  0001 C CNN
+F 1 "GND" H 5905 6327 50  0000 C CNN
+F 2 "" H 5900 6500 50  0001 C CNN
+F 3 "" H 5900 6500 50  0001 C CNN
+	1    5900 6500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR034
+U 1 1 5D899E51
+P 7050 6300
+F 0 "#PWR034" H 7050 6150 50  0001 C CNN
+F 1 "+3V3" H 7065 6473 50  0000 C CNN
+F 2 "" H 7050 6300 50  0001 C CNN
+F 3 "" H 7050 6300 50  0001 C CNN
+	1    7050 6300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR036
+U 1 1 5D899E4B
+P 6600 6500
+F 0 "#PWR036" H 6600 6250 50  0001 C CNN
+F 1 "GND" H 6605 6327 50  0000 C CNN
+F 2 "" H 6600 6500 50  0001 C CNN
+F 3 "" H 6600 6500 50  0001 C CNN
+	1    6600 6500
+	1    0    0    -1  
+$EndComp
+Text GLabel 6600 6400 2    50   Input ~ 0
+MB_SCL
+Text GLabel 5900 6400 0    50   Input ~ 0
+MB_SDA
+$Comp
+L Connector_Generic:Conn_02x10_Odd_Even X2
+U 1 1 5D899E3F
+P 6200 6000
+F 0 "X2" H 6250 6617 50  0000 C CNN
+F 1 "Conn_02x10_Odd_Even" H 6250 6526 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x10_Pitch2.54mm" H 6200 6000 50  0001 C CNN
+F 3 "~" H 6200 6000 50  0001 C CNN
+	1    6200 6000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 2800 3250 2800
+Wire Wire Line
+	3250 2700 3300 2700
+Wire Wire Line
+	3300 2600 3250 2600
+Wire Wire Line
+	3250 2500 3300 2500
+Text GLabel 3300 3100 2    50   Input ~ 0
+MB_SCL
+Text GLabel 3300 3000 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR07
+U 1 1 5D870FE3
+P 2100 2500
+F 0 "#PWR07" H 2100 2350 50  0001 C CNN
+F 1 "VCC" H 2117 2673 50  0000 C CNN
+F 2 "" H 2100 2500 50  0001 C CNN
+F 3 "" H 2100 2500 50  0001 C CNN
+	1    2100 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 3000 3250 3000
+Wire Wire Line
+	3250 3100 3300 3100
+Connection ~ 2100 3000
+Wire Wire Line
+	2100 2900 2100 3000
+Wire Wire Line
+	2250 2900 2100 2900
+Wire Wire Line
+	2100 3000 2100 3100
+Wire Wire Line
+	2250 3000 2100 3000
+Wire Wire Line
+	2250 3100 2100 3100
+Connection ~ 2200 2700
+Wire Wire Line
+	2200 2600 2200 2700
+Wire Wire Line
+	2250 2600 2200 2600
+Wire Wire Line
+	2200 2850 2050 2850
+Wire Wire Line
+	2200 2700 2200 2850
+Wire Wire Line
+	2250 2700 2200 2700
+Wire Wire Line
+	2100 2500 2250 2500
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR011
+U 1 1 64D41E71
+P 2050 2850
+F 0 "#PWR011" H 2050 2700 50  0001 C CNN
+F 1 "+3V3" H 2065 3023 50  0000 C CNN
+F 2 "" H 2050 2850 50  0001 C CNN
+F 3 "" H 2050 2850 50  0001 C CNN
+	1    2050 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR015
+U 1 1 64D411BE
+P 1950 3500
+F 0 "#PWR015" H 1950 3250 50  0001 C CNN
+F 1 "GND" H 1955 3327 50  0000 C CNN
+F 2 "" H 1950 3500 50  0001 C CNN
+F 3 "" H 1950 3500 50  0001 C CNN
+	1    1950 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J1
+U 1 1 5B31A175
+P 2750 2750
+F 0 "J1" H 2750 3337 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 2750 3231 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 2750 2800 60  0001 C CNN
+F 3 "" H 2750 2800 60  0001 C CNN
+	1    2750 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5950 1200 5850 1200
+Wire Wire Line
+	5850 1100 5950 1100
+Wire Wire Line
+	5950 1000 5850 1000
+Wire Wire Line
+	6550 1000 6450 1000
+Wire Wire Line
+	6450 1600 7000 1600
+Wire Wire Line
+	5950 1600 5250 1600
+Wire Wire Line
+	5500 900  5950 900 
+$Comp
+L power:VCC #PWR01
+U 1 1 5F4A9B42
+P 5500 900
+F 0 "#PWR01" H 5500 750 50  0001 C CNN
+F 1 "VCC" H 5517 1073 50  0000 C CNN
+F 2 "" H 5500 900 50  0001 C CNN
+F 3 "" H 5500 900 50  0001 C CNN
+	1    5500 900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 1800 5950 1800
+Wire Wire Line
+	5950 1700 5850 1700
+Wire Wire Line
+	5950 1400 5850 1400
+Wire Wire Line
+	5950 1300 5850 1300
+Wire Wire Line
+	6550 1800 6450 1800
+Wire Wire Line
+	6550 1700 6450 1700
+Wire Wire Line
+	6450 1300 6550 1300
+Wire Wire Line
+	6550 1200 6450 1200
+Wire Wire Line
+	6450 1100 6550 1100
+Wire Wire Line
+	6450 900  6850 900 
+$Comp
+L power:VCC #PWR02
+U 1 1 5D09E264
+P 6850 900
+F 0 "#PWR02" H 6850 750 50  0001 C CNN
+F 1 "VCC" H 6867 1073 50  0000 C CNN
+F 2 "" H 6850 900 50  0001 C CNN
+F 3 "" H 6850 900 50  0001 C CNN
+	1    6850 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR03
+U 1 1 5D09DA84
+P 5250 1600
+F 0 "#PWR03" H 5250 1450 50  0001 C CNN
+F 1 "+3V3" H 5265 1773 50  0000 C CNN
+F 2 "" H 5250 1600 50  0001 C CNN
+F 3 "" H 5250 1600 50  0001 C CNN
+	1    5250 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR05
+U 1 1 5D09D60B
+P 5850 1800
+F 0 "#PWR05" H 5850 1550 50  0001 C CNN
+F 1 "GND" H 5855 1627 50  0000 C CNN
+F 2 "" H 5850 1800 50  0001 C CNN
+F 3 "" H 5850 1800 50  0001 C CNN
+	1    5850 1800
+	1    0    0    -1  
+$EndComp
+Text GLabel 6550 1200 2    50   Input ~ 0
+MB_CS3
+Text GLabel 5850 1300 0    50   Input ~ 0
+MB_CS4
+Text GLabel 5850 1200 0    50   Input ~ 0
+MB_CS2
+Text GLabel 5850 1400 0    50   Input ~ 0
+MB_RESET
+$Comp
+L power:+3V3 #PWR04
+U 1 1 5D09BDBC
+P 7000 1600
+F 0 "#PWR04" H 7000 1450 50  0001 C CNN
+F 1 "+3V3" H 7015 1773 50  0000 C CNN
+F 2 "" H 7000 1600 50  0001 C CNN
+F 3 "" H 7000 1600 50  0001 C CNN
+	1    7000 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR06
+U 1 1 5D09B9E4
+P 6550 1800
+F 0 "#PWR06" H 6550 1550 50  0001 C CNN
+F 1 "GND" H 6555 1627 50  0000 C CNN
+F 2 "" H 6550 1800 50  0001 C CNN
+F 3 "" H 6550 1800 50  0001 C CNN
+	1    6550 1800
+	1    0    0    -1  
+$EndComp
+Text GLabel 6550 1700 2    50   Input ~ 0
+MB_SCL
+Text GLabel 5850 1700 0    50   Input ~ 0
+MB_SDA
+Text GLabel 6550 1100 2    50   Input ~ 0
+MB_CS1
+Text GLabel 5850 1000 0    50   Input ~ 0
+MB_MOSI
+Text GLabel 5850 1100 0    50   Input ~ 0
+MB_SCK
+Text GLabel 6550 1000 2    50   Input ~ 0
+MB_MISO
+$Comp
+L Connector_Generic:Conn_02x10_Odd_Even X1
+U 1 1 5D08BA53
+P 6150 1300
+F 0 "X1" H 6200 1917 50  0000 C CNN
+F 1 "Conn_02x10_Odd_Even" H 6200 1826 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x10_Pitch2.54mm" H 6150 1300 50  0001 C CNN
+F 3 "~" H 6150 1300 50  0001 C CNN
+	1    6150 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 3100 1950 3100
+Connection ~ 2100 3100
+Wire Wire Line
+	5600 2800 5550 2800
+Wire Wire Line
+	5550 2700 5600 2700
+Wire Wire Line
+	5600 2600 5550 2600
+Wire Wire Line
+	5550 2500 5600 2500
+Text GLabel 5600 3100 2    50   Input ~ 0
+MB_SCL
+Text GLabel 5600 3000 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR08
+U 1 1 5DAD55FC
+P 4400 2500
+F 0 "#PWR08" H 4400 2350 50  0001 C CNN
+F 1 "VCC" H 4417 2673 50  0000 C CNN
+F 2 "" H 4400 2500 50  0001 C CNN
+F 3 "" H 4400 2500 50  0001 C CNN
+	1    4400 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 3000 5550 3000
+Wire Wire Line
+	5550 3100 5600 3100
+Connection ~ 4400 3000
+Wire Wire Line
+	4400 2900 4400 3000
+Wire Wire Line
+	4550 2900 4400 2900
+Wire Wire Line
+	4400 3000 4400 3100
+Wire Wire Line
+	4550 3000 4400 3000
+Wire Wire Line
+	4550 3100 4400 3100
+Connection ~ 4500 2700
+Wire Wire Line
+	4500 2600 4500 2700
+Wire Wire Line
+	4550 2600 4500 2600
+Wire Wire Line
+	4500 2850 4350 2850
+Wire Wire Line
+	4500 2700 4500 2850
+Wire Wire Line
+	4550 2700 4500 2700
+Wire Wire Line
+	4400 2500 4550 2500
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR012
+U 1 1 5DAD5611
+P 4350 2850
+F 0 "#PWR012" H 4350 2700 50  0001 C CNN
+F 1 "+3V3" H 4365 3023 50  0000 C CNN
+F 2 "" H 4350 2850 50  0001 C CNN
+F 3 "" H 4350 2850 50  0001 C CNN
+	1    4350 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR016
+U 1 1 5DAD5617
+P 4250 3500
+F 0 "#PWR016" H 4250 3250 50  0001 C CNN
+F 1 "GND" H 4255 3327 50  0000 C CNN
+F 2 "" H 4250 3500 50  0001 C CNN
+F 3 "" H 4250 3500 50  0001 C CNN
+	1    4250 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J2
+U 1 1 5DAD561D
+P 5050 2750
+F 0 "J2" H 5050 3337 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 5050 3231 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 5050 2800 60  0001 C CNN
+F 3 "" H 5050 2800 60  0001 C CNN
+	1    5050 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 3100 4250 3100
+Connection ~ 4400 3100
+Wire Wire Line
+	7900 2800 7850 2800
+Wire Wire Line
+	7850 2700 7900 2700
+Wire Wire Line
+	7900 2600 7850 2600
+Wire Wire Line
+	7850 2500 7900 2500
+Text GLabel 7900 3100 2    50   Input ~ 0
+MB_SCL
+Text GLabel 7900 3000 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR09
+U 1 1 5DADCFED
+P 6700 2500
+F 0 "#PWR09" H 6700 2350 50  0001 C CNN
+F 1 "VCC" H 6717 2673 50  0000 C CNN
+F 2 "" H 6700 2500 50  0001 C CNN
+F 3 "" H 6700 2500 50  0001 C CNN
+	1    6700 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 3000 7850 3000
+Wire Wire Line
+	7850 3100 7900 3100
+Connection ~ 6700 3000
+Wire Wire Line
+	6700 2900 6700 3000
+Wire Wire Line
+	6850 2900 6700 2900
+Wire Wire Line
+	6700 3000 6700 3100
+Wire Wire Line
+	6850 3000 6700 3000
+Wire Wire Line
+	6850 3100 6700 3100
+Connection ~ 6800 2700
+Wire Wire Line
+	6800 2600 6800 2700
+Wire Wire Line
+	6850 2600 6800 2600
+Wire Wire Line
+	6800 2850 6650 2850
+Wire Wire Line
+	6800 2700 6800 2850
+Wire Wire Line
+	6850 2700 6800 2700
+Wire Wire Line
+	6700 2500 6850 2500
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR013
+U 1 1 5DADD002
+P 6650 2850
+F 0 "#PWR013" H 6650 2700 50  0001 C CNN
+F 1 "+3V3" H 6665 3023 50  0000 C CNN
+F 2 "" H 6650 2850 50  0001 C CNN
+F 3 "" H 6650 2850 50  0001 C CNN
+	1    6650 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR017
+U 1 1 5DADD008
+P 6550 3500
+F 0 "#PWR017" H 6550 3250 50  0001 C CNN
+F 1 "GND" H 6555 3327 50  0000 C CNN
+F 2 "" H 6550 3500 50  0001 C CNN
+F 3 "" H 6550 3500 50  0001 C CNN
+	1    6550 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J3
+U 1 1 5DADD00E
+P 7350 2750
+F 0 "J3" H 7350 3337 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 7350 3231 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 7350 2800 60  0001 C CNN
+F 3 "" H 7350 2800 60  0001 C CNN
+	1    7350 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 3100 6550 3100
+Connection ~ 6700 3100
+Wire Wire Line
+	10200 2800 10150 2800
+Wire Wire Line
+	10150 2700 10200 2700
+Wire Wire Line
+	10200 2600 10150 2600
+Wire Wire Line
+	10150 2500 10200 2500
+Text GLabel 10200 3100 2    50   Input ~ 0
+MB_SCL
+Text GLabel 10200 3000 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR010
+U 1 1 5DAE48FD
+P 9000 2500
+F 0 "#PWR010" H 9000 2350 50  0001 C CNN
+F 1 "VCC" H 9017 2673 50  0000 C CNN
+F 2 "" H 9000 2500 50  0001 C CNN
+F 3 "" H 9000 2500 50  0001 C CNN
+	1    9000 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10200 3000 10150 3000
+Wire Wire Line
+	10150 3100 10200 3100
+Connection ~ 9000 3000
+Wire Wire Line
+	9000 2900 9000 3000
+Wire Wire Line
+	9150 2900 9000 2900
+Wire Wire Line
+	9000 3000 9000 3100
+Wire Wire Line
+	9150 3000 9000 3000
+Wire Wire Line
+	9150 3100 9000 3100
+Connection ~ 9100 2700
+Wire Wire Line
+	9100 2600 9100 2700
+Wire Wire Line
+	9150 2600 9100 2600
+Wire Wire Line
+	9100 2850 8950 2850
+Wire Wire Line
+	9100 2700 9100 2850
+Wire Wire Line
+	9150 2700 9100 2700
+Wire Wire Line
+	9000 2500 9150 2500
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR014
+U 1 1 5DAE4912
+P 8950 2850
+F 0 "#PWR014" H 8950 2700 50  0001 C CNN
+F 1 "+3V3" H 8965 3023 50  0000 C CNN
+F 2 "" H 8950 2850 50  0001 C CNN
+F 3 "" H 8950 2850 50  0001 C CNN
+	1    8950 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR018
+U 1 1 5DAE4918
+P 8850 3500
+F 0 "#PWR018" H 8850 3250 50  0001 C CNN
+F 1 "GND" H 8855 3327 50  0000 C CNN
+F 2 "" H 8850 3500 50  0001 C CNN
+F 3 "" H 8850 3500 50  0001 C CNN
+	1    8850 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J4
+U 1 1 5DAE491E
+P 9650 2750
+F 0 "J4" H 9650 3337 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 9650 3231 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 9650 2800 60  0001 C CNN
+F 3 "" H 9650 2800 60  0001 C CNN
+	1    9650 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9000 3100 8850 3100
+Connection ~ 9000 3100
+Text GLabel 3300 4650 2    50   Input ~ 0
+MB_SCL
+Text GLabel 3300 4550 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR019
+U 1 1 5DAFC7D2
+P 2100 4050
+F 0 "#PWR019" H 2100 3900 50  0001 C CNN
+F 1 "VCC" H 2117 4223 50  0000 C CNN
+F 2 "" H 2100 4050 50  0001 C CNN
+F 3 "" H 2100 4050 50  0001 C CNN
+	1    2100 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 4550 3250 4550
+Wire Wire Line
+	3250 4650 3300 4650
+Connection ~ 2100 4550
+Wire Wire Line
+	2100 4450 2100 4550
+Wire Wire Line
+	2250 4450 2100 4450
+Wire Wire Line
+	2100 4550 2100 4650
+Wire Wire Line
+	2250 4550 2100 4550
+Wire Wire Line
+	2250 4650 2100 4650
+Connection ~ 2200 4250
+Wire Wire Line
+	2200 4150 2200 4250
+Wire Wire Line
+	2250 4150 2200 4150
+Wire Wire Line
+	2200 4400 2050 4400
+Wire Wire Line
+	2200 4250 2200 4400
+Wire Wire Line
+	2250 4250 2200 4250
+Wire Wire Line
+	2100 4050 2250 4050
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR023
+U 1 1 5DAFC7E7
+P 2050 4400
+F 0 "#PWR023" H 2050 4250 50  0001 C CNN
+F 1 "+3V3" H 2065 4573 50  0000 C CNN
+F 2 "" H 2050 4400 50  0001 C CNN
+F 3 "" H 2050 4400 50  0001 C CNN
+	1    2050 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR027
+U 1 1 5DAFC7ED
+P 1950 5050
+F 0 "#PWR027" H 1950 4800 50  0001 C CNN
+F 1 "GND" H 1955 4877 50  0000 C CNN
+F 2 "" H 1950 5050 50  0001 C CNN
+F 3 "" H 1950 5050 50  0001 C CNN
+	1    1950 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J5
+U 1 1 5DAFC7F3
+P 2750 4300
+F 0 "J5" H 2750 4887 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 2750 4781 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 2750 4350 60  0001 C CNN
+F 3 "" H 2750 4350 60  0001 C CNN
+	1    2750 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 4650 1950 4650
+Connection ~ 2100 4650
+Text GLabel 5600 4650 2    50   Input ~ 0
+MB_SCL
+Text GLabel 5600 4550 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR020
+U 1 1 5DAFC80E
+P 4400 4050
+F 0 "#PWR020" H 4400 3900 50  0001 C CNN
+F 1 "VCC" H 4417 4223 50  0000 C CNN
+F 2 "" H 4400 4050 50  0001 C CNN
+F 3 "" H 4400 4050 50  0001 C CNN
+	1    4400 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 4550 5550 4550
+Wire Wire Line
+	5550 4650 5600 4650
+Connection ~ 4400 4550
+Wire Wire Line
+	4400 4450 4400 4550
+Wire Wire Line
+	4550 4450 4400 4450
+Wire Wire Line
+	4400 4550 4400 4650
+Wire Wire Line
+	4550 4550 4400 4550
+Wire Wire Line
+	4550 4650 4400 4650
+Connection ~ 4500 4250
+Wire Wire Line
+	4500 4150 4500 4250
+Wire Wire Line
+	4550 4150 4500 4150
+Wire Wire Line
+	4500 4400 4350 4400
+Wire Wire Line
+	4500 4250 4500 4400
+Wire Wire Line
+	4550 4250 4500 4250
+Wire Wire Line
+	4400 4050 4550 4050
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR024
+U 1 1 5DAFC823
+P 4350 4400
+F 0 "#PWR024" H 4350 4250 50  0001 C CNN
+F 1 "+3V3" H 4365 4573 50  0000 C CNN
+F 2 "" H 4350 4400 50  0001 C CNN
+F 3 "" H 4350 4400 50  0001 C CNN
+	1    4350 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR028
+U 1 1 5DAFC829
+P 4250 5050
+F 0 "#PWR028" H 4250 4800 50  0001 C CNN
+F 1 "GND" H 4255 4877 50  0000 C CNN
+F 2 "" H 4250 5050 50  0001 C CNN
+F 3 "" H 4250 5050 50  0001 C CNN
+	1    4250 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J6
+U 1 1 5DAFC82F
+P 5050 4300
+F 0 "J6" H 5050 4887 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 5050 4781 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 5050 4350 60  0001 C CNN
+F 3 "" H 5050 4350 60  0001 C CNN
+	1    5050 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 4650 4250 4650
+Connection ~ 4400 4650
+Text GLabel 7900 4650 2    50   Input ~ 0
+MB_SCL
+Text GLabel 7900 4550 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR021
+U 1 1 5DAFC849
+P 6700 4050
+F 0 "#PWR021" H 6700 3900 50  0001 C CNN
+F 1 "VCC" H 6717 4223 50  0000 C CNN
+F 2 "" H 6700 4050 50  0001 C CNN
+F 3 "" H 6700 4050 50  0001 C CNN
+	1    6700 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 4550 7850 4550
+Wire Wire Line
+	7850 4650 7900 4650
+Connection ~ 6700 4550
+Wire Wire Line
+	6700 4450 6700 4550
+Wire Wire Line
+	6850 4450 6700 4450
+Wire Wire Line
+	6700 4550 6700 4650
+Wire Wire Line
+	6850 4550 6700 4550
+Wire Wire Line
+	6850 4650 6700 4650
+Connection ~ 6800 4250
+Wire Wire Line
+	6800 4150 6800 4250
+Wire Wire Line
+	6850 4150 6800 4150
+Wire Wire Line
+	6800 4400 6650 4400
+Wire Wire Line
+	6800 4250 6800 4400
+Wire Wire Line
+	6850 4250 6800 4250
+Wire Wire Line
+	6700 4050 6850 4050
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR025
+U 1 1 5DAFC85E
+P 6650 4400
+F 0 "#PWR025" H 6650 4250 50  0001 C CNN
+F 1 "+3V3" H 6665 4573 50  0000 C CNN
+F 2 "" H 6650 4400 50  0001 C CNN
+F 3 "" H 6650 4400 50  0001 C CNN
+	1    6650 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR029
+U 1 1 5DAFC864
+P 6550 5050
+F 0 "#PWR029" H 6550 4800 50  0001 C CNN
+F 1 "GND" H 6555 4877 50  0000 C CNN
+F 2 "" H 6550 5050 50  0001 C CNN
+F 3 "" H 6550 5050 50  0001 C CNN
+	1    6550 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J7
+U 1 1 5DAFC86A
+P 7350 4300
+F 0 "J7" H 7350 4887 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 7350 4781 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 7350 4350 60  0001 C CNN
+F 3 "" H 7350 4350 60  0001 C CNN
+	1    7350 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 4650 6550 4650
+Connection ~ 6700 4650
+Text GLabel 10200 4650 2    50   Input ~ 0
+MB_SCL
+Text GLabel 10200 4550 2    50   Input ~ 0
+MB_SDA
+$Comp
+L power:VCC #PWR022
+U 1 1 5DAFC884
+P 9000 4050
+F 0 "#PWR022" H 9000 3900 50  0001 C CNN
+F 1 "VCC" H 9017 4223 50  0000 C CNN
+F 2 "" H 9000 4050 50  0001 C CNN
+F 3 "" H 9000 4050 50  0001 C CNN
+	1    9000 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10200 4550 10150 4550
+Wire Wire Line
+	10150 4650 10200 4650
+Connection ~ 9000 4550
+Wire Wire Line
+	9000 4450 9000 4550
+Wire Wire Line
+	9150 4450 9000 4450
+Wire Wire Line
+	9000 4550 9000 4650
+Wire Wire Line
+	9150 4550 9000 4550
+Wire Wire Line
+	9150 4650 9000 4650
+Connection ~ 9100 4250
+Wire Wire Line
+	9100 4150 9100 4250
+Wire Wire Line
+	9150 4150 9100 4150
+Wire Wire Line
+	9100 4400 8950 4400
+Wire Wire Line
+	9100 4250 9100 4400
+Wire Wire Line
+	9150 4250 9100 4250
+Wire Wire Line
+	9000 4050 9150 4050
+$Comp
+L SaintconMinibadgeHolder8-rescue:+3V3-power-Saintcon2018-rescue #PWR026
+U 1 1 5DAFC899
+P 8950 4400
+F 0 "#PWR026" H 8950 4250 50  0001 C CNN
+F 1 "+3V3" H 8965 4573 50  0000 C CNN
+F 2 "" H 8950 4400 50  0001 C CNN
+F 3 "" H 8950 4400 50  0001 C CNN
+	1    8950 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:GND-power-Saintcon2018-rescue #PWR030
+U 1 1 5DAFC89F
+P 8850 5050
+F 0 "#PWR030" H 8850 4800 50  0001 C CNN
+F 1 "GND" H 8855 4877 50  0000 C CNN
+F 2 "" H 8850 5050 50  0001 C CNN
+F 3 "" H 8850 5050 50  0001 C CNN
+	1    8850 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SaintconMinibadgeHolder8-rescue:SAINTCON-Minibadge-saintcon-minibadge J8
+U 1 1 5DAFC8A5
+P 9650 4300
+F 0 "J8" H 9650 4887 60  0000 C CNN
+F 1 "SAINTCON-Minibadge" H 9650 4781 60  0000 C CNN
+F 2 "minibadge_kicad:SAINTCON-Minibadge-Shiny" H 9650 4350 60  0001 C CNN
+F 3 "" H 9650 4350 60  0001 C CNN
+	1    9650 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9000 4650 8850 4650
+Connection ~ 9000 4650
+Text GLabel 6550 1400 2    50   Input ~ 0
+MB_CLK
+Wire Wire Line
+	6550 1400 6450 1400
+Text GLabel 6600 6100 2    50   Input ~ 0
+MB_CLK
+Wire Wire Line
+	6600 6100 6500 6100
+Wire Wire Line
+	1950 3100 1950 3500
+Wire Wire Line
+	4250 3100 4250 3500
+Wire Wire Line
+	6550 3100 6550 3500
+Wire Wire Line
+	8850 3100 8850 3500
+Wire Wire Line
+	8850 4650 8850 5050
+Wire Wire Line
+	6550 4650 6550 5050
+Wire Wire Line
+	4250 4650 4250 5050
+Wire Wire Line
+	1950 4650 1950 5050
+Text GLabel 3250 3300 2    50   Input ~ 0
+MB_CLK
+Text GLabel 3250 4850 2    50   Input ~ 0
+MB_CLK
+Text GLabel 5550 4850 2    50   Input ~ 0
+MB_CLK
+Text GLabel 5550 3300 2    50   Input ~ 0
+MB_CLK
+Text GLabel 7850 3300 2    50   Input ~ 0
+MB_CLK
+Text GLabel 7850 4850 2    50   Input ~ 0
+MB_CLK
+Text GLabel 10150 4850 2    50   Input ~ 0
+MB_CLK
+Text GLabel 10150 3300 2    50   Input ~ 0
+MB_CLK
+$EndSCHEMATC
